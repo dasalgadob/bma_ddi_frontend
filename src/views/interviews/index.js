@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import Table from '../utilities/Table'
-const PATH_BASE = 'http://localhost:3001/interviews';
+const PATH_BASE = 'http://localhost:3000/interviews';
 
 const url = `${PATH_BASE}`;
 console.log(url);

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { map } from 'rsvp';
 
-const PATH_BASE = 'http://localhost:3001/users';
+const PATH_BASE = 'http://localhost:3000/users';
 
 export default class Users extends Component {
     constructor(props){
