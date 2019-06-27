@@ -8,15 +8,15 @@ function isSearched(searchTerm){
 }
 
 function contarPreguntas(object){
-    console.log("object");
-    console.log(object);
+    //console.log("object");
+    //console.log(object);
     let q  = object['questions'];
     let keys = Object.keys(q);
     let count=0;
     keys.forEach(
         (k) => {
-            console.log('q[k]');
-            console.log(q[k]);
+            //console.log('q[k]');
+            //console.log(q[k]);
         if(q[k]== true){
             count++;
         }
@@ -44,8 +44,8 @@ export default class Table extends Component {
                 {"id": k, "count": contarPreguntas(item.dimentions[k])}
                 
             );
-            console.log("Item:");
-            console.log(item);
+            //console.log("Item:");
+            //console.log(item);
         });
         item.dimensiones = dimentions;    
         }
