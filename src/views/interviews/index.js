@@ -51,7 +51,7 @@ class  Interviews extends Component {
         //console.log(this.state);
         return <div>
                     <h2 class="mb-3 mt-2">Entrevistas</h2>
-                    <form class="container">
+                    <form class="container mb-2">
                     <fieldset>
                     <legend class="text-left">Buscar entrevista:</legend>
                     <div class="row align-items-center">
@@ -89,13 +89,29 @@ class  Interviews extends Component {
                         
                     </div>
                     </form>
+                    <ReactPaginate
+                    previousLabel={'anterior'}
+                    nextLabel={'siguiente'}
+                    breakLabel={'...'}
+                    breakClassName={'break-me'}
+                    pageCount={this.state.result[0]["pages"]}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={this.handlePageClick}
+                    containerClassName={'pagination justify-content-center'}
+                    pageClassName={'page-item'}
+                    pageLinkClassName={'page-link'}
+                    previousLinkClassName={'page-link'}
+                    nextLinkClassName={'page-link'}
+                    activeClassName={'active'}
+                    />
                     <div className="page">
                     <Table
                     list={result[1]}
                     />
                     <ReactPaginate
-                    previousLabel={'previous'}
-                    nextLabel={'next'}
+                    previousLabel={'anterior'}
+                    nextLabel={'siguiente'}
                     breakLabel={'...'}
                     breakClassName={'break-me'}
                     pageCount={this.state.result[0]["pages"]}
