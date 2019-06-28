@@ -12,17 +12,50 @@ class  Interviews extends Component {
         this.state = {
             result: null,
             currentPage: 1,
+            interviewTerm: "",
+            companyTerm: "",
+            interviewerTerm: "",
             };
 
         this.setInterviews = this.setInterviews.bind(this);    
+        this.onInterviewChange = this.onInterviewChange.bind(this);
+        this.onCompanyChange = this.onCompanyChange.bind(this);
+        this.onInterviewerChange = this.onInterviewerChange.bind(this);
     }
-    
+
+    onInterviewChange(e){
+        const interviewTerm = e.target.value;
+        //console.log("InterviewTErm: " + interviewTerm);
+        this.setState({interviewTerm: interviewTerm}, () => {
+            this.loadInterviewsFromServer();
+          });
+    }
+
+    onCompanyChange(e){
+        const companyTerm = e.target.value;
+        //console.log("InterviewTErm: " + interviewTerm);
+        this.setState({companyTerm: companyTerm}, () => {
+            this.loadInterviewsFromServer();
+          });
+    }
+
+    onInterviewerChange(e){
+        const interviewerTerm = e.target.value;
+        //console.log("InterviewTErm: " + interviewTerm);
+        this.setState({interviewerTerm: interviewerTerm}, () => {
+            this.loadInterviewsFromServer();
+          });
+    }
+
+
     setInterviews(result){
         this.setState({result});
     }
 
     loadInterviewsFromServer(){
-        let queryURL = `${PATH_BASE}?page=${this.state.currentPage}`;
+        let queryURL = `${PATH_BASE}?page=${this.state.currentPage}` +
+        `&by_name=${this.state.interviewTerm}&by_company=${this.state.companyTerm}` +
+        `&by_interviewer=${this.state.interviewerTerm}`;
         console.log("Query URL:" + queryURL);
         fetch(queryURL)
         .then(response => response.json())
@@ -57,15 +90,15 @@ class  Interviews extends Component {
                     <div class="row align-items-center">
                         <div class="col-auto">
                         <label for="name" class=" col-form-label col-form-label-sm mr-2">Entrevista: </label>
-                        <input type="text" id="name" class="form-control-sm"></input>
+                        <input type="text" id="name" class="form-control-sm" onChange={this.onInterviewChange}></input>
                         </div>
                         <div class="col-auto">
                         <label for="company" class=" col-form-label col-form-label-sm mr-2">Compañia:</label>
-                        <input type="text" id="company" class="form-control-sm"></input>
+                        <input type="text" id="company" class="form-control-sm" onChange={this.onCompanyChange}></input>
                         </div>
                         <div class="col-auto">
                         <label for="interviewer" class=" col-form-label col-form-label-sm mr-2">Entrevistador</label>
-                        <input type="text" id="interviewer" class="form-control-sm"></input>
+                        <input type="text" id="interviewer" class="form-control-sm" onChange={this.onInterviewerChange}></input>
                         </div>
                         
                     </div>
