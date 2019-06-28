@@ -58,7 +58,7 @@ export default class Table extends Component {
       {list.map( item =>
         <div key={item.id} className="card col-sm-5">
             <div className="card-header">
-            <h5 class="card-title">{item.name}</h5>
+            <h5 className="card-title">{item.name}</h5>
             </div>
             <div className="card-body">
             <span> Compañia: {item.company}</span>
@@ -78,8 +78,8 @@ export default class Table extends Component {
                   )
                 }
             </div>
-            <a href="#" class="">Editar</a>
-            <a href="#" class="btn btn-primary">Rellenar</a>
+            <a href="#" className="">Editar</a>
+            <a href="#" className="btn btn-primary">Rellenar</a>
             </div>
         </div>
         

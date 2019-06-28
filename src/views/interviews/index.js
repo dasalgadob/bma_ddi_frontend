@@ -15,12 +15,15 @@ class  Interviews extends Component {
             interviewTerm: "",
             companyTerm: "",
             interviewerTerm: "",
+            sortByField: "",
+            sortOrder: "",
             };
 
         this.setInterviews = this.setInterviews.bind(this);    
         this.onInterviewChange = this.onInterviewChange.bind(this);
         this.onCompanyChange = this.onCompanyChange.bind(this);
         this.onInterviewerChange = this.onInterviewerChange.bind(this);
+        this.onSortByChange = this.onSortByChange.bind(this);
     }
 
     onInterviewChange(e){
@@ -47,6 +50,17 @@ class  Interviews extends Component {
           });
     }
 
+    onSortByChange(e){
+        const sortByTerm = e.target.value.split(';');
+        const sortByField =  sortByTerm[0];
+        const sortOrder = sortByTerm[1];
+        console.log("sortByField: " + sortByField);
+        console.log("sortOrder: " + sortOrder);
+        this.setState({sortByField: sortByField,  sortOrder: sortOrder}, () => {
+            this.loadInterviewsFromServer();
+          });
+    }
+
 
     setInterviews(result){
         this.setState({result});
@@ -55,7 +69,8 @@ class  Interviews extends Component {
     loadInterviewsFromServer(){
         let queryURL = `${PATH_BASE}?page=${this.state.currentPage}` +
         `&by_name=${this.state.interviewTerm}&by_company=${this.state.companyTerm}` +
-        `&by_interviewer=${this.state.interviewerTerm}`;
+        `&by_interviewer=${this.state.interviewerTerm}&sort=${this.state.sortByField}`+
+        `&direction=${this.state.sortOrder}`;
         console.log("Query URL:" + queryURL);
         fetch(queryURL)
         .then(response => response.json())
@@ -83,39 +98,34 @@ class  Interviews extends Component {
 
         //console.log(this.state);
         return <div>
-                    <h2 class="mb-3 mt-2">Entrevistas</h2>
-                    <form class="container mb-2">
+                    <h2 className="mb-3 mt-2">Entrevistas</h2>
+                    <form className="container mb-2">
                     <fieldset>
-                    <legend class="text-left">Buscar entrevista:</legend>
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                        <label for="name" class=" col-form-label col-form-label-sm mr-2">Entrevista: </label>
-                        <input type="text" id="name" class="form-control-sm" onChange={this.onInterviewChange}></input>
+                    <legend className="text-left">Buscar entrevista:</legend>
+                    <div className="row align-items-center">
+                        <div className="col-auto">
+                        <label htmlFor="name" className=" col-form-label col-form-label-sm mr-2">Entrevista: </label>
+                        <input type="text" id="name" className="form-control-sm" onChange={this.onInterviewChange}></input>
                         </div>
-                        <div class="col-auto">
-                        <label for="company" class=" col-form-label col-form-label-sm mr-2">Compañia:</label>
-                        <input type="text" id="company" class="form-control-sm" onChange={this.onCompanyChange}></input>
+                        <div className="col-auto">
+                        <label htmlFor="company" className=" col-form-label col-form-label-sm mr-2">Compañia:</label>
+                        <input type="text" id="company" className="form-control-sm" onChange={this.onCompanyChange}></input>
                         </div>
-                        <div class="col-auto">
-                        <label for="interviewer" class=" col-form-label col-form-label-sm mr-2">Entrevistador</label>
-                        <input type="text" id="interviewer" class="form-control-sm" onChange={this.onInterviewerChange}></input>
+                        <div className="col-auto">
+                        <label htmlFor="interviewer" className=" col-form-label col-form-label-sm mr-2">Entrevistador</label>
+                        <input type="text" id="interviewer" className="form-control-sm" onChange={this.onInterviewerChange}></input>
                         </div>
                         
                     </div>
                     </fieldset>
-                    <div class="row align-items-center mt-2">
-                        <div class="col-auto">
-                        <label for="sort" class=" col-form-label col-form-label-sm mr-2">Ordenar por: </label>
-                        <select class="form-control-sm" id="sort">
-                        <option>Fecha de creación</option>
-                        <option>Nombre de entrevista</option>
-                        </select>
-                        </div>
-                        <div class="col-auto">
-                        <label for="direction" class=" col-form-label col-form-label-sm mr-2">Dirección:</label>
-                        <select class="form-control-sm" id="sort">
-                        <option>Ascendente</option>
-                        <option>Descendente</option>
+                    <div className="row align-items-center mt-2">
+                        <div className="col-auto">
+                        <label htmlFor="sort" className=" col-form-label col-form-label-sm mr-2">Ordenar por: </label>
+                        <select className="form-control-sm" id="sort" onChange={this.onSortByChange}>
+                        <option value="created_at;desc">Fecha de creación más reciente</option>
+                        <option value="created_at;asc">Fecha de creación más antiguo</option>
+                        <option value="name;asc">Nombre de entrevista A-Z</option>
+                        <option value="name;desc">Nombre de entrevista Z-A</option>
                         </select>
                         </div>
                         
