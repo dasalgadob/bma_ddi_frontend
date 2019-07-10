@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { map } from 'rsvp';
 
-const PATH_BASE = 'http://localhost:3000/users';
+const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/users`;
 
 export default class Users extends Component {
     constructor(props){

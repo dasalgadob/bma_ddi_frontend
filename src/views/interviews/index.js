@@ -2,10 +2,10 @@
 import React, { Component } from 'react';
 import Table from '../utilities/Table';
 import ReactPaginate from 'react-paginate';
-const PATH_BASE = 'http://localhost:3000/interviews';
+//const PATH_BASE = 'http://localhost:3000/interviews';
 
-const url = `${PATH_BASE}`;
-console.log(url);
+const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/interviews`;
+console.log(PATH_BASE);
 class  Interviews extends Component {
     constructor(props){
         super(props);

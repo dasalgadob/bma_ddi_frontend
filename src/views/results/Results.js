@@ -3,7 +3,7 @@ import ResultsTable from './ResultsTable';
 
 import ReactPaginate from 'react-paginate';
 
-const PATH_BASE = 'http://localhost:3000/results';
+const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/results`;
 
 
 class Results extends Component {
