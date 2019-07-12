@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Button from './Button';
 import Dimentions from '../interviews/Dimentions';
+import {  Link } from "react-router-dom";
+
 function isSearched(searchTerm){
   return function(item){
     return item.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -78,8 +80,8 @@ export default class Table extends Component {
                   )
                 }
             </div>
-            <a href="#" className="">Editar</a>
-            <a href="#" className="btn btn-primary">Rellenar</a>
+            <Link to={`interviews/${item.id}`} className="">Editar</Link>
+            <Link to={`interviews/${item.id}/fill`} className="btn btn-primary">Rellenar</Link>
             </div>
         </div>
         

@@ -2,6 +2,10 @@
 import React, { Component } from 'react';
 import Table from '../utilities/Table';
 import ReactPaginate from 'react-paginate';
+import { Switch, Route, Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 //const PATH_BASE = 'http://localhost:3000/interviews';
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/interviews`;
@@ -99,6 +103,14 @@ class  Interviews extends Component {
         //console.log(this.state);
         return <div>
                     <h2 className="mb-3 mt-2">Entrevistas</h2>
+                    <div className="container">
+                        <div className="row align-items-left">
+                        <Link to='interviews/new' className=" btn btn-primary"><FontAwesomeIcon icon={faPlus} /> Nueva Entrevista
+                        </Link>
+                        </div>
+                        
+                    </div>
+                    
                     <form className="container mb-2">
                     <fieldset>
                     <legend className="text-left">Buscar entrevista:</legend>
