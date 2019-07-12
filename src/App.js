@@ -9,6 +9,8 @@ import SignUp from './views/users/SignUp';
 import Results from './views/results/Results';
 import Result from './views/results/Result'
 import Header from './views/layouts/Header';
+import {PrivateRoute} from './helpers/PrivateRoute';
+
 
 function App() {
   return (
@@ -21,12 +23,12 @@ function App() {
       </nav>
       <div>
         <Switch>
-          <Route path="/results/:id" component={Result} />
-          <Route path="/results" component={Results} />
-          <Route path="/interviews" component={Interviews} />
+          <PrivateRoute path="/results/:id" component={Result} />
+          <PrivateRoute path="/results" component={Results} />
+          <PrivateRoute exact path="/interviews" component={Interviews} />
           <Route path="/login" component={Login} />
-          <Route path="/users" component={Users} />
-          <Route path="/sign_up" component={SignUp} />
+          <PrivateRoute path="/users" component={Users} />
+          
         </Switch>
       </div>
     </div>
