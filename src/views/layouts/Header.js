@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from "react-router-dom";
+import { faLongArrowAltUp } from '@fortawesome/free-solid-svg-icons';
+import {Logout} from '../../helpers/Auth';
+
 export default class Header extends Component{
 render(){
     const navStyle = {
@@ -29,23 +32,23 @@ render(){
     </div>
     <div className="navbar-collapse collapse  dual-collapse2">
         <ul className="navbar-nav  ml-auto">
-        <li class="nav-item dropdown mr-2">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <li className="nav-item dropdown mr-2">
+            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Español
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">Ingles</a>
+            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a className="dropdown-item" href="#">Ingles</a>
             </div>
         </li>
-        <li class="nav-item dropdown" style={dropdownStyle}>
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <li className="nav-item dropdown" style={dropdownStyle}>
+            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Cuenta
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">Perfil</a>
-            <a class="dropdown-item" href="#">Configuraciones</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Salir</a>
+            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a className="dropdown-item" href="#">Perfil</a>
+            <a className="dropdown-item" href="#">Configuraciones</a>
+            <div className="dropdown-divider"></div>
+            <Logout />
             </div>
         </li>
         </ul>
