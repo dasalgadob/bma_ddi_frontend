@@ -16,7 +16,10 @@ export default class Interview extends Component{
             isDimensionsActive: true,
             dimensionsOnSelect: null,
             currentDimension: null,
-            dimensionsSelected: []
+            dimensionsSelected: [],
+            questionsSelected: {},
+            styleDimensionsQuestions: {display: 'block'},
+            styleMotivationalQuestions: {display: 'none'}
         };
 
 
@@ -71,14 +74,32 @@ export default class Interview extends Component{
 
     onChangeIsDimensionsActive(){
         this.setState({
-            isDimensionsActive: true
+            isDimensionsActive: true,
+            styleDimensionsQuestions: {display: 'block'},
+            styleMotivationalQuestions: {display: 'none'}
         });
     }
 
-    onChangeIsDimensionsNotActive(){
+    onChangeIsDimensionsNotActive(e){
+        e.preventDefault();
         this.setState({
-            isDimensionsActive: false
+            isDimensionsActive: false,
+            styleDimensionsQuestions: {display: 'none'},
+            styleMotivationalQuestions: {display: 'block'}
         });
+    }
+
+
+    onQuestionSelected = (e) => {
+        console.log('e.target.checked');
+        let questionsNewSelection = {...this.state.questionsSelected};
+        questionsNewSelection[e.target.id] = e.target.checked;
+        this.setState({
+            questionsSelected: questionsNewSelection
+        });
+        //console.log(e.target.checked);
+        console.log(questionsNewSelection);
+        //console.log(e.target.name);
     }
 
     render(){
@@ -106,7 +127,7 @@ export default class Interview extends Component{
             </li>
 
             </ul>
-
+            <div style={this.state.styleDimensionsQuestions}>
             <form className="container mt-4">
                 <fieldset>
                 <div className="row align-items-center">
@@ -120,7 +141,7 @@ export default class Interview extends Component{
                     </div>
                 </div>
                 </fieldset>
-                <div className="row align-items-center mt-2">
+                <div className="row  mt-2">
                     <div className="col-auto">
                     Selecciona una dimensión:
                     <select className="form-control" id="dimension" onChange={this.onCurrentDimensionChange}>
@@ -137,18 +158,57 @@ export default class Interview extends Component{
                             </button>
                         </div>
                     </div>
+
+                    <div className="col align-self-end">
+                        <div className="">
+                            <button className="btn btn-primary align-self-end " 
+                                    onClick={this.onChangeIsDimensionsNotActive}>
+                                Siguiente
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </form>
 
             <div id="dimensionsSelected">
                 {dimensionsSelected.map(
                     (d) => 
-                    <Dimension id={d.data.id} 
+                    <Dimension key={d.data.id} id={d.data.id} 
                                name={d['data']['attributes']['name']} 
                                description={d.data.attributes.description}
-                               questions={d.included} ></Dimension>
+                               questions={d.included}
+                               onClick={this.onQuestionSelected} ></Dimension>
                     
                 )} 
+            </div>
+
+            </div>
+            <div style={this.state.styleMotivationalQuestions}>
+            <form className="container">
+                <div className=" ">
+                    <div className="d-flex flex-row mt-3">
+                     <button type="button" className="btn btn-primary  mx-2 mr-auto">Atras</button>
+                        <div className="btn-toolbar">
+                        <button className="btn btn-primary ml-auto mx-1">Guardar y rellenar</button>
+                        <button className="btn btn-primary  ml-auto mx-1">Guardar entrevistas</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div className="container mt-4">
+                 <h4>Compatibilidad motivacional</h4>
+                 <p>La medida en que las actividades y responsabilidades del puesto, 
+                     la modalidad de operación y los valores de la organización, 
+                     y la comunidad en la cual el individuo vivirá, se corresponden con el tipo de ambiente que brinda
+                      satisfacción personal; el grado en el cual el propio trabajo es personalmente satisfactorio.</p>
+                <div className="mt-10">
+                    <br></br>
+                <h3 className="mt-10"><bold>Preguntas sobre Facetas Motivacionales</bold></h3>
+                </div>
+                
+            </div>       
+
             </div>
 
         </div>);
