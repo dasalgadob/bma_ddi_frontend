@@ -13,7 +13,11 @@ export default class Candidate extends Component{
             <form>
             <div className="form-group row">
                     <label for="exampleInputPassword1" className="align-left">Nombre</label>
-                    <input type="text" className="form-control" id="exampleInputPassword1" placeholder="Nombre"/>
+                    <input type="text"
+                           className="form-control" 
+                           id="exampleInputPassword1" 
+                           placeholder="Nombre"
+                           required="required"/>
                 </div>
                 <div className="form-group row">
                     <label for="exampleInputEmail1" className="align-left">Email</label>
@@ -21,7 +25,8 @@ export default class Candidate extends Component{
                            className="form-control" 
                            id="exampleInputEmail1" 
                            aria-describedby="emailHelp" 
-                           placeholder="Enter email" />
+                           placeholder="Enter email"
+                           required="required" />
                 </div>
                 
                 <button type="submit" className="btn btn-primary">Guardar</button>
