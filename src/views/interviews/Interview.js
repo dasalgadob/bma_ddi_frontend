@@ -6,7 +6,7 @@ import Dimension from './Dimension';
 const axios = require('axios');
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/dimensions`;
-
+const POST_URL = `${process.env.REACT_APP_BACKEND_URL}/interviews`;
 export default class Interview extends Component{
     constructor(props){
         super(props);
@@ -128,6 +128,49 @@ export default class Interview extends Component{
         this.onChangeIsDimensionsNotActive(e);
     }
 
+    saveInterview = (e) => {
+        const {name, company, questionsSelected} = this.state;
+        const questionsArray = Object.keys(questionsSelected).filter((k) =>{
+            if(questionsSelected[k]){
+                return true;
+            }
+        });
+        e.preventDefault();
+        const headers = JSON.parse(localStorage.getItem('user'));
+        let self = this;
+        axios({
+            method: 'post',
+            url: `${POST_URL}`,
+            data: 
+            {interview: {name: name, company: company, questions_array: questionsArray}},
+            headers: headers
+            })
+        .then(function (response) {
+            // handle success
+            console.log(response.data);
+
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
+
+    }
+
+    saveAndFillInterview = (e) =>{
+        this.saveInterview(e);
+        this.redirectToNewInterview(1);
+    }
+
+
+    /**Redirect to the filling form of interview with the proper id given */
+    redirectToNewInterview = (id) => {
+        console.log(id);
+    }
+
     render(){
         const {isDimensionsActive, dimensionsOnSelect, dimensionsSelected, motivationalDimension} = this.state;
         console.log('this.state.dimensionsSelected');
@@ -221,8 +264,8 @@ export default class Interview extends Component{
                              className="btn btn-primary  mx-2 mr-auto"
                              onClick={this.onChangeIsDimensionsActive}>Atras</button>
                         <div className="btn-toolbar">
-                        <button className="btn btn-primary ml-auto mx-1">Guardar y rellenar</button>
-                        <button className="btn btn-primary  ml-auto mx-1">Guardar entrevista</button>
+                        <button onClick={this.saveAndFillInterview} className="btn btn-primary ml-auto mx-1">Guardar y rellenar</button>
+                        <button onClick={this.saveInterview} className="btn btn-primary  ml-auto mx-1">Guardar entrevista</button>
                         </div>
                     </div>
                 </div>
