@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Dimension from './Dimension';
 import { Redirect } from 'react-router-dom';
+import { nullLiteral } from '@babel/types';
 const axios = require('axios');
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/dimensions`;
@@ -12,6 +13,7 @@ export default class Interview extends Component{
     constructor(props){
         super(props);
         this.state = {
+            id: null,
             name: props.name? props.name: '',
             company: props.company ? props.company : '',
             isDimensionsActive: true,
@@ -22,7 +24,8 @@ export default class Interview extends Component{
             motivationalDimension: {},
             styleDimensionsQuestions: {display: 'block'},
             styleMotivationalQuestions: {display: 'none'},
-            redirect: false
+            redirect: false,
+            isFill: false
 
         };
 
@@ -151,6 +154,7 @@ export default class Interview extends Component{
         .then(function (response) {
             // handle success
             console.log(response.data);
+            self.setState({id: response.data.id});
             self.setRedirect();
         })
         .catch(function (error) {
@@ -170,14 +174,8 @@ export default class Interview extends Component{
       }
 
     saveAndFillInterview = (e) =>{
+        this.setState({isFill: true});
         this.saveInterview(e);
-        this.redirectToNewInterview(1);
-    }
-
-
-    /**Redirect to the filling form of interview with the proper id given */
-    redirectToNewInterview = (id) => {
-        console.log(id);
     }
 
     onInterviewChange = (e) => {
@@ -189,8 +187,10 @@ export default class Interview extends Component{
     }
 
     renderRedirect = () => {
-        if (this.state.redirect) {
-          return <Redirect to='/interviews' />
+        if (this.state.redirect && this.state.isFill) {
+          return <Redirect to={'/interviews/'+this.state.id+ '/fill'} />
+        }else if(this.state.redirect){
+            return <Redirect to={'/interviews/'} />
         }
       }
 
