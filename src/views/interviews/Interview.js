@@ -171,6 +171,14 @@ export default class Interview extends Component{
         console.log(id);
     }
 
+    onInterviewChange = (e) => {
+        this.setState({name: e.target.value});
+    }
+
+    onCompanyChange = (e) => {
+        this.setState({company: e.target.value});
+    }
+
     render(){
         const {isDimensionsActive, dimensionsOnSelect, dimensionsSelected, motivationalDimension} = this.state;
         console.log('this.state.dimensionsSelected');
