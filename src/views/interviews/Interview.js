@@ -18,6 +18,7 @@ export default class Interview extends Component{
             currentDimension: null,
             dimensionsSelected: [],
             questionsSelected: {},
+            motivationalDimension: {},
             styleDimensionsQuestions: {display: 'block'},
             styleMotivationalQuestions: {display: 'none'}
         };
@@ -52,6 +53,26 @@ export default class Interview extends Component{
 
     componentDidMount(){
         this.loadDimensionsFromServer();
+        this.loadMotivationalDimension();
+    }
+
+    loadMotivationalDimension = () => {
+        let self = this;
+        axios.get(`${PATH_BASE}/43`)
+        .then(function (response) {
+            // handle success
+            console.log(response.data);
+            self.setState({
+                motivationalDimension: response.data 
+            });
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });   
     }
 
     onCurrentDimensionChange(e){
@@ -102,8 +123,13 @@ export default class Interview extends Component{
         //console.log(e.target.name);
     }
 
+    validateForm = (e) => {
+        e.preventDefault();
+        this.onChangeIsDimensionsNotActive(e);
+    }
+
     render(){
-        const {isDimensionsActive, dimensionsOnSelect, dimensionsSelected} = this.state;
+        const {isDimensionsActive, dimensionsOnSelect, dimensionsSelected, motivationalDimension} = this.state;
         console.log('this.state.dimensionsSelected');
         console.log(this.state.dimensionsSelected);
 
@@ -128,12 +154,16 @@ export default class Interview extends Component{
 
             </ul>
             <div style={this.state.styleDimensionsQuestions}>
-            <form className="container mt-4">
+            <form className="container mt-4" onSubmit={this.validateForm}>
                 <fieldset>
                 <div className="row align-items-center">
                     <div className="form-group col-md-6">
                     <label htmlFor="name" className=" col-form-label col-form-label-sm mr-2">Nombre de la Entrevista: </label>
-                    <input type="text" id="name" className="form-control" onChange={this.onInterviewChange}></input>
+                    <input type="text" 
+                           id="name" 
+                           className="form-control" 
+                           onChange={this.onInterviewChange}
+                           required="required"></input>
                     </div>
                     <div className="form-group col-md-6">
                     <label htmlFor="company" className=" col-form-label col-form-label-sm mr-2">Nombre de la Compañia:</label>
@@ -161,8 +191,8 @@ export default class Interview extends Component{
 
                     <div className="col align-self-end">
                         <div className="">
-                            <button className="btn btn-primary align-self-end " 
-                                    onClick={this.onChangeIsDimensionsNotActive}>
+                            <button type="submit" className="btn btn-primary align-self-end " >
+                                    
                                 Siguiente
                             </button>
                         </div>
@@ -192,25 +222,23 @@ export default class Interview extends Component{
                              onClick={this.onChangeIsDimensionsActive}>Atras</button>
                         <div className="btn-toolbar">
                         <button className="btn btn-primary ml-auto mx-1">Guardar y rellenar</button>
-                        <button className="btn btn-primary  ml-auto mx-1">Guardar entrevistas</button>
+                        <button className="btn btn-primary  ml-auto mx-1">Guardar entrevista</button>
                         </div>
                     </div>
                 </div>
             </form>
 
             <div className="container mt-4">
-                 <h4>Compatibilidad motivacional</h4>
-                 <p>La medida en que las actividades y responsabilidades del puesto, 
-                     la modalidad de operación y los valores de la organización, 
-                     y la comunidad en la cual el individuo vivirá, se corresponden con el tipo de ambiente que brinda
-                      satisfacción personal; el grado en el cual el propio trabajo es personalmente satisfactorio.</p>
-                <div className="mt-10">
-                    <br></br>
+                 
                 <h3 className="mt-10"><bold>Preguntas sobre Facetas Motivacionales</bold></h3>
-                </div>
+
                 
             </div>       
-
+            <Dimension key={motivationalDimension.data.id} id={motivationalDimension.data.id} 
+                               name={motivationalDimension['data']['attributes']['name']} 
+                               description={motivationalDimension.data.attributes.description}
+                               questions={motivationalDimension.included}
+                               onClick={this.onQuestionSelected} ></Dimension>                    
             </div>
 
         </div>);
