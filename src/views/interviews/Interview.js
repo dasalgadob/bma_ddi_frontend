@@ -187,7 +187,9 @@ export default class Interview extends Component{
             <form className="container">
                 <div className=" ">
                     <div className="d-flex flex-row mt-3">
-                     <button type="button" className="btn btn-primary  mx-2 mr-auto">Atras</button>
+                     <button type="button" 
+                             className="btn btn-primary  mx-2 mr-auto"
+                             onClick={this.onChangeIsDimensionsActive}>Atras</button>
                         <div className="btn-toolbar">
                         <button className="btn btn-primary ml-auto mx-1">Guardar y rellenar</button>
                         <button className="btn btn-primary  ml-auto mx-1">Guardar entrevistas</button>
