@@ -31,13 +31,15 @@ export default class Table extends Component {
   render(){
     const {list} = this.props;
     let result = [];
+    /** 
     let newList = list.map( item =>
         {
             //console.log("item:");
             //console.log(item);
         let dimentions = [];
-        let keys = Object.keys(item.dimentions);
+        //let keys = Object.keys(item.dimentions);
         //console.log("keys:" + keys);
+        
         keys.forEach(
             (k) =>
             {
@@ -51,32 +53,32 @@ export default class Table extends Component {
         });
         item.dimensiones = dimentions;    
         }
-      );
+      );*/
 
     console.log(list);
     return (
-        <div className="container">
+        <div className="container-fluid m-5">
         <div className="row">
       {list.map( item =>
         <div key={item.id} className="card col-sm-5">
             <div className="card-header">
-            <h5 className="card-title">{item.name}</h5>
+            <h6 className="card-title font-weight-bold">{item.name}</h6>
             </div>
             <div className="card-body">
-            <span> Compañia: {item.company}</span>
-            <p>Entrevistador</p>
-            <span>{item.user.name +' '+ item.user.last_name}</span><br></br>
-            <span>{item.user.email}</span>
+            <p><span className="font-weight-bold"> Compañia: &nbsp;</span>{item.company}</p>
+            <p ><span className="font-weight-bold">Entrevistador: &nbsp;</span> 
+             <span>{item.user.name +' '+ item.user.last_name}</span> &nbsp; <span>{item.user.email}</span></p>
+            
             <div>
-                <p>Dimensiones</p>
+              
+              <p className="font-weight-bold">Dimensiones</p>
                 {
-                  item.dimensiones.map(
-                    (d) => 
-                      <div>
-                    <span>Dimension {d.id}. Preguntas: {d.count}</span>
-                    <br></br>
+                  item.dimensions.map(
+                    (k, v) => 
+                      
+                    <div class="alert alert-secondary" role="alert">
+                    {k.spanish} <span className="font-weight-bold">Preguntas: &nbsp; </span>{k.count}
                     </div>
-                    
                   )
                 }
             </div>
