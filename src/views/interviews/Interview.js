@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Dimension from './Dimension';
+import { Redirect } from 'react-router-dom';
 const axios = require('axios');
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/dimensions`;
@@ -20,7 +21,9 @@ export default class Interview extends Component{
             questionsSelected: {},
             motivationalDimension: {},
             styleDimensionsQuestions: {display: 'block'},
-            styleMotivationalQuestions: {display: 'none'}
+            styleMotivationalQuestions: {display: 'none'},
+            redirect: false
+
         };
 
 
@@ -148,7 +151,7 @@ export default class Interview extends Component{
         .then(function (response) {
             // handle success
             console.log(response.data);
-
+            self.setRedirect();
         })
         .catch(function (error) {
             // handle error
@@ -159,6 +162,12 @@ export default class Interview extends Component{
         });
 
     }
+
+    setRedirect = () => {
+        this.setState({
+          redirect: true
+        })
+      }
 
     saveAndFillInterview = (e) =>{
         this.saveInterview(e);
@@ -179,6 +188,12 @@ export default class Interview extends Component{
         this.setState({company: e.target.value});
     }
 
+    renderRedirect = () => {
+        if (this.state.redirect) {
+          return <Redirect to='/interviews' />
+        }
+      }
+
     render(){
         const {isDimensionsActive, dimensionsOnSelect, dimensionsSelected, motivationalDimension} = this.state;
         console.log('this.state.dimensionsSelected');
@@ -191,6 +206,7 @@ export default class Interview extends Component{
 
         return(
         <div>
+            {this.renderRedirect()}
             <ul className="nav nav-tabs">
             <li className="nav-item">
                 <a className={`nav-link ${isDimensionsActive? 'active': ''}`} 
