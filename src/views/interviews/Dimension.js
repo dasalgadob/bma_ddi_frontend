@@ -1,5 +1,16 @@
 import React,{ Component} from "react";
 
+
+function showProperLabel(attributes){
+    if(attributes.name){
+       return (<div><h4>{attributes.name.spanish}</h4>
+       <p>{attributes.description.spanish}</p>
+       </div>); 
+    }else{
+        return(<p>{attributes.translation.spanish}</p>);
+    }
+}
+
 export default class Dimension extends Component{
 
     constructor(props){
@@ -24,7 +35,10 @@ export default class Dimension extends Component{
                         <table className="table table-striped">
                             <tbody className="">
                     {this.props.questions.map(
-                        (q) => 
+                        (q) => { if(q.attributes.mandatory){
+                            return (<tr></tr>);
+                        }
+                        return(
                             <tr key={"tr-" + q.id}>
                                 <td className="">
                             <div className="custom-control custom-checkbox">
@@ -33,11 +47,12 @@ export default class Dimension extends Component{
                                        name={q.id} >
                                     </input>
                                 <label className="custom-control-label" htmlFor={q.id}>
-                                    {q.attributes.translation.spanish}
+                                    {showProperLabel(q.attributes)}
                                 </label>
                             </div>
                             </td>
-                            </tr>
+                            </tr>)
+                        }
                     )}
                     </tbody>
                     </table>
