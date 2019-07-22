@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { Link, NavLink } from "react-router-dom";
+
 
 export default class ResultsTable extends Component {
     render(){
@@ -29,7 +31,7 @@ export default class ResultsTable extends Component {
                             <td>{item.candidate ?  item.candidate.email: ''}</td>
                             <td>{item.user.name + ' ' + (item.user.last_name? item.user.last_name: '') }</td>
                             <td>0</td>
-                            <td><a href="#"><FontAwesomeIcon icon={faEye} /></a></td>
+                            <td><Link to={"/results/"+item.id}><FontAwesomeIcon icon={faEye} /></Link></td>
                         </tr>)}
                 </tbody>
             </table>
