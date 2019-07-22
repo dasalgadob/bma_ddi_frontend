@@ -137,15 +137,18 @@ export default class Candidates extends Component{
                         <th scope="col">Nombre</th>
                         <th scope="col">Email</th>
                         <th scope="col">Fecha de creación</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                 {data.map( item => 
-                        <tr>
+                        <tr key={item.id}>
                             <th scope="row">{item.id}</th>
                             <td>{item.name}</td>
                             <td>{item.email}</td>
                             <td>{item.created_at}</td>
+                            <td><button  className="btn btn-primary" id={item.id}
+                                        onClick={this.props.onChooseCandidate}>Elegir</button></td>
                         </tr>)}
                 </tbody>
             </table>
