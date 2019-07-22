@@ -19,12 +19,8 @@ function App() {
   return (
     <div className="App">
       <Header></Header>
-      <nav>
-      <Link to="/login">Login</Link>
-      <Link to="/users">Users</Link>
-      <Link to="/sign_up">Sign up</Link>
-      </nav>
-      <div>
+
+      <div className="mt-4 ml-3">
         <Switch>
           <PrivateRoute path="/results/:id" component={Result} />
           <PrivateRoute path="/results" component={Results} />
