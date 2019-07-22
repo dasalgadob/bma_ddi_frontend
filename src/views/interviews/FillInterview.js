@@ -1,6 +1,14 @@
 import React, {Component} from 'react';
-import Candidate from '../candidates/Candidate';
-import Candidates from '../candidates/Candidates';
+import Rating from '@prontopro/react-rating';
+import NavDimensions from './NavDimensions';
+import AnswersDimensions from './AnswersDimensions';
+import MenuCandidate from './../candidates/MenuCandidate';
+const axios = require('axios');
+
+
+const POST_URL = `${process.env.REACT_APP_BACKEND_URL}/candidates`;
+const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/interviews`;
+
 
 export default class FillInterview extends Component{
 
@@ -8,59 +16,322 @@ export default class FillInterview extends Component{
         super(props);
 
         this.state= {
-            isCreateCandidateTab: true,
-            styleCreateCandidate: {display: 'block'},
-            styleUseCandidate: {display: 'none'}
+            id: null,
+            fields: {
+                idUser: null,
+                name: '',
+                email: ''
+            },
+            idInterview: props.match.params.id,
+            interviewData: null,
+            styleMenuCandidates: {display: 'block'},
+            styleMenuInterview: {display: 'none'},
+            isFillDimensionsTab: true,
+            isMotivationalCompetenceTab: false,
+            isCompensationTab: false,
+            /**Style for filling questions */
+            styleFillDimensions: {display: 'block'}, 
+            styleMotivationalCompetence: {display: 'none'},
+            styleCompensation: {display: 'none'},
+            currentDimension: null
+
         };
-
-        this.onChangeIsCreateCandidateTab = this.onChangeIsCreateCandidateTab.bind(this);
-        this.onChangeIsUseCandidateTab = this.onChangeIsUseCandidateTab.bind(this);
     }
 
+    componentDidMount() {
+        console.log("idInter:" + this.state.idInterview);
+        this.loadInterviewFromServer();
+    }
 
-    onChangeIsCreateCandidateTab(){
-        this.setState({
-            isCreateCandidateTab: true,
-            styleCreateCandidate: {display: 'block'},
-            styleUseCandidate: {display: 'none'}
+    loadInterviewFromServer = () => {
+        let self = this;
+        axios.get(`${PATH_BASE}/${this.state.idInterview}`)
+        .then(function (response) {
+            // handle success
+            console.log('loadInterviewFromServer:');
+            console.log(response.data);
+            const dataAnswer = response.data.data;
+            let currentDimension = null;
+            if(dataAnswer.attributes.dimensions.length > 0){
+                currentDimension = dataAnswer.attributes.dimensions[0].id;
+            }
+            
+            self.setState({
+                interviewData: response.data,
+                currentDimension
+            });
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });   
+    }
+
+    onSaveCandidate = (e) => {
+          console.log("candidate saving");
+          const {name, email} = this.state.fields;
+        e.preventDefault();
+        console.log("Do notgnb");
+        const headers = JSON.parse(localStorage.getItem('user'));
+        let self = this;
+        axios({
+            method: 'post',
+            url: `${POST_URL}`,
+            data: 
+            {candidate: {name: name, email: email}},
+            headers: headers
+            })
+        .then(function (response) {
+            // handle success
+            console.log(response.data);
+            self.setState({id: response.data.id});
+            self.changeMenu();
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
         });
     }
 
-    onChangeIsUseCandidateTab(){
+    onChooseCandidate = (e) => {
+        console.log('on choose candidate');
+        this.setState({id: e.target.id});
+        this.changeMenu();
+        console.log('e.target.value');
+        console.log(e.target.id);
+    }
+
+    onInputChange = (e) => {
+        const fields = this.state.fields;
+        fields[e.target.name] = e.target.value;
+        this.setState({fields});
+        console.log(fields);
+    }
+
+    changeMenu = () => {
+        console.log('change menu');
         this.setState({
-            isCreateCandidateTab: false,
-            styleCreateCandidate: {display: 'none'},
-            styleUseCandidate: {display: 'block'}
+            styleMenuCandidates: {display: "none"},
+            styleMenuInterview: {display: "block"}
         });
+    }
+
+    onChangeIsFillDimensionsTab = (e) => {
+        this.setState({
+            isFillDimensionsTab: true,
+            isMotivationalCompetenceTab: false,
+            isCompensationTab: false,
+            styleFillDimensions: {display: 'block'},
+            styleMotivationalCompetence: {display: 'none'},
+            styleCompensation: {display: 'none'}
+        });
+    }
+
+    onChangeIsMotivationalCompetenceTab = (e) => {
+        this.setState({
+            isFillDimensionsTab: false,
+            isMotivationalCompetenceTab: true,
+            isCompensationTab: false,
+            styleFillDimensions: {display: 'none'},
+            styleMotivationalCompetence: {display: 'block'},
+            styleCompensation: {display: 'none'}
+        });
+    }
+
+    onChangeIsCompensationTab = (e) => {
+        this.setState({
+            isFillDimensionsTab: false,
+            isMotivationalCompetenceTab: false,
+            isCompensationTab: true,
+            styleFillDimensions: {display: 'none'},
+            styleMotivationalCompetence: {display: 'none'},
+            styleCompensation: {display: 'block'}
+        });
+    }
+
+    onChangeNavDimensionsTab = (e) => {
+        console.log("id dim: " + e.target.id);
+        //this.setState({currentDimension: this.state.interviewData.data e.target.id});
     }
 
     render(){
-        const {styleCreateCandidate, styleUseCandidate} = this.state;
+        console.log(this.state);
+        const {styleMenuCandidates, styleMenuInterview, interviewData, currentDimension} = this.state;
 
-        return(<div class="container">
-            <h3>Candidato</h3>
-            <ul className="nav nav-tabs">
-            <li className="nav-item">
-                <a className={`nav-link ${this.state.isCreateCandidateTab? "active": ''}` }
-                   onClick={this.onChangeIsCreateCandidateTab} 
-                   href="#">Crear candidato</a>
-            </li>
-            <li className="nav-item">
-                <a className={`nav-link ${!this.state.isCreateCandidateTab? "active": ''}` }
-                   onClick={this.onChangeIsUseCandidateTab}  
-                   href="#">Usar candidato ya existente</a>
-            </li>
+        if(!interviewData){
+            return <div></div>
+        }
+
+        return(<div >
+            <MenuCandidate onInputChange={this.onInputChange} 
+                           onSaveCandidate={this.onSaveCandidate}
+                           onChooseCandidate={this.onChooseCandidate}
+                           style={styleMenuCandidates}>
+            </MenuCandidate>
             
+
+
+        <div style={styleMenuInterview}>
+            <h3>Rellenar entrevista</h3>
+            <ul className="nav nav-tabs">
+                <li className="nav-item">
+                    
+                    <a className={`nav-link ${this.state.isFillDimensionsTab? "active": ''}` }
+                        onClick={this.onChangeIsFillDimensionsTab} 
+                        href="#"><h3>1</h3>Rellenar las preguntas de las dimensiones</a>
+                </li>
+                <li className="nav-item">
+                    <a className={`nav-link ${this.state.isMotivationalCompetenceTab? "active": ''}` }
+                        onClick={this.onChangeIsMotivationalCompetenceTab}  
+                        href="#"><h3>2</h3>Competencia motivacional</a>
+                </li>
+
+                <li className="nav-item">
+                    <a className={`nav-link ${this.state.isCompensationTab? "active": ''}` }
+                        onClick={this.onChangeIsCompensationTab}  
+                        href="#"><h3>3</h3>Compensación actual y movilidad
+                        </a>
+                </li>
             </ul>
+            <form className="container">
+                <div className=" ">
+                    <div className="d-flex flex-row mt-3">
+                        <button type="button" 
+                                className="btn btn-primary  mx-2 mr-auto"
+                                onClick={this.onChangeIsDimensionsActive}>Atras</button>
+                        <div className="btn-toolbar">
+                        <button onClick={this.saveInterview} className="btn btn-primary  ml-auto mx-1">Siguiente</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
 
-            <div style={styleCreateCandidate}>
-                <Candidate></Candidate>
+            {/** Content for fill dimensions */}
+            <div style={this.state.styleFillDimensions}>
+                <NavDimensions dimensions={this.state.interviewData.data.attributes['dimensions']} 
+                onClick={this.onChangeNavDimensionsTab}>
+
+                </NavDimensions>
+
+                <AnswersDimensions questions={this.state.interviewData.included}
+                                   dimensionId={currentDimension}
+                                   dimension={2}>
+                </AnswersDimensions>
             </div>
 
-            <div style={styleUseCandidate}>
-
-                <Candidates></Candidates>
+            {/** Content for motivational questions */}
+            <div className="container mx-3" style={this.state.styleMotivationalCompetence}>
+            <h4 className="mt-4">Compatibilidad motivacional</h4>
+            <p>La medida en que las actividades y responsabilidades del puesto, la modalidad de operación y los valores de la organización, y la comunidad en la cual el individuo vivirá, se corresponden con el tipo de ambiente que brinda satisfacción personal; el grado en el cual el propio trabajo es personalmente satisfactorio.</p>
+            
+            <br>
+            </br>
+            <p>Pregunta General: ¿Cuándo estuvo usted más satisfecho/insatisfecho en su trabajo? 
+                ¿Qué fue lo más satisfactorio/insatisfactorio de eso?.</p>
+            <div className="form-group">
+            <label htmlFor="exampleFormControlTextarea1">Respuesta</label>
+            <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <h1>
+            <Rating
+            animateOnHover
+            disableAnimation
+            initialRate={0}
+            stop={5}
+            /></h1>
             </div>
-        </div>);
+            
+
+            <p>Pregunta Abierta: Hábleme de una ocasión en la que tuvo varias/pocas oportunidades de _________ 
+                en su trabajo. ¿Qué tan satisfecho estuvo usted con eso y por qué?.</p>
+            <div className="form-group">
+            <label htmlFor="exampleFormControlTextarea1">Respuesta</label>
+            <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <Rating
+            animateOnHover
+            disableAnimation
+            initialRate={0}
+            stop={5}
+            />
+            </div>      
+
+            </div>
+
+            {/** Content for compensation and mobility */}
+
+            <div className="container-fluid mx-4" style={this.state.styleCompensation}>
+            <h4 className="mt-4">Compensacion actual y movilidad</h4>
+            <p>Averigua cual es la situación del candidato y donde quiere llegar.</p>
+            <form onSubmit={this.handleSubmit}>
+            <div className="form-group row">
+                <label htmlFor="exampleInputPassword1" className="align-left ">Compañía para la que entrevista</label>
+                <input type="text"
+                        name="name"
+                        className="form-control " 
+                        id="exampleInputPassword1" 
+                        required="required"
+                        onChange={this.props.onInputChange}/>
+            </div>
+
+            <div className="form-group row">
+                <label htmlFor="exampleInputPassword1" className="align-left">Puesto para el que entrevista</label>
+                <input type="text"
+                        name="name"
+                        className="form-control" 
+                        id="exampleInputPassword1" 
+                        required="required"
+                        onChange={this.props.onInputChange}/>
+            </div>
+
+            <div className="form-group row">
+                <label htmlFor="exampleInputPassword1" className="align-left">Salario base</label>
+                <input type="text"
+                        name="name"
+                        className="form-control" 
+                        id="exampleInputPassword1" 
+                        required="required"
+                        onChange={this.props.onInputChange}/>
+            </div>
+
+            <div className="form-group row">
+                <label htmlFor="exampleInputPassword1" className="align-left">Beneficios</label>
+                <input type="text"
+                        name="name"
+                        className="form-control" 
+                        id="exampleInputPassword1" 
+                        required="required"
+                        onChange={this.props.onInputChange}/>
+            </div>
+
+            <div className="form-group row">
+                <label htmlFor="exampleInputPassword1" className="align-left">Expectativas de salario</label>
+                <input type="text"
+                        name="name"
+                        className="form-control" 
+                        id="exampleInputPassword1" 
+                        required="required"
+                        onChange={this.props.onInputChange}/>
+            </div>
+
+            <div className="form-group row">
+                <label htmlFor="exampleInputPassword1" className="align-left">Áreas geográficas</label>
+                <input type="text"
+                        name="name"
+                        className="form-control" 
+                        id="exampleInputPassword1" 
+                        required="required"
+                        onChange={this.props.onInputChange}/>
+            </div>
+              
+            </form>
+            </div>
+        </div>
+        </div>
+        );
     }
 }
