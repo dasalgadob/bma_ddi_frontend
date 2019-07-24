@@ -67,6 +67,7 @@ export default class Interview extends Component{
         axios.get(`${PATH_BASE}/43`)
         .then(function (response) {
             // handle success
+            console.log('loadMotivationalDimension:');
             console.log(response.data);
             self.setState({
                 motivationalDimension: response.data 

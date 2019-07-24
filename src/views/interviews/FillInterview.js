@@ -7,6 +7,7 @@ const axios = require('axios');
 
 
 const POST_URL = `${process.env.REACT_APP_BACKEND_URL}/candidates`;
+const POST_URL_RESULT = `${process.env.REACT_APP_BACKEND_URL}/results`;
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/interviews`;
 
 
@@ -18,9 +19,12 @@ export default class FillInterview extends Component{
         this.state= {
             id: null,
             fields: {
-                idUser: null,
+                idCandidate: null,
                 name: '',
-                email: ''
+                email: '',
+                idResult: null,
+                position: '',
+                company: ''
             },
             idInterview: props.match.params.id,
             interviewData: null,
@@ -71,8 +75,9 @@ export default class FillInterview extends Component{
     }
 
     onSaveCandidate = (e) => {
-          console.log("candidate saving");
-          const {name, email} = this.state.fields;
+        console.log("candidate saving");
+        const {name, email} = this.state.fields;
+        const fields = this.state.fields;
         e.preventDefault();
         console.log("Do notgnb");
         const headers = JSON.parse(localStorage.getItem('user'));
@@ -86,8 +91,11 @@ export default class FillInterview extends Component{
             })
         .then(function (response) {
             // handle success
+            console.log("success candidate saving");
             console.log(response.data);
-            self.setState({id: response.data.id});
+            fields['idCandidate'] = response.data.id
+            self.setState({ fields}, self.chooseIfcreateOrUpdateResult);
+            //self.chooseIfcreateOrUpdateResult();
             self.changeMenu();
         })
         .catch(function (error) {
@@ -100,8 +108,11 @@ export default class FillInterview extends Component{
     }
 
     onChooseCandidate = (e) => {
+        const fields = this.state.fields;
         console.log('on choose candidate');
-        this.setState({id: e.target.id});
+        fields['idCandidate'] = parseInt(e.target.id);
+        this.setState({fields}, ()  => {this.chooseIfcreateOrUpdateResult()});
+        //this.chooseIfcreateOrUpdateResult();
         this.changeMenu();
         console.log('e.target.value');
         console.log(e.target.id);
@@ -158,6 +169,81 @@ export default class FillInterview extends Component{
     onChangeNavDimensionsTab = (e) => {
         console.log("id dim: " + e.target.id);
         //this.setState({currentDimension: this.state.interviewData.data e.target.id});
+    }
+
+    chooseIfcreateOrUpdateResult = () => {
+        if(!this.state.fields.idResult){
+            console.log("createResult");
+            this.createResult();
+        }else{
+            console.log("updateResult");
+            this.updateResult();
+        }
+    }
+
+    /**
+     * Make a post request with the info of id_user based on the one selected or just created
+     */
+    createResult = () => {
+        console.log("createResult");
+        const {idCandidate} = this.state.fields;
+        const fields = this.state.fields;
+        const headers = JSON.parse(localStorage.getItem('user'));
+        let self = this;
+        const resultJSON = {
+            result: {candidate_id: idCandidate}
+        };
+        console.log(resultJSON);
+        axios({
+            method: 'post',
+            url: `${POST_URL_RESULT}`,
+            data: 
+            {result: {candidate_id: idCandidate}},
+            headers: headers
+            })
+        .then(function (response) {
+            // handle success
+            console.log("success createResult");
+            console.log(response.data);
+            fields['idResult'] = response.data.id;
+            self.setState({fields});
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
+    }
+
+    updateResult = () => {
+        console.log("updateResult");
+        const {idCandidate} = this.state.fields;
+        const fields = this.state.fields;
+        const headers = JSON.parse(localStorage.getItem('user'));
+        let self = this;
+        axios({
+            method: 'patch',
+            url: `${POST_URL_RESULT}/${self.state.fields.idResult}`,
+            data: 
+            {result: {candidate_id: idCandidate}},
+            headers: headers
+            })
+        .then(function (response) {
+            // handle success
+            console.log("success updateResult");
+            console.log(response.data);
+            fields['idResult'] = response.data.id;
+            self.setState({fields});
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
     }
 
     render(){
