@@ -12,7 +12,7 @@ export default class NavDimensions extends Component{
             return <div></div>;
         }
         return <div>
-            <ul className="nav nav-tabs">
+            <ul className="nav nav-tabs mt-2">
 
                 {this.props.dimensions.map((item) => 
                     

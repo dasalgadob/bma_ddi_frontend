@@ -33,7 +33,7 @@ export default class AnswersDimensions extends Component{
         if(!this.props.questions || !this.props.dimensionId){
             return <div></div>;
         }
-        
+        console.log("Dimension id:" + this.props.dimensionId);
         return (
             <div className="mt-8">
                 <DimensionHeader dimensionId={this.props.dimensionId}></DimensionHeader>
@@ -47,7 +47,7 @@ export default class AnswersDimensions extends Component{
                                 <label htmlFor="exampleFormControlTextarea1">Situación/Tarea</label>
                                 <TextareaAutosize className="form-control" 
                                             id="exampleFormControlTextarea1" 
-                                            rows="3"></TextareaAutosize>
+                                            rows={3}></TextareaAutosize>
                                 <h1>
                                 <Rating
                                 animateOnHover
@@ -60,7 +60,7 @@ export default class AnswersDimensions extends Component{
                                 <label htmlFor="exampleFormControlTextarea1">Acción</label>
                                 <TextareaAutosize className="form-control" 
                                             id="exampleFormControlTextarea1" 
-                                            rows="3"></TextareaAutosize>
+                                            rows={3}></TextareaAutosize>
                                 <h1>
                                 <Rating
                                 animateOnHover
@@ -73,7 +73,7 @@ export default class AnswersDimensions extends Component{
                                 <label htmlFor="exampleFormControlTextarea1">Resultado</label>
                                 <TextareaAutosize className="form-control" 
                                             id="exampleFormControlTextarea1" 
-                                            rows="3"></TextareaAutosize>
+                                            rows={3}></TextareaAutosize>
                                 <h1>
                                 <Rating
                                 animateOnHover
@@ -85,7 +85,7 @@ export default class AnswersDimensions extends Component{
                             </div>
                             <div className="form-group">
                                 <label htmlFor="exampleFormControlTextarea1">Resumen</label>
-                                <TextareaAutosize className="form-control" id="exampleFormControlTextarea1" rows="3"></TextareaAutosize>
+                                <TextareaAutosize className="form-control" id="exampleFormControlTextarea1" rows={3}></TextareaAutosize>
                                 <h1>
                                 <Rating
                                 animateOnHover

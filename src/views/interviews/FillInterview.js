@@ -177,7 +177,7 @@ export default class FillInterview extends Component{
 
     onChangeNavDimensionsTab = (e) => {
         console.log("id dim: " + e.target.id);
-        //this.setState({currentDimension: this.state.interviewData.data e.target.id});
+        this.setState({currentDimension:  e.target.id});
     }
 
     chooseIfcreateOrUpdateResult = () => {

@@ -9,6 +9,7 @@ export default class DimensionHeader extends Component{
         super(props);
 
         this.state = {
+            dimensionId: props.dimensionId,
             dimension: null
         }
 
@@ -40,10 +41,17 @@ export default class DimensionHeader extends Component{
 
 
     render(){
-        const {dimension} = this.state;
+        
+        const {dimension, dimensionId} = this.state;
         if(!this.state.dimension){
             return <div></div>
         }
+        if(this.props.dimensionId != dimension.data.id){
+            console.log("diff");
+            this.loadDimensionFromServer();
+        }
+        console.log("Dimension id DimensionHeader:" + this.props.dimensionId);
+        console.log(dimension);
         return(<div className="mt-4">
             <h4>{dimension.data.attributes.name.spanish}</h4>
             <p>{dimension.data.attributes.description.spanish}</p>
