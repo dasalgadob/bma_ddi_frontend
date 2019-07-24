@@ -3,6 +3,7 @@ import Rating from '@prontopro/react-rating';
 import NavDimensions from './NavDimensions';
 import AnswersDimensions from './AnswersDimensions';
 import MenuCandidate from './../candidates/MenuCandidate';
+import NavigationButtons from './NavigationButtons';
 const axios = require('axios');
 
 
@@ -133,6 +134,14 @@ export default class FillInterview extends Component{
         });
     }
 
+    changeMenuToCandidates = () => {
+        console.log('changeMenuToCandidates');
+        this.setState({
+            styleMenuCandidates: {display: "block"},
+            styleMenuInterview: {display: "none"}
+        });
+    }
+
     onChangeIsFillDimensionsTab = (e) => {
         this.setState({
             isFillDimensionsTab: true,
@@ -246,6 +255,10 @@ export default class FillInterview extends Component{
         });
     }
 
+    validatesDimensionQuestions = () => {
+        console.log("To be implemented");
+    }
+
     render(){
         console.log(this.state);
         const {styleMenuCandidates, styleMenuInterview, interviewData, currentDimension} = this.state;
@@ -285,21 +298,13 @@ export default class FillInterview extends Component{
                         </a>
                 </li>
             </ul>
-            <form className="container">
-                <div className=" ">
-                    <div className="d-flex flex-row mt-3">
-                        <button type="button" 
-                                className="btn btn-primary  mx-2 mr-auto"
-                                onClick={this.onChangeIsDimensionsActive}>Atras</button>
-                        <div className="btn-toolbar">
-                        <button onClick={this.saveInterview} className="btn btn-primary  ml-auto mx-1">Siguiente</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
 
             {/** Content for fill dimensions */}
-            <div style={this.state.styleFillDimensions}>
+            <div className="mt-2"  style={this.state.styleFillDimensions}>
+                <NavigationButtons handleBeforeButton={this.changeMenuToCandidates}
+                                   handleNextButton={this.validatesDimensionQuestions}>
+
+                </NavigationButtons>
                 <NavDimensions dimensions={this.state.interviewData.data.attributes['dimensions']} 
                 onClick={this.onChangeNavDimensionsTab}>
 
