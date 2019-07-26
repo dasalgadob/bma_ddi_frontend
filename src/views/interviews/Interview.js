@@ -13,7 +13,8 @@ export default class Interview extends Component{
     constructor(props){
         super(props);
         this.state = {
-            id: null,
+            idInterview: props.match.params.id ,
+            currentInterview: null,
             name: props.name? props.name: '',
             company: props.company ? props.company : '',
             isDimensionsActive: true,
@@ -60,6 +61,34 @@ export default class Interview extends Component{
     componentDidMount(){
         this.loadDimensionsFromServer();
         this.loadMotivationalDimension();
+        if(this.state.idInterview != 'new'){
+            this.loadInterviewFromServer();
+        }
+    }
+
+    loadInterviewFromServer = () => {
+        console.log("loadInterviewFromServer");
+        console.log(this.state.idInterview);
+
+        let self = this;
+        axios.get(`${POST_URL}/${this.state.idInterview}`)
+        .then(function (response) {
+            // handle success
+            console.log('loadInterviewFromServer:');
+            console.log(response.data);
+            self.setState({
+                currentInterview: response.data,
+                 name: response.data.data.attributes.name,
+                 company: response.data.data.attributes.company
+            });
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });   
     }
 
     loadMotivationalDimension = () => {
@@ -199,6 +228,7 @@ export default class Interview extends Component{
         const {isDimensionsActive, dimensionsOnSelect, dimensionsSelected, motivationalDimension} = this.state;
         console.log('this.state.dimensionsSelected');
         console.log(this.state.dimensionsSelected);
+        console.log(this.state);
 
         if(!dimensionsOnSelect){
             return(<div></div>);
@@ -231,11 +261,14 @@ export default class Interview extends Component{
                            id="name" 
                            className="form-control" 
                            onChange={this.onInterviewChange}
-                           required="required"></input>
+                           required="required"
+                           value={this.state.name}></input>
                     </div>
                     <div className="form-group col-md-6">
                     <label htmlFor="company" className=" col-form-label col-form-label-sm mr-2">Nombre de la Compañia:</label>
-                    <input type="text" id="company" className="form-control" onChange={this.onCompanyChange}></input>
+                    <input type="text" id="company" className="form-control" 
+                           onChange={this.onCompanyChange}
+                           value={this.state.company}></input>
                     </div>
                 </div>
                 </fieldset>
@@ -298,7 +331,7 @@ export default class Interview extends Component{
 
             <div className="container mt-4">
                  
-                <h3 className="mt-10"><bold>Preguntas sobre Facetas Motivacionales</bold></h3>
+                <h3 className="mt-10">Preguntas sobre Facetas Motivacionales</h3>
 
                 
             </div>       
