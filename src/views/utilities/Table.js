@@ -31,38 +31,19 @@ export default class Table extends Component {
   render(){
     const {list} = this.props;
     let result = [];
-    /** 
-    let newList = list.map( item =>
-        {
-            //console.log("item:");
-            //console.log(item);
-        let dimentions = [];
-        //let keys = Object.keys(item.dimentions);
-        //console.log("keys:" + keys);
-        
-        keys.forEach(
-            (k) =>
-            {
-            //console.log("key: "+ k);
-            dimentions.push(
-                {"id": k, "count": contarPreguntas(item.dimentions[k])}
-                
-            );
-            //console.log("Item:");
-            //console.log(item);
-        });
-        item.dimensiones = dimentions;    
-        }
-      );*/
-
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log("user");
+    console.log(user);
     console.log(list);
     return (
         <div className="container-fluid m-5">
         <div className="row">
-      {list.map( item =>
+      {list.map( item => 
         <div key={item.id} className="card col-sm-5">
             <div className="card-header">
-            <h6 className="card-title font-weight-bold">{item.name}</h6>
+            <h6 className="card-title font-weight-bold">{item.name}
+            </h6>
+            <p className="badge badge-secondary ">{item.user.email== user.uid?"En propiedad": ""}</p>
             </div>
             <div className="card-body">
             <p><span className="font-weight-bold"> Compañia: &nbsp;</span>{item.company}</p>
