@@ -23,7 +23,7 @@ export default class ResultsTable extends Component {
                 </thead>
                 <tbody>
                     {data.map( item => 
-                        <tr>
+                        <tr key={item.id}>
                             <th scope="row">{item.id}</th>
                             <td>{item.position}</td>
                             <td>{item.company}</td>

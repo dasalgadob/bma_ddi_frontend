@@ -93,6 +93,17 @@ class Results extends Component {
         });
       };
 
+      onSortByChange = (e) => {
+        const sortByTerm = e.target.value.split(';');
+        const sortByField =  sortByTerm[0];
+        const sortOrder = sortByTerm[1];
+        console.log("sortByField: " + sortByField);
+        console.log("sortOrder: " + sortOrder);
+        this.setState({sortByField: sortByField,  sortOrder: sortOrder}, () => {
+            this.loadResultsFromServer();
+          });
+    }
+
 
     render(){
 
@@ -148,8 +159,8 @@ class Results extends Component {
                         <select className="form-control-sm" id="sort" onChange={this.onSortByChange}>
                         <option value="created_at;desc">Fecha de creación más reciente</option>
                         <option value="created_at;asc">Fecha de creación más antiguo</option>
-                        <option value="name;asc">Nombre de entrevista A-Z</option>
-                        <option value="name;desc">Nombre de entrevista Z-A</option>
+                        <option value="position;asc">Posición A-Z</option>
+                        <option value="position;desc">Posición Z-A</option>
                         </select>
                         </div>
                         

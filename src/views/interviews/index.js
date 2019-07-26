@@ -27,7 +27,7 @@ class  Interviews extends Component {
         this.onInterviewChange = this.onInterviewChange.bind(this);
         this.onCompanyChange = this.onCompanyChange.bind(this);
         this.onInterviewerChange = this.onInterviewerChange.bind(this);
-        this.onSortByChange = this.onSortByChange.bind(this);
+        //this.onSortByChange = this.onSortByChange.bind(this);
     }
 
     onInterviewChange(e){
@@ -54,7 +54,7 @@ class  Interviews extends Component {
           });
     }
 
-    onSortByChange(e){
+    onSortByChange = (e) => {
         const sortByTerm = e.target.value.split(';');
         const sortByField =  sortByTerm[0];
         const sortOrder = sortByTerm[1];
