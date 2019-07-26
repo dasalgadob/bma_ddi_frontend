@@ -81,6 +81,7 @@ export default class Interview extends Component{
                  name: response.data.data.attributes.name,
                  company: response.data.data.attributes.company
             });
+            self.updateQuestionsSelected(response.data.included)
         })
         .catch(function (error) {
             // handle error
@@ -89,6 +90,21 @@ export default class Interview extends Component{
         .finally(function () {
             // always executed
         });   
+    }
+
+    /**
+     * This function update the state for the array questions selected
+     * 
+     * params:
+     *  questionsSelected: Array of questions with its data from select that area selected for the 
+     *  current dimension.
+     */
+    updateQuestionsSelected = (questionsSelectedServer) => {
+        const {questionsSelected } = this.state;
+        questionsSelectedServer.forEach(element => {
+            questionsSelected[element.id] = true;
+        });
+        this.setState({questionsSelected})
     }
 
     loadMotivationalDimension = () => {
@@ -339,7 +355,8 @@ export default class Interview extends Component{
                                name={motivationalDimension['data']['attributes']['name']} 
                                description={motivationalDimension.data.attributes.description}
                                questions={motivationalDimension.included}
-                               onClick={this.onQuestionSelected} ></Dimension>                    
+                               onClick={this.onQuestionSelected}
+                               questionsSelected={this.state.questionsSelected} ></Dimension>                    
             </div>
 
         </div>);

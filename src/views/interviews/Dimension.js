@@ -44,7 +44,8 @@ export default class Dimension extends Component{
                             <div className="custom-control custom-checkbox">
                                 <input id={q.id} key={q.id} className="custom-control-input" type="checkbox" value="true"
                                        onClick={this.onQuestionSelected}
-                                       name={q.id} >
+                                       name={q.id} 
+                                       checked={this.props.questionsSelected[q.id]? "checked":""}>
                                     </input>
                                 <label className="custom-control-label" htmlFor={q.id}>
                                     {showProperLabel(q.attributes)}
