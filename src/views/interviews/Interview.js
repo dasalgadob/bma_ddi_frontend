@@ -73,7 +73,7 @@ export default class Interview extends Component{
     componentDidMount(){
         this.loadDimensionsFromServer();
         this.loadMotivationalDimension();
-        console.log("componentDidMount:" + this.state.idInterview);
+        //console.log("componentDidMount:" + this.state.idInterview);
         
         if(this.state.idInterview != 'new'){
             this.loadInterviewFromServer();
@@ -81,8 +81,8 @@ export default class Interview extends Component{
     }
 
     loadInterviewFromServer = () => {
-        console.log("loadInterviewFromServer");
-        console.log(this.state.idInterview);
+        //console.log("loadInterviewFromServer");
+        //console.log(this.state.idInterview);
 
         let self = this;
         axios.get(`${POST_URL}/${this.state.idInterview}`)
@@ -134,8 +134,8 @@ export default class Interview extends Component{
         axios.get(`${PATH_BASE}/43`)
         .then(function (response) {
             // handle success
-            console.log('loadMotivationalDimension:');
-            console.log(response.data);
+            //console.log('loadMotivationalDimension:');
+            //console.log(response.data);
             self.setState({
                 motivationalDimension: response.data 
             });
@@ -150,7 +150,7 @@ export default class Interview extends Component{
     }
 
     onCurrentDimensionChange(e){
-        console.log("DIm seleted:" + e.target.value);
+        //console.log("DIm seleted:" + e.target.value);
         this.setState({currentDimension: e.target.value});
     }
 
@@ -160,7 +160,7 @@ export default class Interview extends Component{
 
     loadDimensionsFromServer(){
         const queryURL = `${PATH_BASE}`;
-        console.log("Query URL:" + queryURL);
+        //console.log("Query URL:" + queryURL);
         fetch(queryURL)
         .then(response => response.json())
         .then(result => this.setDimensions(result))
@@ -184,16 +184,37 @@ export default class Interview extends Component{
         });
     }
 
-
-    onQuestionSelected = (e) => {
-        console.log('e.target.checked');
-        let questionsNewSelection = {...this.state.questionsSelected};
-        questionsNewSelection[e.target.id] = e.target.checked;
+    updateQuestionSelected = (id, checked) => {
+        console.log("updateQuestionSelected");
+        console.log("id: " + id);
+        console.log("checked: " + checked);
+        let questionsNewSelection = Object.assign({}, this.state.questionsSelected);
+        questionsNewSelection[id] = checked;
         this.setState({
             questionsSelected: questionsNewSelection
         });
+    }
+
+    updateArrayQuestionsSelected = (ids, checked) => {
+        console.log("updateQuestionSelected");
+        //console.log("id: " + id);
+        console.log("checked: " + checked);
+        let questionsNewSelection = Object.assign({}, this.state.questionsSelected);
+        ids.forEach(id => {
+            questionsNewSelection[id] = checked;
+        });
+        
+        this.setState({
+            questionsSelected: questionsNewSelection
+        });
+    }
+
+
+    onQuestionSelected = (e) => {
+        //console.log('e.target.checked');
+        this.updateQuestionSelected(e.target.id, e.target.checked );
         //console.log(e.target.checked);
-        console.log(questionsNewSelection);
+        //console.log(questionsNewSelection);
         //console.log(e.target.name);
     }
 
@@ -214,7 +235,7 @@ export default class Interview extends Component{
         });
         
         const headers = JSON.parse(localStorage.getItem('user'));
-        console.log("idInt:" + idInterview);
+        //console.log("idInt:" + idInterview);
         let method = idInterview == 'new'?'post':'patch';
         let self = this;
         
@@ -227,7 +248,7 @@ export default class Interview extends Component{
             })
         .then(function (response) {
             // handle success
-            console.log(response.data);
+            //console.log(response.data);
             self.setState({id: response.data.id});
             self.setRedirect();
         })
@@ -268,10 +289,38 @@ export default class Interview extends Component{
         }
       }
 
+      /**
+       * 
+       */
+      onDeleteDimension = (id) => {
+          const {dimensionsSelected} = this.state;
+        console.log("id:"+ id);
+        //Delete from dimensionsSelected
+        let indexDimension = -1;
+        for(let i=0; i<dimensionsSelected.length; i++){
+            if(dimensionsSelected[i].data.id == id){
+                indexDimension = i;
+            }
+        }
+        console.log("index dimension:" + indexDimension);
+        if(indexDimension != -1){
+            dimensionsSelected.splice(indexDimension, 1);
+            this.setState({
+                dimensionsSelected
+            });
+        }
+        
+        //Unmark from questionsSelected
+
+      }
+
     render(){
         const {isDimensionsActive, dimensionsOnSelect, dimensionsSelected, motivationalDimension} = this.state;
         console.log('this.state.dimensionsSelected');
         console.log(this.state.dimensionsSelected);
+
+        console.log('this.state.questionsSelected');
+        console.log(this.state.questionsSelected);
         console.log(this.state);
 
         if(!dimensionsOnSelect){
@@ -355,7 +404,9 @@ export default class Interview extends Component{
                                description={d.data.attributes.description}
                                questions={d.included}
                                onClick={this.onQuestionSelected}
-                               questionsSelected={this.state.questionsSelected}  ></Dimension>
+                               questionsSelected={this.state.questionsSelected}
+                               onDeleteDimension={() => this.onDeleteDimension(d.data.id)}
+                               onUpdateArrayQuestionsSelected = {this.updateArrayQuestionsSelected}  ></Dimension>
                     
                 )} 
             </div>

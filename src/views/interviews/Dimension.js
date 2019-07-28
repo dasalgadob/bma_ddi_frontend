@@ -32,12 +32,41 @@ export default class Dimension extends Component{
         });
     }
 
+    onDelete = () => {
+        console.log("onDelete");
+        let ids=[];
+        this.props.questions.forEach(q =>{
+            console.log("q: " + this.props.questionsSelected[q.id]);
+            if(this.props.questionsSelected[q.id]){
+                ids.push(q.id);
+            }
+        });
+        this.props.onUpdateArrayQuestionsSelected(ids, false);
+        this.props.onDeleteDimension();
+    }
+
+    renderBasedOnDimension = () => {
+        const {displayQuestions} = this.state;
+        if(this.props.id != 43){
+            return(
+            <div className="col-sm-2">
+                <a   role="button" href="#"  id={this.props.id} className="col-sm-1 btn btn-link"  
+                         onClick={this.onDelete} className="">
+                    <FontAwesomeIcon icon={faTrash}/>
+                </a>
+                <a className="col-sm-1" role="button" href="#"  onClick={this.onClickToggleDimension} className="">
+                    <FontAwesomeIcon icon={displayQuestions?faAngleDown:faAngleLeft}/>
+                </a>
+            </div>);
+        }
+    }
+
     render(){
         const style = {fontSize: '15px'};
-
         const {displayQuestions} = this.state;
-        console.log('this.props');
-        console.log(this.props);
+        
+        //console.log('this.props');
+        //console.log(this.props);
         return (
             <div className="mt-4">
                 <div className="row">
@@ -46,14 +75,9 @@ export default class Dimension extends Component{
                     <p className="text-left ml-5 ">{this.props.description.spanish}</p>
                     </div>
                     
-                    <div className="col-sm-2">
-                        <a className="col-sm-1" href="#" onClick={this.saveAndFillInterview} className="">
-                            <FontAwesomeIcon icon={faTrash}/>
-                        </a>
-                        <a className="col-sm-1" href="#" onClick={this.onClickToggleDimension} className="">
-                            <FontAwesomeIcon icon={displayQuestions?faAngleDown:faAngleLeft}/>
-                        </a>
-                    </div>
+                    {this.renderBasedOnDimension()}
+                        
+                    
                 </div>
                 <div style={{display: displayQuestions?"block":"none"}}>
                     <div className="card text-left mx-4" style={style}>
@@ -61,7 +85,7 @@ export default class Dimension extends Component{
                             <tbody className="">
                     {this.props.questions.map(
                         (q) => { if(q.attributes.mandatory){
-                            return (<tr></tr>);
+                            return null;
                         }
                         return(
                             <tr key={"tr-" + q.id}>
