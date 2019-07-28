@@ -40,8 +40,20 @@ export default class Interview extends Component{
 
     handleCurrentDimensionAdding = (e) => {
         e.preventDefault();
+        this.addDimensionToDimensionsSelected(this.state.currentDimension);
+        
+    }
+
+    /**
+     * Make the api call to add the data to dimensions selected
+     * 
+     * Params:
+     *  dimensionId: Receives the dimension that is going to be queried to be added to dimensions 
+     *  selected.
+     */
+    addDimensionToDimensionsSelected =  (dimensionId) => {
         let self = this;
-        axios.get(`${PATH_BASE}/${this.state.currentDimension}`)
+        axios.get(`${PATH_BASE}/${dimensionId}`)
         .then(function (response) {
             // handle success
             console.log(response.data);
@@ -80,8 +92,16 @@ export default class Interview extends Component{
                 currentInterview: response.data,
                  name: response.data.data.attributes.name,
                  company: response.data.data.attributes.company
-            });
-            self.updateQuestionsSelected(response.data.included)
+            },  );
+
+            self.updateQuestionsSelected(response.data.included);
+            /** Load the dimensions that belong to the interview */
+            
+            for(let i=0; i< response.data.data.attributes.dimensions.length; i++){
+                console.log("i:" + i);
+                let dimensionId = response.data.data.attributes.dimensions[i]['id'];
+                self.addDimensionToDimensionsSelected(dimensionId);
+            }
         })
         .catch(function (error) {
             // handle error
@@ -324,7 +344,8 @@ export default class Interview extends Component{
                                name={d['data']['attributes']['name']} 
                                description={d.data.attributes.description}
                                questions={d.included}
-                               onClick={this.onQuestionSelected} ></Dimension>
+                               onClick={this.onQuestionSelected}
+                               questionsSelected={this.state.questionsSelected}  ></Dimension>
                     
                 )} 
             </div>
