@@ -25,7 +25,7 @@ export default class Result extends Component{
         axios.get(`${PATH_BASE}/${this.state.id}`)
         .then(function (response) {
             // handle success
-            console.log('response.data');
+            console.log('loadResultFromServer');
             console.log(response.data);
             self.setState({
                 resultData: response.data 
@@ -41,12 +41,13 @@ export default class Result extends Component{
   } 
 
   render(){
-    
+
     if(!this.state.resultData){
       return <div></div>
     }
 
     const data = this.state.resultData.data;
+    const included = this.state.resultData.included;
     return (
       <div>
         <h3>ID: {this.props.match.params.id}</h3>
@@ -71,6 +72,22 @@ export default class Result extends Component{
           </tr>
           </tbody>
         </table>
+
+        {data.attributes.dimensions.map(d => 
+          <div className="container-fluid">
+          <h5 className="font-weight-bold">{d.spanish}</h5>
+          {included.map( i => 
+            <div>
+              {i.attributes.dimension[0].id == d.id?<p style={{fontSize: "15px"}}>{i.attributes.resume}</p>:''}
+            </div>
+          )}
+          <p></p>
+          </div>)
+
+           
+          }
+
+
 
         <h4 className="mt-4">Compensacion actual y movilidad</h4>
       <div className="mt-2">
