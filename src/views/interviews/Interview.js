@@ -345,6 +345,8 @@ export default class Interview extends Component{
                 </div>
             </form>
 
+            <h4 className="mt-4">Selecciona las preguntas para cada dimensión</h4>
+
             <div id="dimensionsSelected">
                 {dimensionsSelected.map(
                     (d) => 
