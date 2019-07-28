@@ -57,7 +57,7 @@ export default class Table extends Component {
                   item.dimensions.map(
                     (k, v) => 
                       
-                    <div class="alert alert-secondary" role="alert">
+                    <div className="alert alert-secondary" role="alert">
                     {k.spanish} <span className="font-weight-bold">Preguntas: &nbsp; </span>{k.count}
                     </div>
                   )
