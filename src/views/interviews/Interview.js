@@ -73,6 +73,8 @@ export default class Interview extends Component{
     componentDidMount(){
         this.loadDimensionsFromServer();
         this.loadMotivationalDimension();
+        console.log("componentDidMount:" + this.state.idInterview);
+        
         if(this.state.idInterview != 'new'){
             this.loadInterviewFromServer();
         }
@@ -201,18 +203,24 @@ export default class Interview extends Component{
     }
 
     saveInterview = (e) => {
-        const {name, company, questionsSelected} = this.state;
+        e.preventDefault();
+
+        /**Choose based on idInterview attribute if an update or post request is needed */
+        const {name, company, questionsSelected, idInterview} = this.state;
         const questionsArray = Object.keys(questionsSelected).filter((k) =>{
             if(questionsSelected[k]){
                 return true;
             }
         });
-        e.preventDefault();
+        
         const headers = JSON.parse(localStorage.getItem('user'));
+        console.log("idInt:" + idInterview);
+        let method = idInterview == 'new'?'post':'patch';
         let self = this;
+        
         axios({
-            method: 'post',
-            url: `${POST_URL}`,
+            method: method,
+            url: `${POST_URL}/${ idInterview != 'new'? idInterview:'' }`,
             data: 
             {interview: {name: name, company: company, questions_array: questionsArray}},
             headers: headers
@@ -256,7 +264,7 @@ export default class Interview extends Component{
         if (this.state.redirect && this.state.isFill) {
           return <Redirect to={'/interviews/'+this.state.id+ '/fill'} />
         }else if(this.state.redirect){
-            return <Redirect to={'/interviews/'} />
+            return <Redirect to={'/interviews'} />
         }
       }
 
