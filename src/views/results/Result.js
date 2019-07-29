@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import MotivationalAnswer from './../answers/MotivationalAnswer';
+import DimensionalAnswer from './../answers/DimensionalAnswer';
+
 const axios = require('axios');
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/results`;
@@ -12,7 +14,8 @@ export default class Result extends Component{
     this.state = {
       id: props.match.params.id,
       resultData: null,
-      answerQuestions: []
+      answerQuestions: [],
+      dimensions: []
     };
   }
 
@@ -29,7 +32,8 @@ export default class Result extends Component{
             console.log('loadResultFromServer');
             console.log(response.data);
             self.setState({
-                resultData: response.data 
+                resultData: response.data,
+                dimensions:  response.data.data.attributes.dimensions
             }, self.setAnswerQuestion(response.data.included));
         })
         .catch(function (error) {
@@ -41,6 +45,12 @@ export default class Result extends Component{
         });   
   } 
 
+  /**Change the value for answer questions to be an object that includes:
+   *  id: question id
+   *  question: translation and other information about the question
+   *  answer: hash of data related to the answers and scores given
+   *  dimension: id of dimension that the question belongs to
+   */
   setAnswerQuestion = (included) => {
     const {answerQuestions} = this.state;
     console.log("setAnswerQuestion");
@@ -61,19 +71,55 @@ export default class Result extends Component{
         }
       }
     });
+    this.setState({
+      answerQuestions
+    });
   }
 
   showMotivationalAnswer = (aq) => {
     if(aq.dimension == 43){
       return(
       <MotivationalAnswer
+          title={aq.question.name?aq.question.name.spanish:""}
           question={aq.question.translation.spanish}
           answer={aq.answer.resume}
-          score={aq.answer.rating}>
+          score={aq.answer.rating}
+          mandatory={aq.question.mandatory}>
         </MotivationalAnswer>);
     }else{
       return (<div></div>);
     }
+  }
+
+  showDimensionalAnswer = (aq, d) => {
+    if(aq.dimension != 43 && aq.dimension == d){
+      return(
+      <DimensionalAnswer
+          question={aq.question.translation.spanish}
+          situation={aq.answer.situation}
+          action ={aq.answer.action}
+          result={""}
+          rating={aq.answer.rating}
+          impact={aq.answer.impact}
+          communication={aq.answer.communication}>
+        </DimensionalAnswer>);
+    }else{
+      return (<div></div>);
+    }
+  }
+
+  averageRatingDimension = idDim =>{
+    const {answerQuestions} = this.state;
+    let n=0;
+    let total =0;
+    answerQuestions.forEach(aq => {
+      if(aq.dimension == idDim){
+        n+=1;
+        total+= aq.answer.rating;
+      }
+      
+    });
+    return total/n;
   }
 
   render(){
@@ -84,6 +130,9 @@ export default class Result extends Component{
     console.log("answer questions:");
 
     console.log(this.state.answerQuestions);
+    console.log("dimensions:");
+    console.log(this.state.dimensions);
+
     const data = this.state.resultData.data;
     const included = this.state.resultData.included;
     const {answerQuestions} = this.state;
@@ -114,13 +163,14 @@ export default class Result extends Component{
         {/** Section of dimensions and the resumes that belongs to it */}
         {data.attributes.dimensions.map(d => 
           <div className="container-fluid">
-          <h5 className="font-weight-bold">{d.spanish}</h5>
+            <div className="row">
+          <h4 className="font-weight-bold mt-4">{d.spanish}</h4>
           {included.map( i => 
-            <div>
+            <div key={"resume-" + i.id}>
               {i.type == 'answer' && i.attributes.dimension[0].id == d.id?<p style={{fontSize: "15px"}}>{i.attributes.resume}</p>:''}
             </div>
           )}
-          <p></p>
+          </div>
           </div>)
 
            
@@ -128,9 +178,24 @@ export default class Result extends Component{
 
         {/** Section of dimensions, its questions and the score */}
 
+        {data.attributes.dimensions.map(d => 
+          <div className="container-fluid mt-4">
+          <h5 className="text-secondary " style={{display:  'inline'}}>
+          {d.spanish}
+          </h5>
+          <p  className="text-secondary ">Puntuación: &nbsp;{this.averageRatingDimension(d.id)}</p>
+          {answerQuestions.map( aq => 
+            <div>
+              {this.showDimensionalAnswer(aq, d.id)}
+            </div>
+          )}
+          </div>)
+        }
+
+        
 
 
-        <h4>Compatibilidad motivacional</h4>
+        <h4 className="mt-4">Compatibilidad motivacional</h4>
         {/** Iterate through all the answerQuestions then choose only those that belongs to the 43 dimension */}
         {answerQuestions.map(aq => 
           <div>{this.showMotivationalAnswer(aq)}</div>
