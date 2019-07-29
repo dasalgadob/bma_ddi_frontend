@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { Link, NavLink } from "react-router-dom";
 
 
@@ -29,6 +29,8 @@ export default class ResultsTable extends Component {
                         <th scope="col">Email candidato</th>
                         <th scope="col">Entrevistador</th>
                         <th scope="col">Puntuación</th>
+                        <th scope="col">Terminado</th>
+                        <th scope="col">Editar</th>
                         <th scope="col">Ver</th>
                     </tr>
                 </thead>
@@ -42,6 +44,11 @@ export default class ResultsTable extends Component {
                             <td>{item.candidate ?  item.candidate.email: ''}</td>
                             <td>{item.user.name + ' ' + (item.user.last_name? item.user.last_name: '') }</td>
                             <td>{0}</td>
+                            <td>{item.is_not_finished?"no":"si"}</td>
+                            <td>{item.is_not_finished?<Link to={"/interviews/"+item.id+ '/fill'}>
+                                <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
+                                </Link>:""}
+                            </td>
                             <td><Link to={"/results/"+item.id}><FontAwesomeIcon icon={faEye} /></Link></td>
                         </tr>)}
                 </tbody>

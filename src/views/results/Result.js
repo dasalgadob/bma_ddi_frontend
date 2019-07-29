@@ -99,7 +99,7 @@ export default class Result extends Component{
           question={aq.question.translation.spanish}
           situation={aq.answer.situation}
           action ={aq.answer.action}
-          result={""}
+          result={aq.answer.resultado}
           rating={aq.answer.rating}
           impact={aq.answer.impact}
           communication={aq.answer.communication}>
@@ -271,7 +271,7 @@ export default class Result extends Component{
         {/** Section of dimensions and the resumes that belongs to it */}
         {data.attributes.dimensions.map(d => 
           <div className="container-fluid">
-            <div className="row">
+            <div className="">
           <h4 className="font-weight-bold mt-4">{d.spanish}</h4>
           {included.map( i => 
             <div key={"resume-" + i.id}>

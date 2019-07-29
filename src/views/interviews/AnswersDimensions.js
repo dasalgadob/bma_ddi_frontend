@@ -50,7 +50,7 @@ export default class AnswersDimensions extends Component{
                                             name={"situation"} 
                                             id={q.id}
                                             onChange={this.props.onInputChangeAnswerDimension}
-                                            onBlur={() => {this.props.onBlurAutoSave(q.id) }}
+                                            onBlur={() => {this.props.onBlurAutoSave(q.id, 'd') }}
                                             rows={3}
                                             
                                             ></TextareaAutosize>
@@ -61,17 +61,17 @@ export default class AnswersDimensions extends Component{
                                              name={"action"} 
                                              id={q.id}
                                              onChange={this.props.onInputChangeAnswerDimension}
-                                             onBlur={() => {this.props.onBlurAutoSave(q.id) }}
+                                             onBlur={() => {this.props.onBlurAutoSave(q.id, 'd') }}
                                             rows={3}></TextareaAutosize>
                                
                             </div> 
                             <div className="form-group col-sm-4">
                                 <label htmlFor="exampleFormControlTextarea1">Resultado</label>
                                 <TextareaAutosize className="form-control" 
-                                             name={"result"} 
+                                             name={"resultado"} 
                                              id={q.id}
                                              onChange={this.props.onInputChangeAnswerDimension} 
-                                             onBlur={() => {this.props.onBlurAutoSave(q.id) }}
+                                             onBlur={() => {this.props.onBlurAutoSave(q.id, 'd') }}
                                             rows={3}></TextareaAutosize>
                               
                             </div> 
@@ -82,7 +82,7 @@ export default class AnswersDimensions extends Component{
                                                   name={"resume"} 
                                                   id={q.id}
                                                   onChange={this.props.onInputChangeAnswerDimension}
-                                                  onBlur={() => {this.props.onBlurAutoSave(q.id) }}  
+                                                  onBlur={() => {this.props.onBlurAutoSave(q.id, 'd') }}  
                                                   rows={3}></TextareaAutosize>
                                 
                             </div>   
@@ -91,7 +91,7 @@ export default class AnswersDimensions extends Component{
                                 Puntuación 
                                 <Rating
                                 onClick={(n, e) => this.props.onInputChangeAnswerRating("rating", q.id, n, e)}
-                                onBlur={() => {this.props.onBlurAutoSave(q.id) }}
+                                onBlur={() => {this.props.onBlurAutoSave(q.id, 'd') }}
                                 animateOnHover
                                 disableAnimation
                                 initialRate={0}
@@ -102,7 +102,7 @@ export default class AnswersDimensions extends Component{
                                 Impacto
                                 <Rating
                                 onClick={(n, e) => this.props.onInputChangeAnswerRating("impact", q.id, n, e)}
-                                onBlur={() => {this.props.onBlurAutoSave(q.id) }}
+                                onBlur={() => {this.props.onBlurAutoSave(q.id, 'd') }}
                                 animateOnHover
                                 disableAnimation
                                 initialRate={0}
@@ -114,7 +114,7 @@ export default class AnswersDimensions extends Component{
                                 Comunicación
                                 <Rating
                                 onClick={(n, e) => this.props.onInputChangeAnswerRating("communication", q.id, n, e)}
-                                onBlur={() => {this.props.onBlurAutoSave(q.id) }}
+                                onBlur={() => {this.props.onBlurAutoSave(q.id, 'd') }}
                                 animateOnHover
                                 disableAnimation
                                 initialRate={0}

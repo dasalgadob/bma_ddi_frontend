@@ -4,9 +4,11 @@ import NavDimensions from './NavDimensions';
 import AnswersDimensions from './AnswersDimensions';
 import MenuCandidate from './../candidates/MenuCandidate';
 import NavigationButtons from './NavigationButtons';
+import AnswersMotivational from './AnswersMotivational';
 import { Alert } from 'reactstrap';
 import { Toast, ToastBody, ToastHeader } from 'reactstrap';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Redirect } from 'react-router-dom';
 const axios = require('axios');
 
 
@@ -29,7 +31,13 @@ export default class FillInterview extends Component{
                 idResult: null,
                 position: '',
                 company: '',
-                answersDimensions: new Map()
+                baseSalary: "",
+                benefits: "",
+                salaryExpectations: '',
+                geographicalAreas: "",
+                answersDimensions: new Map(),
+                answersMotivational: new Map(),
+                isNotFinished: true
             },
             dimensions: [],
             fieldErrors: [],
@@ -46,8 +54,8 @@ export default class FillInterview extends Component{
             styleCompensation: {display: 'none'},
             currentDimension: null,
             visibleAlert: false,
-            modal: false
-
+            modal: false,
+            redirect: false
         };
     }
 
@@ -57,6 +65,8 @@ export default class FillInterview extends Component{
     }
 
     loadInterviewFromServer = () => {
+
+        const {fields} = this.state;
         let self = this;
         axios.get(`${PATH_BASE}/${this.state.idInterview}`)
         .then(function (response) {
@@ -70,9 +80,12 @@ export default class FillInterview extends Component{
             }
             self.createAnswersToDimensionQuestions(response.data.included);
             self.setDimensions(response.data.included);
+            fields.company = response.data.data.attributes.company;
+            fields.position = response.data.data.attributes.name;
             self.setState({
                 interviewData: response.data,
-                currentDimension
+                currentDimension,
+                fields
             });
         })
         .catch(function (error) {
@@ -108,10 +121,11 @@ export default class FillInterview extends Component{
         console.log(questionsList);
         questionsList.forEach((e) => {
             if(e.type == "question"){
-            answersDimensions.set(e.id, {id: e.id, situation: '', action: '', result: '', resume: '',
-                                                rating: 0, impact: 0, communication: 0,
-                                                 dimension_id: e.attributes.dimension_id,
-                                                answer_id: null})
+            answersDimensions.set(e.id, {id: e.id, situation: '', action: '', resultado: '', resume: '',
+                                rating: 0, impact: 0, communication: 0,
+                                    dimension_id: e.attributes.dimension_id,
+                                answer_id: null, 
+                                questionName: e.attributes.name?e.attributes.name.spanish:null})
             }                        
         });
 
@@ -204,7 +218,7 @@ export default class FillInterview extends Component{
         const ansDimension = fields.answersDimensions.get(idQ)
         ansDimension[name] = number;
         fields.answersDimensions.set(idQ, ansDimension);
-        this.setState({fields}, this.onBlurAutoSave(idQ));
+        this.setState({fields}, this.onBlurAutoSave(idQ, ansDimension.dimension_id==43?'m':'d'));
 
     }
 
@@ -318,7 +332,13 @@ export default class FillInterview extends Component{
             method: 'patch',
             url: `${POST_URL_RESULT}/${self.state.fields.idResult}`,
             data: 
-            {result: {candidate_id: idCandidate}},
+            {result: {candidate_id: idCandidate, position: fields.position, company: fields.company,
+                        base_salary: fields.baseSalary, benefits: fields.benefits, 
+                        salary_expectations: fields.salaryExpectations, 
+                        geographical_areas: fields.geographicalAreas, 
+                        is_not_finished: fields.isNotFinished
+                     }
+            },
             headers: headers
             })
         .then(function (response) {
@@ -327,6 +347,9 @@ export default class FillInterview extends Component{
             console.log(response.data);
             fields['idResult'] = response.data.id;
             self.setState({fields});
+            if(!fields.isNotFinished){
+                self.setRedirect();
+            }
         })
         .catch(function (error) {
             // handle error
@@ -338,7 +361,6 @@ export default class FillInterview extends Component{
     }
 
     validatesDimensionQuestions = () => {
-        console.log("To be implemented");
         const {fieldErrors, fields} = this.state;
         let dimensionErrors = [];
         /**
@@ -359,6 +381,39 @@ export default class FillInterview extends Component{
         if(dimensionErrors.length == 0){
             console.log("Go to tab motivational questions");
             this.onChangeIsMotivationalCompetenceTab();
+        }
+         /** Else show the error message */
+         else{
+             console.log("dimensionErrors");
+             console.log(dimensionErrors);
+             this.setState({
+                 fieldErrors: dimensionErrors,
+                 modal: true
+             })
+         }
+    }
+
+    validatesMotivationalQuestions = () => {
+        const {fieldErrors, fields} = this.state;
+        let dimensionErrors = [];
+        /**
+         * Iterate through the questions find witch fields are not filled 
+         * the add them to the list of field errors
+         */
+        fields.answersDimensions.forEach((a) => {
+            console.log(a);
+            //Skip questions from motivational dimension
+            if(a.dimension_id == 43){
+                dimensionErrors =  dimensionErrors.concat(this.validatesMotivationalAnswer(a));
+            }
+        }
+            
+        );
+
+         /** If there are no errors continue next tab */
+        if(dimensionErrors.length == 0){
+            console.log("Go to tab compensation questions");
+            this.onChangeIsCompensationTab();
         }
          /** Else show the error message */
          else{
@@ -395,7 +450,25 @@ export default class FillInterview extends Component{
         //Iterate through attributes of question
         Object.keys(q).forEach((e) => {
             if(q[e] == '' || q[e] == 0){
-                answerError.push(`El atributo  <span class="font-weight-bold">${e}</span> que pertenece a la dimensión <span class="font-weight-bold">${dimensionName}</span> se encuentra vacio o nulo.`);
+                answerError.push(`El atributo  <span class="font-weight-bold">${e}</span> que pertenece a la dimensión motivacional <span class="font-weight-bold">${dimensionName}</span> se encuentra vacio o nulo.`);
+            }
+        });
+            //if attribute empty or zero add message of error showing the dimension
+            // and attribute that are missing to fill
+
+        return answerError;
+    }
+
+
+    validatesMotivationalAnswer = (q) => {
+        //Get dimension name
+        let dimensionName = "Motivacional";
+        let answerError = [];
+
+        //Iterate through attributes of question
+        Object.keys(q).forEach((e) => {
+            if((q[e] == '' || q[e] == 0) && (e =='resume' || e== 'rating' )){
+                answerError.push(`El atributo  <span class="font-weight-bold">${e}</span> que pertenece a la dimensión <span class="font-weight-bold">${q.questionName}</span> se encuentra vacio o nulo.`);
             }
         });
             //if attribute empty or zero add message of error showing the dimension
@@ -410,11 +483,16 @@ export default class FillInterview extends Component{
 
 
 
-    onBlurAutoSave = (idQuestion) => {
+    onBlurAutoSave = (idQuestion, type) => {
         const {answersDimensions} = this.state.fields;
         console.log("onBlurAutosave:" + idQuestion);
         //Validates if the answer is completely filled
-        let errors = this.validatesDimensionAnswer(answersDimensions.get(idQuestion));
+        let errors = "";
+        if(type== 'd'){
+            errors = this.validatesDimensionAnswer(answersDimensions.get(idQuestion));
+        }else{
+            errors = this.validatesMotivationalAnswer(answersDimensions.get(idQuestion));
+        }
         console.log("errors");
         console.log(errors);
         //Update if it is, otherwise do nothing
@@ -446,7 +524,7 @@ export default class FillInterview extends Component{
             data: 
             {answer: {action: ansToSave.action, 
                             situation: ansToSave.situation, 
-                            resultado: ansToSave.result,
+                            resultado: ansToSave.resultado,
                             resume: ansToSave.resume,
                             rating: ansToSave.rating,
                             impact: ansToSave.impact,
@@ -480,11 +558,30 @@ export default class FillInterview extends Component{
 
     }
 
+    validatesCompensationQuestions = () => {
+        const {fields} = this.state;
+        fields.isNotFinished = false;
+        this.setState({fields},
+            this.updateResult());
+    }
+
+    setRedirect = () => {
+        this.setState({
+          redirect: true
+        })
+      }
+
     toggle = () => {
         this.setState(prevState => ({
           modal: !prevState.modal
         }));
       }
+
+    renderRedirect = () => {
+    if (this.state.redirect ) {
+        return <Redirect to={'/results/'+this.state.fields.idResult} />
+    }
+    }  
 
 
     render(){
@@ -494,6 +591,8 @@ export default class FillInterview extends Component{
             width: "96%",
             zIndex: 100};
 
+        let motivacionalAnswers = [];
+
         console.log(this.state);
         const {styleMenuCandidates, styleMenuInterview, interviewData, currentDimension} = this.state;
 
@@ -502,6 +601,7 @@ export default class FillInterview extends Component{
         }
 
         return(<div >
+            {this.renderRedirect()}
             <MenuCandidate onInputChange={this.onInputChange} 
                            onSaveCandidate={this.onSaveCandidate}
                            onChooseCandidate={this.onChooseCandidate}
@@ -539,10 +639,11 @@ export default class FillInterview extends Component{
                     <div className="myAlert-top alert alert-success" style={alertStyle}>
                     <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
                     Se ha guardado los cambios realizados.
-                    </div>:<div></div>}
+                    </div>:<div></div>
+            }
 
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                <ModalHeader toggle={this.toggle}>Datos faltantes</ModalHeader>
                 <ModalBody>
                     <ul>
                     {this.state.fieldErrors.map(fe =>
@@ -577,8 +678,15 @@ export default class FillInterview extends Component{
 
             {/** Content for motivational questions */}
             <div className="container mx-3" style={this.state.styleMotivationalCompetence}>
+            {this.state.visibleAlert?
+                    <div className="myAlert-top alert alert-success" style={alertStyle}>
+                    <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    Se ha guardado los cambios realizados.
+                    </div>:<div></div>
+            }
+
             <NavigationButtons handleBeforeButton={this.onChangeIsFillDimensionsTab}
-                                   handleNextButton={this.validatesDimensionQuestions}>
+                                   handleNextButton={this.validatesMotivationalQuestions}>
             </NavigationButtons>
             <h4 className="mt-4">Compatibilidad motivacional</h4>
             <p>La medida en que las actividades y responsabilidades del puesto, la modalidad de operación y los valores de la organización, y la comunidad en la cual el individuo vivirá, se corresponden con el tipo de ambiente que brinda satisfacción personal; el grado en el cual el propio trabajo es personalmente satisfactorio.</p>
@@ -611,15 +719,24 @@ export default class FillInterview extends Component{
             initialRate={0}
             stop={5}
             />
-            </div>      
-
+            </div>
+                
+             <AnswersMotivational
+                questions={this.state.interviewData.included}
+                dimensionId={43}
+                onInputChangeAnswerDimension={this.onInputChangeAnswerDimension}
+                onInputChangeAnswerRating={this.onInputChangeAnswerRating}
+                onBlurAutoSave = { this.onBlurAutoSave }     
+                dimensionId={currentDimension}
+                >
+            </AnswersMotivational>     
             </div>
 
             {/** Content for compensation and mobility */}
 
             <div className="container-fluid mx-4" style={this.state.styleCompensation}>
             <NavigationButtons handleBeforeButton={this.onChangeIsMotivationalCompetenceTab}
-                                   handleNextButton={this.validatesDimensionQuestions}>
+                                   handleNextButton={this.validatesCompensationQuestions}>
             </NavigationButtons>
             <h4 className="mt-4">Compensacion actual y movilidad</h4>
             <p>Averigua cual es la situación del candidato y donde quiere llegar.</p>
@@ -627,61 +744,63 @@ export default class FillInterview extends Component{
             <div className="form-group row">
                 <label htmlFor="exampleInputPassword1" className="align-left ">Compañía para la que entrevista</label>
                 <input type="text"
-                        name="name"
+                        name="company"
                         className="form-control " 
                         id="exampleInputPassword1" 
                         required="required"
-                        onChange={this.props.onInputChange}/>
+                        value={this.state.interviewData.data.attributes.company}
+                        onChange={this.onInputChange}/>
             </div>
 
             <div className="form-group row">
                 <label htmlFor="exampleInputPassword1" className="align-left">Puesto para el que entrevista</label>
                 <input type="text"
-                        name="name"
+                        name="position"
                         className="form-control" 
                         id="exampleInputPassword1" 
                         required="required"
-                        onChange={this.props.onInputChange}/>
+                        value={this.state.interviewData.data.attributes.name}
+                        onChange={this.onInputChange}/>
             </div>
 
             <div className="form-group row">
                 <label htmlFor="exampleInputPassword1" className="align-left">Salario base</label>
                 <input type="text"
-                        name="name"
+                        name="baseSalary"
                         className="form-control" 
                         id="exampleInputPassword1" 
                         required="required"
-                        onChange={this.props.onInputChange}/>
+                        onChange={this.onInputChange}/>
             </div>
 
             <div className="form-group row">
                 <label htmlFor="exampleInputPassword1" className="align-left">Beneficios</label>
                 <input type="text"
-                        name="name"
+                        name="benefits"
                         className="form-control" 
                         id="exampleInputPassword1" 
                         required="required"
-                        onChange={this.props.onInputChange}/>
+                        onChange={this.onInputChange}/>
             </div>
 
             <div className="form-group row">
                 <label htmlFor="exampleInputPassword1" className="align-left">Expectativas de salario</label>
                 <input type="text"
-                        name="name"
+                        name="salaryExpectations"
                         className="form-control" 
                         id="exampleInputPassword1" 
                         required="required"
-                        onChange={this.props.onInputChange}/>
+                        onChange={this.onInputChange}/>
             </div>
 
             <div className="form-group row">
                 <label htmlFor="exampleInputPassword1" className="align-left">Áreas geográficas</label>
                 <input type="text"
-                        name="name"
+                        name="geographicalAreas"
                         className="form-control" 
                         id="exampleInputPassword1" 
                         required="required"
-                        onChange={this.props.onInputChange}/>
+                        onChange={this.onInputChange}/>
             </div>
               
             </form>
