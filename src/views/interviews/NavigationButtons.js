@@ -16,7 +16,9 @@ export default class NavigationButtons extends Component{
                         className="btn btn-primary  mx-2 mr-auto"
                         onClick={this.props.handleBeforeButton}>Atras</button>
                 <div className="btn-toolbar">
-                <button onClick={this.props.handleNextButton} className="btn btn-primary  ml-auto mx-1">Siguiente</button>
+                <button type="button"
+                        onClick={this.props.handleNextButton} 
+                        className="btn btn-primary  ml-auto mx-1">Siguiente</button>
                 </div>
             </div>
         </div>
