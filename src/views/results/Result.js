@@ -15,7 +15,8 @@ export default class Result extends Component{
       id: props.match.params.id,
       resultData: null,
       answerQuestions: [],
-      dimensions: []
+      dimensions: [],
+      avgMotivational: 0
     };
   }
 
@@ -119,7 +120,92 @@ export default class Result extends Component{
       }
       
     });
-    return total/n;
+    let result = total/n;
+    return isNaN(result)?"":result.toFixed(2) ;
+  }
+
+  getAvgMotivational = () => {
+    const {answerQuestions} = this.state;
+    let n=0;
+    let total =0;
+    answerQuestions.forEach(aq => {
+      if(aq.dimension == 43){
+        n+=1;
+        total+= aq.answer.rating;
+      }
+      
+    });
+    let result = total/n;
+    return isNaN(result)?"":result.toFixed(2) ;
+  }
+
+  getAvgImpact = () => {
+    /**Iterate through dimensions and find avg by dimension */
+    const {dimensions,answerQuestions} = this.state;
+    let n=0;
+    let total =0;
+    dimensions.forEach(d => {
+      let nD=0;
+      let totalD = 0;
+      answerQuestions.forEach(aq => {
+        if(aq.dimension != 43 && aq.dimension == d.id){
+          nD+=1;
+          totalD+= aq.answer.impact;
+        }
+      });
+      if(nD!= 0){
+        n+=1;
+        total+= totalD/nD;
+      }
+    });
+    let result = total/n;
+    return isNaN(result)?"":result.toFixed(2) ;
+  }
+
+  getAvgCommunication = () => {
+    /**Iterate through dimensions and find avg by dimension */
+    const {dimensions,answerQuestions} = this.state;
+    let n=0;
+    let total =0;
+    dimensions.forEach(d => {
+      let nD=0;
+      let totalD = 0;
+      answerQuestions.forEach(aq => {
+        if(aq.dimension != 43 && aq.dimension == d.id){
+          nD+=1;
+          totalD+= aq.answer.communication;
+        }
+      });
+      if(nD!= 0){
+        n+=1;
+        total+= totalD/nD;
+      }
+    });
+    let result = total/n;
+    return isNaN(result)?"":result.toFixed(2) ;
+  }
+
+  getAvgRating = () => {
+    /**Iterate through dimensions and find avg by dimension */
+    const {dimensions,answerQuestions} = this.state;
+    let n=0;
+    let total =0;
+    dimensions.forEach(d => {
+      let nD=0;
+      let totalD = 0;
+      answerQuestions.forEach(aq => {
+        if(aq.dimension != 43 && aq.dimension == d.id){
+          nD+=1;
+          totalD+= aq.answer.rating;
+        }
+      });
+      if(nD!= 0){
+        n+=1;
+        total+= totalD/nD;
+      }
+    });
+    let result = total/n;
+    return isNaN(result)?"":result.toFixed(2) ;
   }
 
   render(){
@@ -138,28 +224,50 @@ export default class Result extends Component{
     const {answerQuestions} = this.state;
     return (
       <div>
-        <h3>ID: {this.props.match.params.id}</h3>
-        <table className="table col-sm-6 table-bordered">
+        <div className="row d-flex justify-content-around">
+        <table className="table col-sm-5 table-bordered mt-4">
           <tbody>
           <tr>
-            <td>CANDIDATO</td>
+            <td className="font-weight-bold">CANDIDATO</td>
             <td>{data.attributes.candidate.name}</td>
           </tr>
           <tr>
-          <td>PUESTO</td>
+          <td className="font-weight-bold">PUESTO</td>
             <td>{data.attributes.position}</td>
           </tr>
           <tr>
-          <td>ENTREVISTADOR</td>
+          <td className="font-weight-bold">ENTREVISTADOR</td>
             <td>{data.attributes.user.name}</td>
           </tr>
 
-          <tr>
-          <td>COMPAÑIA</td>
+          <tr >
+          <td className="font-weight-bold">COMPAÑIA</td>
             <td>{data.attributes.company}</td>
           </tr>
           </tbody>
         </table>
+        
+        <table className="table col-sm-3 table-bordered mt-4 ml-4 float-rigth">
+          <tbody>
+            <tr>
+              <td className="font-weight-bold">Nota total</td>
+              <td>{this.getAvgRating()}</td>
+            </tr>
+            <tr>
+              <td>Impacto</td>
+              <td>{this.getAvgImpact()}</td>
+            </tr>
+            <tr>
+              <td>Comunicación</td>
+              <td>{this.getAvgCommunication()}</td>
+            </tr>
+            <tr>
+              <td className="font-weight-bold">C. Motivacional</td>
+              <td>{this.getAvgMotivational()}</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
         {/** Section of dimensions and the resumes that belongs to it */}
         {data.attributes.dimensions.map(d => 
           <div className="container-fluid">

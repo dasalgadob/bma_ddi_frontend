@@ -5,8 +5,19 @@ import { Link, NavLink } from "react-router-dom";
 
 
 export default class ResultsTable extends Component {
+
+    getAvgRating = (answers) => {
+        answers.forEach(element => {
+            if(element.impact != null){
+
+            }
+        });
+    }
+
     render(){
         const {data} = this.props;
+        console.log("props ResultsTable:");
+        console.log(data);
         return <div className="container">
             <table className="table table-bordered table-hover table-sm">
                 <thead className="thead-dark">
@@ -30,7 +41,7 @@ export default class ResultsTable extends Component {
                             <td>{item.candidate ? item.candidate.name : ''}</td>
                             <td>{item.candidate ?  item.candidate.email: ''}</td>
                             <td>{item.user.name + ' ' + (item.user.last_name? item.user.last_name: '') }</td>
-                            <td>0</td>
+                            <td>{0}</td>
                             <td><Link to={"/results/"+item.id}><FontAwesomeIcon icon={faEye} /></Link></td>
                         </tr>)}
                 </tbody>
