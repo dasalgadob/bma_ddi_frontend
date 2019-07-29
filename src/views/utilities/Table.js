@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Button from './Button';
-import Dimentions from '../interviews/Dimentions';
 import {  Link } from "react-router-dom";
 
 function isSearched(searchTerm){
