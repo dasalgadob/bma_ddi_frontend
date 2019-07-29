@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import DimensionHeader from './DimensionHeader';
 import Rating from '@prontopro/react-rating';
 import TextareaAutosize from 'react-autosize-textarea';
+import { statement } from '@babel/template';
 const axios = require('axios');
 
 export default class AnswersDimensions extends Component{
@@ -45,55 +46,81 @@ export default class AnswersDimensions extends Component{
                             <div className="row">
                             <div className="form-group col-sm-4">
                                 <label htmlFor="exampleFormControlTextarea1">Situación/Tarea</label>
-                                <TextareaAutosize className="form-control" 
-                                            id="exampleFormControlTextarea1" 
-                                            rows={3}></TextareaAutosize>
-                                <h1>
-                                <Rating
-                                animateOnHover
-                                disableAnimation
-                                initialRate={0}
-                                stop={5}
-                                /></h1>
+                                <TextareaAutosize className="form-control"
+                                            name={"situation"} 
+                                            id={q.id}
+                                            onChange={this.props.onInputChangeAnswerDimension}
+                                            onBlur={() => {this.props.onBlurAutoSave(q.id) }}
+                                            rows={3}
+                                            
+                                            ></TextareaAutosize>
                             </div> 
                             <div className="form-group col-sm-4">
                                 <label htmlFor="exampleFormControlTextarea1">Acción</label>
                                 <TextareaAutosize className="form-control" 
-                                            id="exampleFormControlTextarea1" 
+                                             name={"action"} 
+                                             id={q.id}
+                                             onChange={this.props.onInputChangeAnswerDimension}
+                                             onBlur={() => {this.props.onBlurAutoSave(q.id) }}
                                             rows={3}></TextareaAutosize>
-                                <h1>
-                                <Rating
-                                animateOnHover
-                                disableAnimation
-                                initialRate={0}
-                                stop={5}
-                                /></h1>
+                               
                             </div> 
                             <div className="form-group col-sm-4">
                                 <label htmlFor="exampleFormControlTextarea1">Resultado</label>
                                 <TextareaAutosize className="form-control" 
-                                            id="exampleFormControlTextarea1" 
+                                             name={"result"} 
+                                             id={q.id}
+                                             onChange={this.props.onInputChangeAnswerDimension} 
+                                             onBlur={() => {this.props.onBlurAutoSave(q.id) }}
                                             rows={3}></TextareaAutosize>
-                                <h1>
-                                <Rating
-                                animateOnHover
-                                disableAnimation
-                                initialRate={0}
-                                stop={5}
-                                /></h1>
+                              
                             </div> 
                             </div>
-                            <div className="form-group">
+                            <div className="form-group col-sm-12">
                                 <label htmlFor="exampleFormControlTextarea1">Resumen</label>
-                                <TextareaAutosize className="form-control" id="exampleFormControlTextarea1" rows={3}></TextareaAutosize>
-                                <h1>
+                                <TextareaAutosize className="form-control" 
+                                                  name={"resume"} 
+                                                  id={q.id}
+                                                  onChange={this.props.onInputChangeAnswerDimension}
+                                                  onBlur={() => {this.props.onBlurAutoSave(q.id) }}  
+                                                  rows={3}></TextareaAutosize>
+                                
+                            </div>   
+                            <div className="row">
+                            <div className="form-group col-sm-4">
+                                Puntuación 
                                 <Rating
+                                onClick={(n, e) => this.props.onInputChangeAnswerRating("rating", q.id, n, e)}
+                                onBlur={() => {this.props.onBlurAutoSave(q.id) }}
                                 animateOnHover
                                 disableAnimation
                                 initialRate={0}
                                 stop={5}
-                                /></h1>
-                            </div>    
+                                /></div>
+
+                            <div className="form-group col-sm-4">
+                                Impacto
+                                <Rating
+                                onClick={(n, e) => this.props.onInputChangeAnswerRating("impact", q.id, n, e)}
+                                onBlur={() => {this.props.onBlurAutoSave(q.id) }}
+                                animateOnHover
+                                disableAnimation
+                                initialRate={0}
+                                stop={5}
+                                /></div>
+
+
+                            <div className="form-group col-sm-4">
+                                Comunicación
+                                <Rating
+                                onClick={(n, e) => this.props.onInputChangeAnswerRating("communication", q.id, n, e)}
+                                onBlur={() => {this.props.onBlurAutoSave(q.id) }}
+                                animateOnHover
+                                disableAnimation
+                                initialRate={0}
+                                stop={5}
+                                /></div>
+                            </div> 
                         </div>
                         
                 ) }      

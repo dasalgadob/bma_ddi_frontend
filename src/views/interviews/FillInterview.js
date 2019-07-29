@@ -4,13 +4,15 @@ import NavDimensions from './NavDimensions';
 import AnswersDimensions from './AnswersDimensions';
 import MenuCandidate from './../candidates/MenuCandidate';
 import NavigationButtons from './NavigationButtons';
+import { Alert } from 'reactstrap';
+import { Toast, ToastBody, ToastHeader } from 'reactstrap';
 const axios = require('axios');
 
 
 const POST_URL = `${process.env.REACT_APP_BACKEND_URL}/candidates`;
 const POST_URL_RESULT = `${process.env.REACT_APP_BACKEND_URL}/results`;
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/interviews`;
-
+const ANSWERS_URL = `${process.env.REACT_APP_BACKEND_URL}/answers`;
 
 export default class FillInterview extends Component{
 
@@ -28,6 +30,7 @@ export default class FillInterview extends Component{
                 company: '',
                 answersDimensions: new Map()
             },
+            dimensions: [],
             fieldErrors: [],
             idInterview: props.match.params.id,
             interviewData: null,
@@ -40,7 +43,8 @@ export default class FillInterview extends Component{
             styleFillDimensions: {display: 'block'}, 
             styleMotivationalCompetence: {display: 'none'},
             styleCompensation: {display: 'none'},
-            currentDimension: null
+            currentDimension: null,
+            visibleAlert: false
 
         };
     }
@@ -63,6 +67,7 @@ export default class FillInterview extends Component{
                 currentDimension = dataAnswer.attributes.dimensions[0].id;
             }
             self.createAnswersToDimensionQuestions(response.data.included);
+            self.setDimensions(response.data.included);
             self.setState({
                 interviewData: response.data,
                 currentDimension
@@ -77,17 +82,36 @@ export default class FillInterview extends Component{
         });   
     }
 
+    /** Load the dimensions to use them later on validations for the answers to dimensions and
+     * motivational
+     */
+    setDimensions = (dimList) => {
+        const {dimensions} = this.state;
+        let dimensionsNew = [];
+        console.log('setDimensions');
+        console.log(dimList);
+        dimList.forEach((e) => {
+            if(e.type == "dimension"){
+                dimensionsNew = dimensionsNew.concat(e);
+            }                        
+        });
+        console.log(dimensionsNew);
+        this.setState({dimensions: dimensionsNew });
+    } 
+
     createAnswersToDimensionQuestions = (questionsList) => {
         const fields = this.state.fields;
         const {answersDimensions} = this.state.fields;
         console.log('createAnswersToDimensionQuestions');
         console.log(questionsList);
         questionsList.forEach((e) => {
+            if(e.type == "question"){
             answersDimensions.set(e.id, {id: e.id, situation: '', action: '', result: '', resume: '',
                                                 rating: 0, impact: 0, communication: 0,
-                                                 dimension_id: e.attributes.dimension_id})
-                                            }
-                            );
+                                                 dimension_id: e.attributes.dimension_id,
+                                                answer_id: null})
+            }                        
+        });
 
         fields.answersDimensions = answersDimensions;
         console.log(answersDimensions);
@@ -142,6 +166,7 @@ export default class FillInterview extends Component{
         const fields = this.state.fields;
         fields[e.target.name] = e.target.value;
         this.setState({fields});
+        console.log("onInputChange");
         console.log(fields);
     }
 
@@ -155,7 +180,7 @@ export default class FillInterview extends Component{
         const ansDimension = fields.answersDimensions.get(e.target.id)
         ansDimension[e.target.name] = e.target.value;
         fields.answersDimensions.set(e.target.id, ansDimension);
-        this.setState({fields});
+        this.setState({fields},console.log(this.state.fields.answersDimensions));
         
         //update the state to the e.target.value value
     }
@@ -177,7 +202,8 @@ export default class FillInterview extends Component{
         const ansDimension = fields.answersDimensions.get(idQ)
         ansDimension[name] = number;
         fields.answersDimensions.set(idQ, ansDimension);
-        this.setState({fields});
+        this.setState({fields}, this.onBlurAutoSave(idQ));
+
     }
 
     changeMenu = () => {
@@ -373,12 +399,83 @@ export default class FillInterview extends Component{
 
 
     onBlurAutoSave = (idQuestion) => {
+        const {answersDimensions} = this.state.fields;
         console.log("onBlurAutosave:" + idQuestion);
+        //Validates if the answer is completely filled
+        let errors = this.validatesDimensionAnswer(answersDimensions.get(idQuestion));
+        console.log("errors");
+        console.log(errors);
+        //Update if it is, otherwise do nothing
+        if(errors.length == 0){
+            console.log("update autosave");
+            console.log("answersDimensions:");
+            console.log(answersDimensions);
+            this.saveAnswer(idQuestion);
+
+        }else{
+            console.log("not update autosave");
+        }
+    }
+
+    saveAnswer = idQ => {
+     /**If it has an answer_id update the answer if it not create an answer */
+     const {answersDimensions,  idResult} = this.state.fields;
+     const ansToSave = answersDimensions.get(idQ);
+
+     const headers = JSON.parse(localStorage.getItem('user'));
+        //console.log("idInt:" + idInterview);
+     let method = ansToSave.answer_id?'patch':'post';
+     let self = this;
+
+
+     axios({
+            method: method,
+            url: `${ANSWERS_URL}/${ ansToSave.answer_id? ansToSave.answer_id:'' }`,
+            data: 
+            {answer: {action: ansToSave.action, 
+                            situation: ansToSave.situation, 
+                            resultado: ansToSave.result,
+                            resume: ansToSave.resume,
+                            rating: ansToSave.rating,
+                            impact: ansToSave.impact,
+                            communication:  ansToSave.communication,
+                            result_id: idResult,
+                            question_id: ansToSave.id
+
+                        }},
+            headers: headers
+            })
+        .then(function (response) {
+            // handle success
+            console.log(response.data);
+            //self.setState({id: response.data.id});
+            //self.setRedirect();
+            /**If it worked show that was autosaved */
+            self.setState({visibleAlert:true},()=>{
+                window.setTimeout(()=>{
+                  self.setState({visibleAlert:false})
+                },2000)
+              });
+            console.log("saveAnswer successful");
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
 
     }
 
 
     render(){
+        const alertStyle = {position: "fixed",
+            top: "100px", 
+            left:"2%",
+            width: "96%",
+            zIndex: 100};
+
         console.log(this.state);
         const {styleMenuCandidates, styleMenuInterview, interviewData, currentDimension} = this.state;
 
@@ -420,10 +517,16 @@ export default class FillInterview extends Component{
 
             {/** Content for fill dimensions */}
             <div className="mt-2"  style={this.state.styleFillDimensions}>
+            {this.state.visibleAlert?
+                    <div className="myAlert-top alert alert-success" style={alertStyle}>
+                    <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    Se ha guardado los cambios realizados.
+                    </div>:<div></div>}
                 <NavigationButtons handleBeforeButton={this.changeMenuToCandidates}
                                    handleNextButton={this.validatesDimensionQuestions}>
 
                 </NavigationButtons>
+                
                 <NavDimensions dimensions={this.state.interviewData.data.attributes['dimensions']} 
                 onClick={this.onChangeNavDimensionsTab}>
 
