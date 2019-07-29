@@ -6,6 +6,7 @@ import MenuCandidate from './../candidates/MenuCandidate';
 import NavigationButtons from './NavigationButtons';
 import { Alert } from 'reactstrap';
 import { Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 const axios = require('axios');
 
 
@@ -44,7 +45,8 @@ export default class FillInterview extends Component{
             styleMotivationalCompetence: {display: 'none'},
             styleCompensation: {display: 'none'},
             currentDimension: null,
-            visibleAlert: false
+            visibleAlert: false,
+            modal: false
 
         };
     }
@@ -356,11 +358,16 @@ export default class FillInterview extends Component{
          /** If there are no errors continue next tab */
         if(dimensionErrors.length == 0){
             console.log("Go to tab motivational questions");
+            this.onChangeIsMotivationalCompetenceTab();
         }
          /** Else show the error message */
          else{
              console.log("dimensionErrors");
              console.log(dimensionErrors);
+             this.setState({
+                 fieldErrors: dimensionErrors,
+                 modal: true
+             })
          }
     }
 
@@ -377,13 +384,18 @@ export default class FillInterview extends Component{
     *  */ 
     validatesDimensionAnswer = (q) => {
         //Get dimension name
-        //const dimensionName = 
+        let dimensionName = "";
+        this.state.dimensions.forEach(d => {
+            if(d.id == q.dimension_id){
+                dimensionName = d.attributes.name.spanish;
+            }
+        });
         let answerError = [];
 
         //Iterate through attributes of question
         Object.keys(q).forEach((e) => {
             if(q[e] == '' || q[e] == 0){
-                answerError.push(`El atributo  ${e} que pertenece a la dimensión ${q.dimension_id} se encuentra vacio o nulo.`);
+                answerError.push(`El atributo  <span class="font-weight-bold">${e}</span> que pertenece a la dimensión <span class="font-weight-bold">${dimensionName}</span> se encuentra vacio o nulo.`);
             }
         });
             //if attribute empty or zero add message of error showing the dimension
@@ -468,6 +480,12 @@ export default class FillInterview extends Component{
 
     }
 
+    toggle = () => {
+        this.setState(prevState => ({
+          modal: !prevState.modal
+        }));
+      }
+
 
     render(){
         const alertStyle = {position: "fixed",
@@ -522,6 +540,22 @@ export default class FillInterview extends Component{
                     <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
                     Se ha guardado los cambios realizados.
                     </div>:<div></div>}
+
+                    <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                <ModalBody>
+                    <ul>
+                    {this.state.fieldErrors.map(fe =>
+                        <li dangerouslySetInnerHTML={{__html: fe}}></li>)}
+                    </ul>
+                    
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="primary" onClick={this.toggle}>Entendido</Button>{' '}
+                </ModalFooter>
+                </Modal>
+
+
                 <NavigationButtons handleBeforeButton={this.changeMenuToCandidates}
                                    handleNextButton={this.validatesDimensionQuestions}>
 
