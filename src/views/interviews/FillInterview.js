@@ -537,11 +537,16 @@ export default class FillInterview extends Component{
             })
         .then(function (response) {
             // handle success
+            console.log("saveAnswer");
             console.log(response.data);
             //self.setState({id: response.data.id});
             //self.setRedirect();
             /**If it worked show that was autosaved */
-            self.setState({visibleAlert:true},()=>{
+            ansToSave['answer_id'] = response.data.id;
+            answersDimensions.set(idQ, ansToSave);
+            self.setState({visibleAlert:true,
+                answersDimensions 
+            },()=>{
                 window.setTimeout(()=>{
                   self.setState({visibleAlert:false})
                 },2000)
