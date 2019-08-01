@@ -715,7 +715,8 @@ export default class FillInterview extends Component{
                 </NavigationButtons>
                 
                 <NavDimensions dimensions={this.state.interviewData.data.attributes['dimensions']} 
-                onClick={this.onChangeNavDimensionsTab}>
+                onClick={this.onChangeNavDimensionsTab}
+                currentDimension={this.state.currentDimension}>
 
                 </NavDimensions>
 

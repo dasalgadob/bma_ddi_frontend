@@ -16,8 +16,8 @@ export default class NavDimensions extends Component{
 
                 {this.props.dimensions.map((item) => 
                     
-                <li className="nav-item" key={item.id}>
-                    <a id={item.id} className={`nav-link ${true? "active": ''}` }
+                <li className={"nav-item "} key={item.id}>
+                    <a id={item.id} className={`nav-link ${this.props.currentDimension==item.id?"active":""}` }
                         onClick={this.props.onClick} 
                         href="#">{item.spanish}</a>
                 </li>
