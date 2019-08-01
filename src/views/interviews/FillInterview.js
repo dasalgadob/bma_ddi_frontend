@@ -385,7 +385,13 @@ export default class FillInterview extends Component{
             console.log("success updateResult");
             console.log(response.data);
             fields['idResult'] = response.data.id;
-            self.setState({fields});
+            self.setState({fields,
+                visibleAlert:true},()=>{
+                    window.setTimeout(()=>{
+                      self.setState({visibleAlert:false})
+                    },2000)
+                  });
+
             if(!fields.isNotFinished){
                 self.setRedirect();
             }
@@ -488,7 +494,8 @@ export default class FillInterview extends Component{
 
         //Iterate through attributes of question
         Object.keys(q).forEach((e) => {
-            if(q[e] == '' || q[e] == 0){
+            //The field resume is not going to be mandatory
+            if((q[e] == '' || q[e] == 0) && e != 'resume'){
                 answerError.push(`El atributo  <span class="font-weight-bold">${e}</span> que pertenece a la dimensión motivacional <span class="font-weight-bold">${dimensionName}</span> se encuentra vacio o nulo.`);
             }
         });
@@ -534,16 +541,9 @@ export default class FillInterview extends Component{
         }
         console.log("errors");
         console.log(errors);
-        //Update if it is, otherwise do nothing
-        if(errors.length == 0){
-            console.log("update autosave");
-            console.log("answersDimensions:");
-            console.log(answersDimensions);
-            this.saveAnswer(idQuestion);
+        //Regardless if it has errors every time in onBlur the field is saved
+        this.saveAnswer(idQuestion);
 
-        }else{
-            console.log("not update autosave");
-        }
     }
 
     saveAnswer = idQ => {
@@ -632,7 +632,7 @@ export default class FillInterview extends Component{
         const alertStyle = {position: "fixed",
             top: "100px", 
             left:"2%",
-            width: "96%",
+            width: "30%",
             zIndex: 100};
 
         let motivacionalAnswers = [];
@@ -752,6 +752,12 @@ export default class FillInterview extends Component{
             {/** Content for compensation and mobility */}
 
             <div className="container-fluid mx-4" style={this.state.styleCompensation}>
+            {this.state.visibleAlert?
+                    <div className="myAlert-top alert alert-success" style={alertStyle}>
+                    <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    Se ha guardado los cambios realizados.
+                    </div>:<div></div>
+            }
             <NavigationButtons handleBeforeButton={this.onChangeIsMotivationalCompetenceTab}
                                    handleNextButton={this.validatesCompensationQuestions}>
             </NavigationButtons>
@@ -765,8 +771,9 @@ export default class FillInterview extends Component{
                         className="form-control " 
                         id="exampleInputPassword1" 
                         required="required"
-                        value={this.state.interviewData.data.attributes.company}
-                        onChange={this.onInputChange}/>
+                        value={this.state.fields.company}
+                        onChange={this.onInputChange}
+                        onBlur={this.updateResult}/>
             </div>
 
             <div className="form-group row">
@@ -776,8 +783,9 @@ export default class FillInterview extends Component{
                         className="form-control" 
                         id="exampleInputPassword1" 
                         required="required"
-                        value={this.state.interviewData.data.attributes.name}
-                        onChange={this.onInputChange}/>
+                        value={this.state.fields.position}
+                        onChange={this.onInputChange}
+                        onBlur={this.updateResult}/>
             </div>
 
             <div className="form-group row">
@@ -787,7 +795,8 @@ export default class FillInterview extends Component{
                         className="form-control" 
                         id="exampleInputPassword1" 
                         required="required"
-                        onChange={this.onInputChange}/>
+                        onChange={this.onInputChange}
+                        onBlur={this.updateResult}/>
             </div>
 
             <div className="form-group row">
@@ -797,7 +806,8 @@ export default class FillInterview extends Component{
                         className="form-control" 
                         id="exampleInputPassword1" 
                         required="required"
-                        onChange={this.onInputChange}/>
+                        onChange={this.onInputChange}
+                        onBlur={this.updateResult}/>
             </div>
 
             <div className="form-group row">
@@ -807,7 +817,8 @@ export default class FillInterview extends Component{
                         className="form-control" 
                         id="exampleInputPassword1" 
                         required="required"
-                        onChange={this.onInputChange}/>
+                        onChange={this.onInputChange}
+                        onBlur={this.updateResult}/>
             </div>
 
             <div className="form-group row">
@@ -817,7 +828,8 @@ export default class FillInterview extends Component{
                         className="form-control" 
                         id="exampleInputPassword1" 
                         required="required"
-                        onChange={this.onInputChange}/>
+                        onChange={this.onInputChange}
+                        onBlur={this.updateResult}/>
             </div>
               
             </form>
