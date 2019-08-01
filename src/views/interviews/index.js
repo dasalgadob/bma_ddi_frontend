@@ -98,7 +98,27 @@ class  Interviews extends Component {
     render(){
         const { result } = this.state;
 
+        
+
         if(!result){ return null;}
+
+        const reactPaginate = <ReactPaginate
+            previousLabel={'anterior'}
+            nextLabel={'siguiente'}
+            breakLabel={'...'}
+            breakClassName={'break-me'}
+            pageCount={this.state.result[0]["pages"]}
+            forcePage={this.state.currentPage-1}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={this.handlePageClick}
+            containerClassName={'pagination justify-content-center'}
+            pageClassName={'page-item'}
+            pageLinkClassName={'page-link'}
+            previousLinkClassName={'page-link'}
+            nextLinkClassName={'page-link'}
+            activeClassName={'active'}
+            />;
 
         //console.log(this.state);
         return <div>
@@ -144,42 +164,12 @@ class  Interviews extends Component {
                         
                     </div>
                     </form>
-                    <ReactPaginate
-                    previousLabel={'anterior'}
-                    nextLabel={'siguiente'}
-                    breakLabel={'...'}
-                    breakClassName={'break-me'}
-                    pageCount={this.state.result[0]["pages"]}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={this.handlePageClick}
-                    containerClassName={'pagination justify-content-center'}
-                    pageClassName={'page-item'}
-                    pageLinkClassName={'page-link'}
-                    previousLinkClassName={'page-link'}
-                    nextLinkClassName={'page-link'}
-                    activeClassName={'active'}
-                    />
+                    {reactPaginate}
                     <div className="page">
                     <Table
                     list={result[1]}
                     />
-                    <ReactPaginate
-                    previousLabel={'anterior'}
-                    nextLabel={'siguiente'}
-                    breakLabel={'...'}
-                    breakClassName={'break-me'}
-                    pageCount={this.state.result[0]["pages"]}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={this.handlePageClick}
-                    containerClassName={'pagination justify-content-center'}
-                    pageClassName={'page-item'}
-                    pageLinkClassName={'page-link'}
-                    previousLinkClassName={'page-link'}
-                    nextLinkClassName={'page-link'}
-                    activeClassName={'active'}
-                    />
+                    {reactPaginate}
                     </div>
                 </div>;
         
