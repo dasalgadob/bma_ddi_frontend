@@ -115,6 +115,7 @@ class Results extends Component {
         breakLabel={'...'}
         breakClassName={'break-me'}
         pageCount={this.state.resultsDataPaging["pages"]}
+        forcePage={this.state.currentPage-1}
         marginPagesDisplayed={2}
         pageRangeDisplayed={5}
         onPageChange={this.handlePageClick}
