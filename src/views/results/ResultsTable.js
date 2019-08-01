@@ -28,7 +28,7 @@ export default class ResultsTable extends Component {
                         <th scope="col">Candidato</th>
                         <th scope="col">Email candidato</th>
                         <th scope="col">Entrevistador</th>
-                        <th scope="col">Puntuación</th>
+                       {/**  <th scope="col">Puntuación</th>*/}
                         <th scope="col">Terminado</th>
                         <th scope="col">Editar</th>
                         <th scope="col">Ver</th>
@@ -43,7 +43,7 @@ export default class ResultsTable extends Component {
                             <td>{item.candidate ? item.candidate.name : ''}</td>
                             <td>{item.candidate ?  item.candidate.email: ''}</td>
                             <td>{item.user.name + ' ' + (item.user.last_name? item.user.last_name: '') }</td>
-                            <td>{0}</td>
+                            {/** <td>{0}</td>*/ }
                             <td>{item.is_not_finished?"no":"si"}</td>
                             <td>{item.is_not_finished?<Link to={"/interviews/"+item.id+ '/fill'}>
                                 <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
