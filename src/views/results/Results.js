@@ -34,7 +34,7 @@ class Results extends Component {
     }
 
     loadResultsFromServer(){
-        let queryURL = `${PATH_BASE}?page=${this.state.currentPage}` +
+        let queryURL = `${PATH_BASE}.json?page=${this.state.currentPage}` +
         `&by_position=${this.state.positionTerm}&by_company=${this.state.companyTerm}` +
         `&by_interviewer=${this.state.interviewerTerm}&by_candidate=${this.state.candidateTerm}`+
         `&sort=${this.state.sortByField}`+
@@ -167,7 +167,12 @@ class Results extends Component {
                         
                         
                     </div>
+                    <div className="mt-4">
+                    <a href={PATH_BASE+ ".xlsx"} >Descarga como Excel</a>
+                    </div>
+                    
                     </form>
+                    
 
 
             {pageComponent}
