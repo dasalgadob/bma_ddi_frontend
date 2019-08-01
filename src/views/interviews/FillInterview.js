@@ -16,6 +16,7 @@ const POST_URL = `${process.env.REACT_APP_BACKEND_URL}/candidates`;
 const POST_URL_RESULT = `${process.env.REACT_APP_BACKEND_URL}/results`;
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/interviews`;
 const ANSWERS_URL = `${process.env.REACT_APP_BACKEND_URL}/answers`;
+const QUESTIONS_URL = `${process.env.REACT_APP_BACKEND_URL}/questions`;
 
 export default class FillInterview extends Component{
 
@@ -64,6 +65,44 @@ export default class FillInterview extends Component{
         this.loadInterviewFromServer();
     }
 
+    loadMandatoryQuestionsFromServer = () => {
+        const {answersDimensions} = this.state.fields;
+        const {fields, interviewData} = this.state;
+
+        console.log('loadMandatoryQuestionsFromServer:');
+        console.log(interviewData);
+        
+        let self = this;
+        axios.get(`${QUESTIONS_URL}?mandatory=true&sort=id&direction=desc`)//it is done this way for the general question to become the first one
+        .then(function (response) {
+            // handle success
+            console.log('loadMandatoryQuestionsFromServer:');
+            console.log(response.data);
+            const mandQuestions = response.data.data;
+
+            mandQuestions.forEach((e) => {
+                if(e.type == "question"){
+                    interviewData.included.unshift(e);
+                    answersDimensions.set(e.id, {id: e.id, resume: '',
+                                    rating: 0,
+                                        dimension_id: e.attributes.dimension_id,
+                                    answer_id: null, 
+                                    questionName: e.attributes.name?e.attributes.name.spanish:null})
+                }                        
+            });
+
+            fields.answersDimensions = answersDimensions;
+            self.setState({fields });
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });   
+    }
+
     loadInterviewFromServer = () => {
 
         const {fields} = this.state;
@@ -86,7 +125,7 @@ export default class FillInterview extends Component{
                 interviewData: response.data,
                 currentDimension,
                 fields
-            });
+            },() =>{ self.loadMandatoryQuestionsFromServer()}); //Loads questions mandatory to included and its answers
         })
         .catch(function (error) {
             // handle error
@@ -698,33 +737,6 @@ export default class FillInterview extends Component{
             
             <br>
             </br>
-            <p>Pregunta General: ¿Cuándo estuvo usted más satisfecho/insatisfecho en su trabajo? 
-                ¿Qué fue lo más satisfactorio/insatisfactorio de eso?.</p>
-            <div className="form-group">
-            <label htmlFor="exampleFormControlTextarea1">Respuesta</label>
-            <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-            <h1>
-            <Rating
-            animateOnHover
-            disableAnimation
-            initialRate={0}
-            stop={5}
-            /></h1>
-            </div>
-            
-
-            <p>Pregunta Abierta: Hábleme de una ocasión en la que tuvo varias/pocas oportunidades de _________ 
-                en su trabajo. ¿Qué tan satisfecho estuvo usted con eso y por qué?.</p>
-            <div className="form-group">
-            <label htmlFor="exampleFormControlTextarea1">Respuesta</label>
-            <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-            <Rating
-            animateOnHover
-            disableAnimation
-            initialRate={0}
-            stop={5}
-            />
-            </div>
                 
              <AnswersMotivational
                 questions={this.state.interviewData.included}

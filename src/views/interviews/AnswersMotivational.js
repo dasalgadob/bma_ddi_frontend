@@ -39,14 +39,17 @@ export default class AnswersDimensions extends Component{
         //console.log( this.questionsForCurrentDimension());
         console.log("Dimension id:" + this.props.dimensionId);
         return (
+
+
+
             <div className="mt-8">
                 <h3>Preguntas sobre Facetas Motivacionales</h3>
                 <div className="mt-4">
                 {
                     this.questionsForCurrentDimension().map(q => 
                         <div key={q.id}>
-                            <h4>{q.attributes.name.spanish}</h4>
-                            <p className="mb-4 text-secondary">{q.attributes.description.spanish}</p>
+                            <h4>{q.attributes.name? q.attributes.name.spanish:""}</h4>
+                            <p className="mb-4 text-secondary">{q.attributes.description?q.attributes.description.spanish:""}</p>
                             <p className="mt-2">{q.attributes.translation.spanish}</p>
                             <div className="row">
                             <div className="form-group col-sm-12">

@@ -310,7 +310,8 @@ export default class Result extends Component{
 
         <h4 className="mt-4">Compatibilidad motivacional</h4>
         {/** Iterate through all the answerQuestions then choose only those that belongs to the 43 dimension */}
-        {answerQuestions.map(aq => 
+        
+        {answerQuestions.sort((a, b) => (a.id > b.id)? 1 : -1).map(aq => 
           <div>{this.showMotivationalAnswer(aq)}</div>
         )}
 
