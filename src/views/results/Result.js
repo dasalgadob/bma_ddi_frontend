@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import MotivationalAnswer from './../answers/MotivationalAnswer';
 import DimensionalAnswer from './../answers/DimensionalAnswer';
+import { Helmet } from 'react-helmet';
+
 
 const axios = require('axios');
 
@@ -224,6 +226,9 @@ export default class Result extends Component{
     const {answerQuestions} = this.state;
     return (
       <div>
+         <Helmet>
+          <title>{ data.attributes.candidate.name}</title>
+        </Helmet>
         <div className="row d-flex justify-content-around">
         <table className="table col-sm-5 table-bordered mt-4">
           <tbody>
