@@ -12,7 +12,7 @@ import { Redirect } from 'react-router-dom';
 const axios = require('axios');
 
 
-const POST_URL = `${process.env.REACT_APP_BACKEND_URL}/candidates`;
+const POST_URL_CANDIDATE = `${process.env.REACT_APP_BACKEND_URL}/candidates`;
 const POST_URL_RESULT = `${process.env.REACT_APP_BACKEND_URL}/results`;
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/interviews`;
 const ANSWERS_URL = `${process.env.REACT_APP_BACKEND_URL}/answers`;
@@ -103,6 +103,13 @@ export default class FillInterview extends Component{
         });   
     }
 
+    saveAllAnswersBeforeStart = () => {
+        const {answersDimensions} = this.state.fields;
+        answersDimensions.forEach(e =>
+            this.saveAnswer(e.id)
+        );
+    }
+
     loadInterviewFromServer = () => {
 
         const {fields} = this.state;
@@ -160,11 +167,11 @@ export default class FillInterview extends Component{
         console.log(questionsList);
         questionsList.forEach((e) => {
             if(e.type == "question"){
-            answersDimensions.set(e.id, {id: e.id, situation: '', action: '', resultado: '', resume: '',
+                answersDimensions.set(e.id, {id: e.id, situation: '', action: '', resultado: '', resume: '',
                                 rating: 0, impact: 0, communication: 0,
                                     dimension_id: e.attributes.dimension_id,
                                 answer_id: null, 
-                                questionName: e.attributes.name?e.attributes.name.spanish:null})
+                                questionName: e.attributes.name?e.attributes.name.spanish:null});
             }                        
         });
 
@@ -183,7 +190,7 @@ export default class FillInterview extends Component{
         let self = this;
         axios({
             method: 'post',
-            url: `${POST_URL}`,
+            url: `${POST_URL_CANDIDATE}`,
             data: 
             {candidate: {name: name, email: email}},
             headers: headers
@@ -350,7 +357,7 @@ export default class FillInterview extends Component{
             console.log("success createResult");
             console.log(response.data);
             fields['idResult'] = response.data.id;
-            self.setState({fields});
+            self.setState({fields}, self.saveAllAnswersBeforeStart);
         })
         .catch(function (error) {
             // handle error
@@ -552,6 +559,7 @@ export default class FillInterview extends Component{
      const ansToSave = answersDimensions.get(idQ);
 
      const headers = JSON.parse(localStorage.getItem('user'));
+     console.log("SaveAnswer");
         //console.log("idInt:" + idInterview);
      let method = ansToSave.answer_id?'patch':'post';
      let self = this;
