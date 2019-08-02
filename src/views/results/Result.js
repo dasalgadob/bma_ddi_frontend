@@ -242,7 +242,7 @@ export default class Result extends Component{
           </tr>
           <tr>
           <td className="font-weight-bold">ENTREVISTADOR</td>
-            <td>{data.attributes.user.name}</td>
+            <td>{data.attributes.user.name + " " + data.attributes.user.last_name}</td>
           </tr>
 
           <tr >
