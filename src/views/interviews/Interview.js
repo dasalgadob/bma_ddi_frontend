@@ -41,7 +41,22 @@ class Interview extends Component{
 
     handleCurrentDimensionAdding = (e) => {
         e.preventDefault();
-        this.addDimensionToDimensionsSelected(this.state.currentDimension);
+        console.log("handleCurrentDimensionAdding");
+        const {dimensionsSelected} = this.state;
+        let isRepeated = false;
+        dimensionsSelected.forEach(d => {
+            console.log(d.data.id);
+            console.log(this.state.currentDimension);
+            if(d.data.id == this.state.currentDimension){
+                isRepeated = true;
+            }
+        });
+        if(!isRepeated){
+            this.addDimensionToDimensionsSelected(this.state.currentDimension);
+        }else{
+            console.log("The dimension has already been added");
+        }
+        
         
     }
 
