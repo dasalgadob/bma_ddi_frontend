@@ -66,14 +66,14 @@ class Dimension extends Component{
     }
 
     render(){
-        const style = {fontSize: '14px'};
+        const style = {fontSize: '15px'};
         const {displayQuestions} = this.state;
         const { t, i18n } = this.props;
         const language = i18n.language == "es"? "spanish":"english";
         console.log('this.props.DImension');
         console.log(i18n);
         return (
-            <div className="">
+            <div className="mt-4">
                 <div className="row">
                     <div className="col-sm-10">
                     <h3 className="text-left ml-5">{this.props.name[language]}</h3>
@@ -94,14 +94,14 @@ class Dimension extends Component{
                         }
                         return(
                             <tr key={"tr-" + q.id}>
-                                <td className="">
+                                <td>
                             <div className="custom-control custom-checkbox">
-                                <input id={q.id} key={q.id} className="custom-control-input" type="checkbox" value="true"
+                                <input id={"q"+q.id} key={q.id} className="custom-control-input" type="checkbox" value="true"
                                        onClick={this.onQuestionSelected}
                                        name={q.id} 
                                        checked={this.props.questionsSelected[q.id]? "checked":""}>
                                     </input>
-                                <label className="custom-control-label" htmlFor={q.id}>
+                                <label className="custom-control-label" htmlFor={"q"+q.id}>
                                     {this.showProperLabel(q.attributes)}
                                 </label>
                             </div>

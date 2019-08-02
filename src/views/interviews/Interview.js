@@ -213,7 +213,7 @@ class Interview extends Component{
 
     onQuestionSelected = (e) => {
         //console.log('e.target.checked');
-        this.updateQuestionSelected(e.target.id, e.target.checked );
+        this.updateQuestionSelected(e.target.id.slice(1,e.target.id.length), e.target.checked );
         //console.log(e.target.checked);
         //console.log(questionsNewSelection);
         //console.log(e.target.name);
@@ -368,7 +368,7 @@ class Interview extends Component{
                     </div>
                 </div>
                 </fieldset>
-                <div className="row">
+                <div className="row mt-2">
                     <div className="col-auto">
                     {t('create.step1.select_placeholder')}:
                     <select className="form-control" id="dimension" onChange={this.onCurrentDimensionChange}>
@@ -397,7 +397,7 @@ class Interview extends Component{
                 </div>
             </form>
 
-            <h4 className="">{t('create.step1.select_questions')}</h4>
+            <h4 className="mt-4">{t('create.step1.select_questions')}</h4>
 
             <div id="dimensionsSelected">
                 {dimensionsSelected.map(
