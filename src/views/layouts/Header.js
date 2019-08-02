@@ -25,7 +25,7 @@ render(){
     };
 
     const dropdownStyle = {
-        left: "-50px"
+        left: "-70px"
     }
 
     return <nav className="navbar navbar-expand-md navbar-dark" style={navStyle}>
