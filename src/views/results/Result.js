@@ -9,7 +9,7 @@ const axios = require('axios');
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/results`;
 
-export default class Result extends Component{
+class Result extends Component{
 
 
   constructor(props){
@@ -82,10 +82,12 @@ export default class Result extends Component{
 
   showMotivationalAnswer = (aq) => {
     if(aq.dimension == 43){
+      const { t, i18n } = this.props;
+      const language = i18n.language == "es"? "spanish":"english";
       return(
       <MotivationalAnswer
-          title={aq.question.name?aq.question.name.spanish:""}
-          question={aq.question.translation.spanish}
+          title={aq.question.name?aq.question.name[language]:""}
+          question={aq.question.translation[language]}
           answer={aq.answer.resume}
           score={aq.answer.rating}
           mandatory={aq.question.mandatory}>
@@ -96,10 +98,13 @@ export default class Result extends Component{
   }
 
   showDimensionalAnswer = (aq, d) => {
+    
     if(aq.dimension != 43 && aq.dimension == d){
+      const { t, i18n } = this.props;
+      const language = i18n.language == "es"? "spanish":"english";
       return(
       <DimensionalAnswer
-          question={aq.question.translation.spanish}
+          question={aq.question.translation[language]}
           situation={aq.answer.situation}
           action ={aq.answer.action}
           result={aq.answer.resultado}
@@ -216,6 +221,8 @@ export default class Result extends Component{
     if(!this.state.resultData){
       return <div></div>
     }
+    const { t, i18n } = this.props;
+    const language = i18n.language == "es"? "spanish":"english";
     console.log("answer questions:");
 
     console.log(this.state.answerQuestions);
@@ -234,20 +241,20 @@ export default class Result extends Component{
         <table className="table col-sm-5 table-bordered mt-4">
           <tbody>
           <tr>
-            <td className="font-weight-bold">CANDIDATO</td>
+            <td className="font-weight-bold">{t('result.candidate')}</td>
             <td>{data.attributes.candidate.name}</td>
           </tr>
           <tr>
-          <td className="font-weight-bold">PUESTO</td>
+          <td className="font-weight-bold">{t('result.position')}</td>
             <td>{data.attributes.position}</td>
           </tr>
           <tr>
-          <td className="font-weight-bold">ENTREVISTADOR</td>
+          <td className="font-weight-bold">{t('result.interviewer')}</td>
             <td>{data.attributes.user.name + " " + data.attributes.user.last_name}</td>
           </tr>
 
           <tr >
-          <td className="font-weight-bold">COMPAÑIA</td>
+          <td className="font-weight-bold">{t('result.company')}</td>
             <td>{data.attributes.company}</td>
           </tr>
           </tbody>
@@ -256,19 +263,19 @@ export default class Result extends Component{
         <table className="table col-sm-3 table-bordered mt-4 ml-4 float-rigth">
           <tbody>
             <tr>
-              <td className="font-weight-bold">Nota total</td>
+              <td className="font-weight-bold">{t('result.final_mark')}</td>
               <td>{this.getAvgRating()}</td>
             </tr>
             <tr>
-              <td>Impacto</td>
+              <td>{t('result.impact')}</td>
               <td>{this.getAvgImpact()}</td>
             </tr>
             <tr>
-              <td>Comunicación</td>
+              <td>{t('result.comunication')}</td>
               <td>{this.getAvgCommunication()}</td>
             </tr>
             <tr>
-              <td className="font-weight-bold">C. Motivacional</td>
+              <td className="font-weight-bold">{t('result.motivational_competence')}</td>
               <td>{this.getAvgMotivational()}</td>
             </tr>
           </tbody>
@@ -278,7 +285,7 @@ export default class Result extends Component{
         {data.attributes.dimensions.map(d => 
           <div className="container-fluid">
             <div className="">
-          <h4 className="font-weight-bold mt-4">{d.spanish}</h4>
+          <h4 className="font-weight-bold mt-4">{d[language]}</h4>
           {included.map( i => 
             <div key={"resume-" + i.id}>
               {i.type == 'answer' && i.attributes.dimension[0].id == d.id?<p style={{fontSize: "15px"}}>{i.attributes.resume}</p>:''}
@@ -295,9 +302,9 @@ export default class Result extends Component{
         {data.attributes.dimensions.map(d => 
           <div className="container-fluid mt-4">
           <h5 className="text-secondary " style={{display:  'inline'}}>
-          {d.spanish}
+          {d[language]}
           </h5>
-          <p  className="text-secondary ">Puntuación: &nbsp;{this.averageRatingDimension(d.id)}</p>
+          <p  className="text-secondary ">{t('result.score')}: &nbsp;{this.averageRatingDimension(d.id)}</p>
           {answerQuestions.map( aq => 
             <div>
               {this.showDimensionalAnswer(aq, d.id)}
@@ -309,20 +316,20 @@ export default class Result extends Component{
         
 
 
-        <h4 className="mt-4">Compatibilidad motivacional</h4>
+        <h4 className="mt-4">{t('result.motivational_compatibility')}</h4>
         {/** Iterate through all the answerQuestions then choose only those that belongs to the 43 dimension */}
         
         {answerQuestions.sort((a, b) => (a.id > b.id)? 1 : -1).map(aq => 
           <div>{this.showMotivationalAnswer(aq)}</div>
         )}
 
-        <h4 className="mt-4">Compensacion actual y movilidad</h4>
+        <h4 className="mt-4">{t('result.compensation_movility')}</h4>
       <div className="mt-2">
-        <p><span  className="font-weight-bold">Salario base: &nbsp;</span>{data.attributes.base_salary}</p>
-        <p><span className="font-weight-bold">Beneficios: &nbsp;</span>{data.attributes.benefits}</p>
+        <p><span  className="font-weight-bold">{t('result.base_salary')}: &nbsp;</span>{data.attributes.base_salary}</p>
+        <p><span className="font-weight-bold">{t('result.benefits')}: &nbsp;</span>{data.attributes.benefits}</p>
 
-        <p><span className="font-weight-bold">Expectativas de salarios: &nbsp;</span>{data.attributes.salary_expectations}</p>
-        <p><span className="font-weight-bold">Areas geograficas: &nbsp;</span>{data.attributes.geographical_areas}</p>
+        <p><span className="font-weight-bold">{t('result.salary_expectations')}: &nbsp;</span>{data.attributes.salary_expectations}</p>
+        <p><span className="font-weight-bold">{t('result.geographical_areas')}: &nbsp;</span>{data.attributes.geographical_areas}</p>
       </div>
 
       </div>
@@ -330,6 +337,8 @@ export default class Result extends Component{
   }
 
 
-  }
+}
+
+  export default withTranslation()(Result);
 
 

@@ -4,7 +4,7 @@ import { faEye, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { Link, NavLink } from "react-router-dom";
 import { withTranslation } from 'react-i18next';
 
-export default class ResultsTable extends Component {
+class ResultsTable extends Component {
 
     getAvgRating = (answers) => {
         answers.forEach(element => {
@@ -15,6 +15,7 @@ export default class ResultsTable extends Component {
     }
 
     render(){
+        const {t, i18n} = this.props;
         const {data} = this.props;
         console.log("props ResultsTable:");
         console.log(data);
@@ -23,15 +24,15 @@ export default class ResultsTable extends Component {
                 <thead className="thead-dark">
                     <tr>
                         <th scope="col" >id</th>
-                        <th scope="col">Posición</th>
-                        <th scope="col">Compañia</th>
-                        <th scope="col">Candidato</th>
-                        <th scope="col">Email candidato</th>
-                        <th scope="col">Entrevistador</th>
+                        <th scope="col">{t('results.position')}</th>
+                        <th scope="col">{t('results.company')}</th>
+                        <th scope="col">{t('results.candidate')}</th>
+                        <th scope="col">{t('results.email_candidate')}</th>
+                        <th scope="col">{t('results.interviewer')}</th>
                        {/**  <th scope="col">Puntuación</th>*/}
-                        <th scope="col">Terminado</th>
-                        <th scope="col">Editar</th>
-                        <th scope="col">Ver</th>
+                        <th scope="col">{t('results.finished')}</th>
+                        <th scope="col">{t('results.edit')}</th>
+                        <th scope="col">{t('results.show')}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,3 +57,5 @@ export default class ResultsTable extends Component {
         </div>;
     }
 }
+
+export default withTranslation()(ResultsTable); 

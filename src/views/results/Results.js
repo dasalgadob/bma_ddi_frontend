@@ -109,9 +109,11 @@ class Results extends Component {
 
         if(!this.state.resultsData){ return null;}
 
+        const { t, i18n } = this.props;
+
         let pageComponent = <ReactPaginate
-        previousLabel={'anterior'}
-        nextLabel={'siguiente'}
+        previousLabel={t('before')}
+        nextLabel={t('next')}
         breakLabel={'...'}
         breakClassName={'break-me'}
         pageCount={this.state.resultsDataPaging["pages"]}
@@ -129,26 +131,26 @@ class Results extends Component {
 
         //const { resultsDataAll } = this.state;
         return <div>
-            <h2>Resultados</h2>
+            <h2>{t('results.title')}</h2>
             <form className="container mb-2">
                     <fieldset>
-                    <legend className="text-left">Buscar resultado:</legend>
+                    <legend className="text-left">{t('results.search_result')}:</legend>
                     <div className="row align-items-center">
                         <div className="col-auto">
-                        <label htmlFor="name" className=" col-form-label col-form-label-sm mr-2">Posición: </label>
+                        <label htmlFor="name" className=" col-form-label col-form-label-sm mr-2">{t('results.position')}: </label>
                         <input type="text" id="name" className="form-control-sm" onChange={this.onPositionChange}></input>
                         </div>
                         <div className="col-auto">
-                        <label htmlFor="company" className=" col-form-label col-form-label-sm mr-2">Compañia:</label>
+                        <label htmlFor="company" className=" col-form-label col-form-label-sm mr-2">{t('results.company')}:</label>
                         <input type="text" id="company" className="form-control-sm" onChange={this.onCompanyChange}></input>
                         </div>
                         <div className="col-auto">
-                        <label htmlFor="candidate" className=" col-form-label col-form-label-sm mr-2">Candidato:</label>
+                        <label htmlFor="candidate" className=" col-form-label col-form-label-sm mr-2">{t('results.candidate')}:</label>
                         <input type="text" id="candidate" className="form-control-sm" onChange={this.onCandidateChange}></input>
                         </div>
 
                         <div className="col-auto">
-                        <label htmlFor="interviewer" className=" col-form-label col-form-label-sm mr-2">Entrevistador: </label>
+                        <label htmlFor="interviewer" className=" col-form-label col-form-label-sm mr-2">{t('results.interviewer')}: </label>
                         <input type="text" id="interviewer" className="form-control-sm" onChange={this.onInterviewerChange}></input>
                         </div>
                         
@@ -156,19 +158,19 @@ class Results extends Component {
                     </fieldset>
                     <div className="row align-items-center mt-2">
                         <div className="col-auto">
-                        <label htmlFor="sort" className=" col-form-label col-form-label-sm mr-2">Ordenar por: </label>
+                        <label htmlFor="sort" className=" col-form-label col-form-label-sm mr-2">{t('sort_by')}: </label>
                         <select className="form-control-sm" id="sort" onChange={this.onSortByChange}>
-                        <option value="created_at;desc">Fecha de creación más reciente</option>
-                        <option value="created_at;asc">Fecha de creación más antiguo</option>
-                        <option value="position;asc">Posición A-Z</option>
-                        <option value="position;desc">Posición Z-A</option>
+                        <option value="created_at;desc">{t('most_recently')}</option>
+                        <option value="created_at;asc">{t('most_older')}</option>
+                        <option value="position;asc">{t('results.position')} A-Z</option>
+                        <option value="position;desc">{t('results.position')} Z-A</option>
                         </select>
                         </div>
                         
                         
                     </div>
                     <div className="mt-4">
-                    <a href={PATH_BASE+ ".xlsx"} >Descarga como Excel</a>
+                    <a href={PATH_BASE+ ".xlsx"} >{t('results.download')}</a>
                     </div>
                     
                     </form>
@@ -183,4 +185,4 @@ class Results extends Component {
     }
 }
 
-export default Results;
+export default withTranslation()( Results);

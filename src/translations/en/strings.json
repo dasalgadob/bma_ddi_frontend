@@ -176,7 +176,13 @@
         "no_results": "THERE ARE NO RESULTS",
         "see_interviews": "View interviews",
         "search_result": "Search result",
+        "position": "Position",
+        "company": "Company",
+        "interviewer": "Interviewer",
         "candidate": "Candidate",
+        "email_candidate": "Email candidate",
+        "finished": "Finished",
+        "download": "Download Excel",
         "score": "Mark",
         "edit": "Edit",
         "show": "View",
@@ -184,6 +190,51 @@
           "no_edit_title": "You cann't edit this result!",
           "no_edit_content": "You can only edit results from interviews you have performed"
         }
+      },
+
+      "result":{
+        "title": "RESULT",
+        "export": "Export to PDF",
+        "update_result": "Update result",
+        "candidate": "CANDIDATE",
+        "position": "POSITION",
+        "interviewer": "INTERVIEWER",
+        "company": "COMPANY",
+
+        "final_mark": "Final mark",
+        "impact": "Impact",
+        "comunication": "Comunication",
+        "motivational_competence": "Motivational C.",
+
+        "task": "Situation/Task",
+        "action": "Action",
+        "result": "Result",
+        "score": "Score",
+        "edit_resume": "Edit summary",
+
+        "motivational_compatibility": "Motivational compatibility",
+        "answer": "Answer",
+
+        "compensation_movility": "Current compensation and movility",
+        "base_salary": "Base salary",
+        "benefits": "Beneficts",
+        "salary_expectations": "Salary expectancy",
+        "geographical_areas": "Geographical areas",
+
+        "legend": {
+          "title": "EVALUATION RANGE:",
+          "one": "Poor",
+          "two": "Below Average",
+          "three": "Satisfactory (Meet Requirements)",
+          "four": "Good (Sometimes Exceed)",
+          "five": "Excellent (Normally Exceed)"
+        },
+
+        "controller": {
+          "not_defined": "Undefined",
+          "success_update": "The result has been edited successfully"
+        }
+
       }
 
 
