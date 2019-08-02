@@ -18,6 +18,7 @@ class Results extends Component {
             companyTerm: "",
             interviewerTerm: "",
             candidateTerm: '',
+            searchTerm: '',
             sortByField: '',
             sortOrder: '',
         };
@@ -36,7 +37,7 @@ class Results extends Component {
     loadResultsFromServer(){
         let queryURL = `${PATH_BASE}.json?page=${this.state.currentPage}` +
         `&by_position=${this.state.positionTerm}&by_company=${this.state.companyTerm}` +
-        `&by_interviewer=${this.state.interviewerTerm}&by_candidate=${this.state.candidateTerm}`+
+        `&by_interviewer=${this.state.interviewerTerm}&by_candidate=${this.state.candidateTerm}&by_any=${this.state.searchTerm}`+
         `&sort=${this.state.sortByField}`+
         `&direction=${this.state.sortOrder}`;
         console.log("Query URL:" + queryURL);
@@ -80,6 +81,14 @@ class Results extends Component {
         const candidateTerm = e.target.value;
         //console.log("InterviewTErm: " + interviewTerm);
         this.setState({candidateTerm: candidateTerm}, () => {
+            this.loadResultsFromServer();
+          });
+    }
+
+    onSearchChange = (e) => {
+        const searchTerm = e.target.value;
+        //console.log("InterviewTErm: " + interviewTerm);
+        this.setState({searchTerm}, () => {
             this.loadResultsFromServer();
           });
     }
@@ -152,6 +161,11 @@ class Results extends Component {
                         <div className="col-auto">
                         <label htmlFor="interviewer" className=" col-form-label col-form-label-sm mr-2">{t('results.interviewer')}: </label>
                         <input type="text" id="interviewer" className="form-control-sm" onChange={this.onInterviewerChange}></input>
+                        </div>
+
+                        <div className="col-auto">
+                        <label htmlFor="allFields" className=" col-form-label col-form-label-sm mr-2">{t('results.search')}: </label>
+                        <input type="text" id="allFields" className="form-control-sm" onChange={this.onSearchChange}></input>
                         </div>
                         
                     </div>

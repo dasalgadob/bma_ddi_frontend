@@ -180,6 +180,7 @@
         "company": "Company",
         "interviewer": "Interviewer",
         "candidate": "Candidate",
+        "search": "Search all",
         "email_candidate": "Email candidate",
         "finished": "Finished",
         "download": "Download Excel",
