@@ -29,6 +29,7 @@ function contarPreguntas(object){
 class Table extends Component {
   render(){
     const { t, i18n } = this.props;
+    const language = i18n.language == "es"? "spanish":"english";
     const {list} = this.props;
     let result = [];
     const user = JSON.parse(localStorage.getItem('user'));
@@ -58,7 +59,7 @@ class Table extends Component {
                     (k, v) => 
                       
                     <div className="alert alert-secondary" role="alert">
-                    {k.spanish} <span className="font-weight-bold">{t('questions')}: &nbsp; </span>{k.count}
+                    {k[language]} <span className="font-weight-bold">{t('questions')}: &nbsp; </span>{k.count}
                     </div>
                   )
                 }
