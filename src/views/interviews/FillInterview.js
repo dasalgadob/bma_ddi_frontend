@@ -29,7 +29,7 @@ export default class FillInterview extends Component{
                 idCandidate: null,
                 name: '',
                 email: '',
-                idResult: null,
+                idResult: props.location.state? props.location.state.idResult: null,
                 position: '',
                 company: '',
                 baseSalary: "",
@@ -37,7 +37,6 @@ export default class FillInterview extends Component{
                 salaryExpectations: '',
                 geographicalAreas: "",
                 answersDimensions: new Map(),
-                answersMotivational: new Map(),
                 isNotFinished: true
             },
             dimensions: [],
@@ -58,11 +57,80 @@ export default class FillInterview extends Component{
             modal: false,
             redirect: false
         };
+
+        this.loadResultFromServer = this.loadResultFromServer.bind(this);
+        this.loadInterviewFromServer = this.loadInterviewFromServer.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         console.log("idInter:" + this.state.idInterview);
-        this.loadInterviewFromServer();
+        let isDone = await this.loadInterviewFromServer();
+    }
+
+    loadResultFromServer() {
+        const {fields} = this.state; 
+        const {answersDimensions} = this.state.fields;
+        console.log("loadResultFromServer");
+        
+
+        
+
+        
+        if(fields.idResult){
+            console.log("Result is going to be loaded");
+            let self = this;
+            axios.get(`${POST_URL_RESULT}/${fields.idResult}`)//it is done this way for the general question to become the first one
+            .then(function (response) {
+                // handle success
+                console.log('loadResultFromServer:');
+                console.log(response.data);
+                console.log(answersDimensions);
+                //Load candidate
+                fields.idCandidate = response.data.data.attributes.candidate.id;
+                //loadDimensional answer
+                //loadMotivational answers
+                response.data.included.forEach((ans) => {
+                    if (ans.type =="answer"){
+                        console.log("ans");
+                        console.log(ans);
+                        let ansToLoad = answersDimensions.get(""+ans.attributes.question.id+ "");
+                        console.log(ansToLoad);
+                        ansToLoad.action = ans.attributes.action;
+                        ansToLoad.answer_id =  ans.id;
+                        ansToLoad.communication = ans.attributes.communication;
+                        ansToLoad.impact = ans.attributes.impact;
+                        ansToLoad.rating = ans.attributes.rating;
+                        ansToLoad.resultado = ans.attributes.resultado;
+                        ansToLoad.resume = ans.attributes.resume;
+                        ansToLoad.situation = ans.attributes.situation;
+                    }
+                });
+                //loadCompensation data
+                fields.company = fields.company == ''? response.data.data.attributes.company:fields.company;
+                fields.position = fields.position == ''?response.data.data.attributes.position:fields.position;
+                fields.baseSalary = response.data.data.attributes.base_salary;
+                fields.benefits = response.data.data.attributes.benefits;
+                fields.salaryExpectations = response.data.data.attributes.salary_expectations;
+                fields.geographicalAreas = response.data.data.attributes.geographical_areas;
+                //const mandQuestions = response.data.data;
+                
+
+                fields.answersDimensions = answersDimensions;
+                //Update results
+                self.setState({fields });
+                self.changeMenu();
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+            .finally(function () {
+                // always executed
+            }); 
+        }else{
+            console.log("Is not necessary to load the Result because it does not exist");
+        }
+
     }
 
     loadMandatoryQuestionsFromServer = () => {
@@ -92,7 +160,7 @@ export default class FillInterview extends Component{
             });
 
             fields.answersDimensions = answersDimensions;
-            self.setState({fields });
+            self.setState({fields }, self.loadResultFromServer);
         })
         .catch(function (error) {
             // handle error
@@ -110,7 +178,7 @@ export default class FillInterview extends Component{
         );
     }
 
-    loadInterviewFromServer = () => {
+    loadInterviewFromServer(){
 
         const {fields} = this.state;
         let self = this;
@@ -133,6 +201,7 @@ export default class FillInterview extends Component{
                 currentDimension,
                 fields
             },() =>{ self.loadMandatoryQuestionsFromServer()}); //Loads questions mandatory to included and its answers
+            return true;
         })
         .catch(function (error) {
             // handle error
@@ -201,7 +270,6 @@ export default class FillInterview extends Component{
             console.log(response.data);
             fields['idCandidate'] = response.data.id
             self.setState({ fields}, self.chooseIfcreateOrUpdateResult);
-            //self.chooseIfcreateOrUpdateResult();
             self.changeMenu();
         })
         .catch(function (error) {
@@ -218,7 +286,6 @@ export default class FillInterview extends Component{
         console.log('on choose candidate');
         fields['idCandidate'] = parseInt(e.target.id);
         this.setState({fields}, ()  => {this.chooseIfcreateOrUpdateResult()});
-        //this.chooseIfcreateOrUpdateResult();
         this.changeMenu();
         console.log('e.target.value');
         console.log(e.target.id);
@@ -349,7 +416,7 @@ export default class FillInterview extends Component{
             method: 'post',
             url: `${POST_URL_RESULT}`,
             data: 
-            {result: {candidate_id: idCandidate}},
+            {result: {candidate_id: idCandidate, interview_id: self.state.idInterview}},
             headers: headers
             })
         .then(function (response) {
@@ -382,7 +449,7 @@ export default class FillInterview extends Component{
                         base_salary: fields.baseSalary, benefits: fields.benefits, 
                         salary_expectations: fields.salaryExpectations, 
                         geographical_areas: fields.geographicalAreas, 
-                        is_not_finished: fields.isNotFinished
+                        is_not_finished: fields.isNotFinished, interview_id: self.state.idInterview
                      }
             },
             headers: headers
@@ -721,6 +788,7 @@ export default class FillInterview extends Component{
                 </NavDimensions>
 
                 <AnswersDimensions questions={this.state.interviewData.included}
+                                   answers={this.state.fields.answersDimensions}
                                    onInputChangeAnswerDimension={this.onInputChangeAnswerDimension}
                                    onInputChangeAnswerRating={this.onInputChangeAnswerRating}
                                    onBlurAutoSave = { this.onBlurAutoSave }     
@@ -749,6 +817,7 @@ export default class FillInterview extends Component{
                 
              <AnswersMotivational
                 questions={this.state.interviewData.included}
+                answers={this.state.fields.answersDimensions}
                 dimensionId={43}
                 onInputChangeAnswerDimension={this.onInputChangeAnswerDimension}
                 onInputChangeAnswerRating={this.onInputChangeAnswerRating}
@@ -805,6 +874,7 @@ export default class FillInterview extends Component{
                         id="exampleInputPassword1" 
                         required="required"
                         onChange={this.onInputChange}
+                        value={this.state.fields.baseSalary}
                         onBlur={this.updateResult}/>
             </div>
 
@@ -816,6 +886,7 @@ export default class FillInterview extends Component{
                         id="exampleInputPassword1" 
                         required="required"
                         onChange={this.onInputChange}
+                        value={this.state.fields.benefits}
                         onBlur={this.updateResult}/>
             </div>
 
@@ -827,6 +898,7 @@ export default class FillInterview extends Component{
                         id="exampleInputPassword1" 
                         required="required"
                         onChange={this.onInputChange}
+                        value={this.state.fields.salaryExpectations}
                         onBlur={this.updateResult}/>
             </div>
 
@@ -838,6 +910,7 @@ export default class FillInterview extends Component{
                         id="exampleInputPassword1" 
                         required="required"
                         onChange={this.onInputChange}
+                        value={this.state.fields.geographicalAreas}
                         onBlur={this.updateResult}/>
             </div>
               

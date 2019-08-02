@@ -52,7 +52,7 @@ export default class AnswersDimensions extends Component{
                                             onChange={this.props.onInputChangeAnswerDimension}
                                             onBlur={() => {this.props.onBlurAutoSave(q.id, 'd') }}
                                             rows={3}
-                                            
+                                            value={this.props.answers.get(""+q.id+"")['situation']}
                                             ></TextareaAutosize>
                             </div> 
                             <div className="form-group col-sm-4">
@@ -62,6 +62,7 @@ export default class AnswersDimensions extends Component{
                                              id={q.id}
                                              onChange={this.props.onInputChangeAnswerDimension}
                                              onBlur={() => {this.props.onBlurAutoSave(q.id, 'd') }}
+                                             value={this.props.answers.get(""+q.id+"")['action']}
                                             rows={3}></TextareaAutosize>
                                
                             </div> 
@@ -72,6 +73,7 @@ export default class AnswersDimensions extends Component{
                                              id={q.id}
                                              onChange={this.props.onInputChangeAnswerDimension} 
                                              onBlur={() => {this.props.onBlurAutoSave(q.id, 'd') }}
+                                             value={this.props.answers.get(""+q.id+"")['resultado']}
                                             rows={3}></TextareaAutosize>
                               
                             </div> 
@@ -82,7 +84,8 @@ export default class AnswersDimensions extends Component{
                                                   name={"resume"} 
                                                   id={q.id}
                                                   onChange={this.props.onInputChangeAnswerDimension}
-                                                  onBlur={() => {this.props.onBlurAutoSave(q.id, 'd') }}  
+                                                  onBlur={() => {this.props.onBlurAutoSave(q.id, 'd') }}
+                                                  value={this.props.answers.get(""+q.id+"")['resume']}  
                                                   rows={3}></TextareaAutosize>
                                 
                             </div>   
@@ -94,7 +97,7 @@ export default class AnswersDimensions extends Component{
                                 onBlur={() => {this.props.onBlurAutoSave(q.id, 'd') }}
                                 animateOnHover
                                 disableAnimation
-                                initialRate={0}
+                                initialRate={this.props.answers.get(""+q.id+"")['rating']}
                                 stop={5}
                                 /></div>
 
@@ -105,7 +108,7 @@ export default class AnswersDimensions extends Component{
                                 onBlur={() => {this.props.onBlurAutoSave(q.id, 'd') }}
                                 animateOnHover
                                 disableAnimation
-                                initialRate={0}
+                                initialRate={this.props.answers.get(""+q.id+"")['impact']}
                                 stop={5}
                                 /></div>
 
@@ -117,7 +120,7 @@ export default class AnswersDimensions extends Component{
                                 onBlur={() => {this.props.onBlurAutoSave(q.id, 'd') }}
                                 animateOnHover
                                 disableAnimation
-                                initialRate={0}
+                                initialRate={this.props.answers.get(""+q.id+"")['communication']}
                                 stop={5}
                                 /></div>
                             </div> 

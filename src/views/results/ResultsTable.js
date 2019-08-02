@@ -45,7 +45,7 @@ export default class ResultsTable extends Component {
                             <td>{item.user.name + ' ' + (item.user.last_name? item.user.last_name: '') }</td>
                             {/** <td>{0}</td>*/ }
                             <td>{item.is_not_finished?"no":"si"}</td>
-                            <td>{item.is_not_finished?<Link to={"/interviews/"+item.id+ '/fill'}>
+                            <td>{item.is_not_finished?<Link to={{pathname: "/interviews/"+item.interview_id+ '/fill', state: {idResult: item.id}}}>
                                 <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
                                 </Link>:""}
                             </td>
