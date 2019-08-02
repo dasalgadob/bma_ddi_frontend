@@ -1,6 +1,5 @@
 {
       "Welcome to React": "Welcome to React and react-i18next",
-      "interviews": "Interviews",
       "results": "Results",
       "account": "Account",
       "setting": "Settings",
@@ -13,8 +12,19 @@
       "no_interviews": "THERE ARE NO INTERVIEWS (CREATE ONE)",
       "own": "Owned",
       "edit": "Edit",
-      "fill": "Fill",
       "n_questions": "{{ n }} questions/s",
+
+      "interviews":{
+        "title": "INTERVIEWS",
+        "title_lower": "Interviews",
+        "search_interview": "Search interview",
+        "create": "Create interview",
+        "no_interviews": "THERE ARE NO INTERVIEWS (CREATE ONE)",
+        "own": "Owned",
+        "edit": "Edit",
+        "fill": "Fill",
+        "n_questions": "{{ n }} questions/s"
+      },
 
       "sort_by": "Sort by",
       "most_recently": "Most recently created",
@@ -47,8 +57,110 @@
           "back": "Back",
           "save": "Save interview",
           "save_and_fill": "Save and fill",
+          "motivational_aspects": "Questions about motivational aspects",
           "motivational_compatibility": "Motivational Compatibility",
           "description2": "The extent to which the activities and responsibilities of the position, mode of operation and values ​​of the organization and the community in which individuals live, correspond to the type of environment that provides personal satisfaction; the extent to which the work itself is personally satisfying."
+        }
+      },
+
+
+      "fill":{
+        "title": "FILL INTERVIEW",
+        "next": "Next",
+        "back": "Back",
+        "candidate_form": {
+          "candidate": "Candidate",
+          "create": "Create candidate",
+          "name": "Name",
+          "name_required": "Name (required)",
+          "name_is_required": "The name is required",
+          "email": "Email",
+          "email_required": "Email (required)",
+          "email_is_required": "The email is required",
+          "already_exist": "There is already a candidate with this email",
+          "save": "Save",
+          "use_existing": "Use an existing candidate",
+          "search_candidate": "Search candidate",
+          "created": "Registry date",
+          "select": "Select"
+        },
+        "step1":{
+          "tab_title": "Answer the dimensions questions",
+          "tab_description": "Select the dimensions and ask the questions to the candidate",
+          "delete_dimension": "Erase dimension",
+          "key_actions": "Key actions",
+          "task": "Situation/Task",
+          "action": "Action",
+          "result": "Result",
+          "resume": "Summary",
+          "score": "Score",
+          "impact": "Impact",
+          "comunication": "Communication"
+        },
+        "step2":{
+          "tab_title": "Motivational competency",
+          "tab_description": "Start with the general questions and follow-up with the facets",
+          "title": "Motivational compatibility",
+          "description": "The extent to which the activities and responsibilities of the position, mode of operation and values ​​of the organization and the community in which individuals live, correspond to the type of environment that provides personal satisfaction; the extent to which the work itself is personally satisfying.",
+          "answer": "Answer",
+          "score": "Score",
+          "option_a": "Option A",
+          "option_b": "Option B"
+        },
+        "step3":{
+          "tab_title": "Current compensation and movility",
+          "tab_description": "Take note of the candidate situation",
+          "title": "Current compensation and movility",
+          "description": "Find out the candidates situation and his ambitions",
+          "company": "Application company",
+          "position": "Application position",
+          "base_salary": "Base salary",
+          "benefits": "Benefits",
+          "salary_expectations": "Salary expectancy",
+          "geographical_areas": "Geographical areas"
+        },
+        "controller": {
+          "delete_dimension": "Do you want to erase this dimension?",
+          "delete_dimension_content": "This dimension will be removed from the result. To remove it from the interview, you have to edit it",
+          "delete_question": "Do you want to erase this question?",
+          "delete_question_content": "This question will be removed from the result. To remove it from the interview, you have to edit it",
+          "ok": "Accept",
+          "cancel": "Cancel",
+
+          "check_situation": "The situation of question {{ index }} of <b> {{ text }} </b> is missing",
+          "check_action": "The action of question {{ index }} of <b> {{ text }} </b> is missing",
+          "check_result": "The result of question {{ index }} of <b> {{ text }} </b> is missing",
+          "check_rating": "The score of question {{ index }} of <b> {{ text }} </b> is missing",
+          "check_impact": "The impact of question {{ index }} of <b> {{ text }} </b> is missing",
+          "check_comunication": "The communication of question {{ index }} of <b> {{ text }} </b> is missing",
+
+          "check_general_question_answer": "The <b>general question</b> is missing",
+          "check_general_question_score": "The score of the <b>general question</b> is missing",
+          "check_open_question_answer": "The <b>open question</b> is missing",
+          "check_open_question_score": "The score of the <b>open question</b> is missing",
+
+          "check_motivational_answer": "The question regarding motivational facets is missing: <b>{{ text }}</b>",
+          "check_motivational_score": "The score regarding motivational facets is missing: <b>{{ text }}</b>",
+
+          "check_position": "A required field is missing: <b>position</b>",
+
+          "finish_title": "Do you want to end this interview?",
+          "finish_content": "The answers will be saved and a PDF report will be generated",
+          "finish_ok": "Of course!",
+          "finish_cancel": "Cancel",
+
+          "errors_title": "The following fields are missing",
+          "errors_button": "Got it!",
+
+          "instructions_title": "How should I score?",
+          "instructions_1": "Much less than expected",
+          "instructions_2": "Less than expected",
+          "instructions_3": "Meets the expected",
+          "instructions_4": "Better than expected",
+          "instructions_5": "Much better than expected",
+          "instructions_button": "Got it!"
+
+
         }
       }
 

@@ -32,7 +32,7 @@ render(){
     <div className="navbar-collapse collapse  dual-collapse2">
         <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-            <NavLink to="/interviews" className="nav-link" activeClassName="active">{t('interviews')}</NavLink>
+            <NavLink to="/interviews" className="nav-link" activeClassName="active">{t('interviews.title_lower')}</NavLink>
             </li>
             <li className="nav-item">
             <NavLink to="/results" className="nav-link" activeClassName="active">{t('results')}</NavLink>

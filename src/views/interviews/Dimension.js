@@ -3,17 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faAngleDown, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { withTranslation } from 'react-i18next';
 
-function showProperLabel(attributes){
-    if(attributes.name){
-       return (<div><h4>{attributes.name.spanish}</h4>
-       <p>{attributes.description.spanish}</p>
-       </div>); 
-    }else{
-        return(<p>{attributes.translation.spanish}</p>);
-    }
-}
 
-export default class Dimension extends Component{
+class Dimension extends Component{
 
     constructor(props){
         super(props);
@@ -21,6 +12,18 @@ export default class Dimension extends Component{
             displayQuestions: true
         };
         this.onQuestionSelected = this.onQuestionSelected.bind(this);
+    }
+
+    showProperLabel = (attributes) =>{
+        const { t, i18n } = this.props;
+        const language = i18n.language == "es"? "spanish":"english";
+        if(attributes.name){
+           return (<div><h4>{attributes.name[language]}</h4>
+           <p>{attributes.description[language]}</p>
+           </div>); 
+        }else{
+            return(<p>{attributes.translation[language]}</p>);
+        }
     }
 
     onQuestionSelected(e){
@@ -65,15 +68,16 @@ export default class Dimension extends Component{
     render(){
         const style = {fontSize: '15px'};
         const {displayQuestions} = this.state;
-        
-        //console.log('this.props');
-        //console.log(this.props);
+        const { t, i18n } = this.props;
+        const language = i18n.language == "es"? "spanish":"english";
+        console.log('this.props.DImension');
+        console.log(i18n);
         return (
             <div className="mt-4">
                 <div className="row">
                     <div className="col-sm-10">
-                    <h3 className="text-left ml-5">{this.props.name.spanish}</h3>
-                    <p className="text-left ml-5 ">{this.props.description.spanish}</p>
+                    <h3 className="text-left ml-5">{this.props.name[language]}</h3>
+                    <p className="text-left ml-5 ">{this.props.description[language]}</p>
                     </div>
                     
                     {this.renderBasedOnDimension()}
@@ -98,7 +102,7 @@ export default class Dimension extends Component{
                                        checked={this.props.questionsSelected[q.id]? "checked":""}>
                                     </input>
                                 <label className="custom-control-label" htmlFor={q.id}>
-                                    {showProperLabel(q.attributes)}
+                                    {this.showProperLabel(q.attributes)}
                                 </label>
                             </div>
                             </td>
@@ -113,3 +117,5 @@ export default class Dimension extends Component{
         );
     }
 }
+
+export default withTranslation()(Dimension);

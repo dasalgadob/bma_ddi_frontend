@@ -64,7 +64,7 @@ class Table extends Component {
                 }
             </div>
             <Link to={`interviews/${item.id}`} className="">{t('edit')}</Link>
-            <Link to={`interviews/${item.id}/fill`} className="btn btn-primary">{t('fill')}</Link>
+            <Link to={`interviews/${item.id}/fill`} className="btn btn-primary">{t('interviews.fill')}</Link>
             </div>
         </div>
         

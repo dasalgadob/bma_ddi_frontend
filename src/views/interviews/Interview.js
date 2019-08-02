@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faLanguage } from '@fortawesome/free-solid-svg-icons';
 import Dimension from './Dimension';
 import { Redirect } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
@@ -316,6 +316,7 @@ class Interview extends Component{
       }
 
     render(){
+        
         const {isDimensionsActive, dimensionsOnSelect, dimensionsSelected, motivationalDimension} = this.state;
         console.log('this.state.dimensionsSelected');
         console.log(this.state.dimensionsSelected);
@@ -327,7 +328,8 @@ class Interview extends Component{
         if(!dimensionsOnSelect){
             return(<div></div>);
         }
-
+        const { t, i18n } = this.props;
+        const language = i18n.language == "es"? "spanish":"english";
 
         return(
         <div>
@@ -336,12 +338,12 @@ class Interview extends Component{
             <li className="nav-item">
                 <a className={`nav-link ${isDimensionsActive? 'active': ''}`} 
                     href="#"
-                    onClick={this.onChangeIsDimensionsActive}>Dimensiones y preguntas</a>
+                    onClick={this.onChangeIsDimensionsActive}>{t('create.step1.title')}</a>
             </li>
             <li className="nav-item">
                 <a className={`nav-link ${!isDimensionsActive? 'active': ''}`} 
                 href="#"
-                onClick={this.onChangeIsDimensionsNotActive} >Competencia motivacional</a>
+                onClick={this.onChangeIsDimensionsNotActive} >{t('create.step2.title')}</a>
             </li>
 
             </ul>
@@ -350,7 +352,7 @@ class Interview extends Component{
                 <fieldset>
                 <div className="row align-items-center">
                     <div className="form-group col-md-6">
-                    <label htmlFor="name" className=" col-form-label col-form-label-sm mr-2">Nombre de la Entrevista: </label>
+                    <label htmlFor="name" className=" col-form-label col-form-label-sm mr-2">{t('create.step1.interview_name_label')}: </label>
                     <input type="text" 
                            id="name" 
                            className="form-control" 
@@ -359,7 +361,7 @@ class Interview extends Component{
                            value={this.state.name}></input>
                     </div>
                     <div className="form-group col-md-6">
-                    <label htmlFor="company" className=" col-form-label col-form-label-sm mr-2">Nombre de la Compañia:</label>
+                    <label htmlFor="company" className=" col-form-label col-form-label-sm mr-2">{t('create.step1.interview_company_label')}:</label>
                     <input type="text" id="company" className="form-control" 
                            onChange={this.onCompanyChange}
                            value={this.state.company}></input>
@@ -368,10 +370,10 @@ class Interview extends Component{
                 </fieldset>
                 <div className="row  mt-2">
                     <div className="col-auto">
-                    Selecciona una dimensión:
+                    {t('create.step1.select_placeholder')}:
                     <select className="form-control" id="dimension" onChange={this.onCurrentDimensionChange}>
                         <option></option>   
-                    {dimensionsOnSelect['data'].map(d => <option key={d['id']} value={d['id']} >{d['attributes']['name']['spanish']}</option>)}   
+                    {dimensionsOnSelect['data'].map(d => <option key={d['id']} value={d['id']} >{d['attributes']['name'][language]}</option>)}   
                     
                     </select>
                     </div>
@@ -379,7 +381,7 @@ class Interview extends Component{
                         <div className="row align-items-left mt-4">
                             <button onClick={this.handleCurrentDimensionAdding}
                             className=" btn btn-primary ">
-                                <FontAwesomeIcon icon={faPlus} /> Añadir dimensión
+                                <FontAwesomeIcon icon={faPlus} /> {t('create.step1.add')}
                             </button>
                         </div>
                     </div>
@@ -388,14 +390,14 @@ class Interview extends Component{
                         <div className="">
                             <button type="submit" className="btn btn-primary align-self-end " >
                                     
-                                Siguiente
+                            {t('create.step1.next')}
                             </button>
                         </div>
                     </div>
                 </div>
             </form>
 
-            <h4 className="mt-4">Selecciona las preguntas para cada dimensión</h4>
+            <h4 className="mt-4">{t('create.step1.select_questions')}</h4>
 
             <div id="dimensionsSelected">
                 {dimensionsSelected.map(
@@ -419,10 +421,10 @@ class Interview extends Component{
                     <div className="d-flex flex-row mt-3">
                      <button type="button" 
                              className="btn btn-primary  mx-2 mr-auto"
-                             onClick={this.onChangeIsDimensionsActive}>Atras</button>
+                             onClick={this.onChangeIsDimensionsActive}>{t('create.step2.back')}</button>
                         <div className="btn-toolbar">
-                        <button onClick={this.saveAndFillInterview} className="btn btn-primary ml-auto mx-1">Guardar y rellenar</button>
-                        <button onClick={this.saveInterview} className="btn btn-primary  ml-auto mx-1">Guardar entrevista</button>
+                        <button onClick={this.saveAndFillInterview} className="btn btn-primary ml-auto mx-1">{t('create.step2.save_and_fill')}</button>
+                        <button onClick={this.saveInterview} className="btn btn-primary  ml-auto mx-1">{t('create.step2.save')}</button>
                         </div>
                     </div>
                 </div>
@@ -430,7 +432,7 @@ class Interview extends Component{
 
             <div className="container mt-4">
                  
-                <h3 className="mt-10">Preguntas sobre Facetas Motivacionales</h3>
+                <h3 className="mt-10">{t('create.step2.motivational_aspects')}</h3>
 
                 
             </div>       
