@@ -68,7 +68,6 @@ render(){
             {t('account')}
             </a>
             <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <NavLink to="/interviews" className="dropdown-item">{t('profile')}</NavLink>
             <NavLink to="/users"  className="dropdown-item">{t('settings')}</NavLink>
             <div className="dropdown-divider"></div>
             <Logout />

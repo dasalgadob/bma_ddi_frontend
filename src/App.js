@@ -13,6 +13,8 @@ import {PrivateRoute} from './helpers/PrivateRoute';
 import NewInterview from './views/interviews/NewInterview';
 import FillInterview from './views/interviews/FillInterview';
 import Interview from './views/interviews/Interview';
+import EditUser from './views/users/EditUser';
+import NewUser from './views/users/NewUser';
 
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
           <PrivateRoute path="/interviews/new" component={NewInterview} />
           <PrivateRoute exact path="/interviews" component={Interviews} />
           <Route path="/login" component={Login} />
+          <PrivateRoute path="/users/:id/edit" component={NewUser} />
+          <PrivateRoute path="/users/new" component={NewUser} />
           <PrivateRoute path="/users" component={Users} />
           
         </Switch>

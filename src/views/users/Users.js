@@ -2,12 +2,16 @@
 import React, { Component } from 'react';
 import { map } from 'rsvp';
 import { withTranslation } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
+
 
 const axios = require('axios');
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/users`;
 
-export default class Users extends Component {
+class Users extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -49,18 +53,26 @@ export default class Users extends Component {
     render(){
         const { result } = this.state;
         if(!result){ return null;}
+        const {t, i18n} = this.props;
 
         return (
         <div>
+                        <div className="row ml-4">
+                        <Link to='users/new' className=" btn btn-primary">
+                            <FontAwesomeIcon icon={faPlus} /> {"Crear usuario"}
+                        </Link>
+                        </div>
+                        
             <h1>Usuarios</h1>
 
 
-            <table class="table table-hover">
+            <table className="table table-hover">
             <thead>
                 <tr>
                 <th>Nombre</th>
                 <th colspan>Apellido</th>
                 <th colspan>Email</th>
+                <th colspan>Editar</th>
                 <th colspan>Administrador</th>
                 </tr>
             </thead>
@@ -73,6 +85,11 @@ export default class Users extends Component {
                         <td>{user.name}</td>
                         <td>{user.last_name}</td>
                         <td>{user.email}</td>
+                        <td>
+                        <Link to={{pathname: "/users/"+user.id+ '/edit'}}>
+                            <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
+                        </Link>
+                        </td>
                         <td>{user.admin}</td>
                     </tr>
                 )}
@@ -82,3 +99,5 @@ export default class Users extends Component {
         </div>);
     }
 }
+
+export default withTranslation()(Users);
