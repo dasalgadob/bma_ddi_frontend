@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { withTranslation } from 'react-i18next';
 
-export default class Candidate extends Component{
+class Candidate extends Component{
 
     constructor(props){
         super(props);
@@ -12,32 +12,35 @@ export default class Candidate extends Component{
     }
 
     render(){
+        const {t, i18n} = this.props;
         return(<div className="">
             <form onSubmit={this.handleSubmit}>
             <div className="form-group row">
-                    <label htmlFor="exampleInputPassword1" className="align-left">Nombre</label>
+                    <label htmlFor="exampleInputPassword1" className="align-left">{t('fill.candidate_form.name')}</label>
                     <input type="text"
                            name="name"
                            className="form-control" 
                            id="exampleInputPassword1" 
-                           placeholder="Nombre"
+                           placeholder={t('fill.candidate_form.name_required')}
                            required="required"
                            onChange={this.props.onInputChange}/>
                 </div>
                 <div className="form-group row">
-                    <label htmlFor="exampleInputEmail1" className="align-left">Email</label>
+                    <label htmlFor="exampleInputEmail1" className="align-left">{t('fill.candidate_form.email')}</label>
                     <input type="email" 
                            name="email"
                            className="form-control" 
                            id="exampleInputEmail1" 
                            aria-describedby="emailHelp" 
-                           placeholder="Enter email"
+                           placeholder={t('fill.candidate_form.email_required')}
                            required="required"
                            onChange={this.props.onInputChange} />
                 </div>
                 
-                <button type="submit" className="btn btn-primary">Guardar</button>
+                <button type="submit" className="btn btn-primary">{t('fill.candidate_form.save')}</button>
             </form>
         </div>);
     }
 }
+
+export default withTranslation()(Candidate);

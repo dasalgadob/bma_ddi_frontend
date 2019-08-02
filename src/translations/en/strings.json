@@ -1,6 +1,6 @@
 {
       "Welcome to React": "Welcome to React and react-i18next",
-      "results": "Results",
+      "results_lower": "Results",
       "account": "Account",
       "setting": "Settings",
       "profile": "Profile",
@@ -64,10 +64,15 @@
       },
 
 
+      "created_at": "Creation date",
+
       "fill":{
         "title": "FILL INTERVIEW",
         "next": "Next",
         "back": "Back",
+        "alert_text": "Changes made have been saved",
+        "missing_data": "Missing data",
+        "got_it": "Got it",
         "candidate_form": {
           "candidate": "Candidate",
           "create": "Create candidate",
@@ -81,6 +86,7 @@
           "save": "Save",
           "use_existing": "Use an existing candidate",
           "search_candidate": "Search candidate",
+          "candidate_name": "Candidate name",
           "created": "Registry date",
           "select": "Select"
         },
@@ -102,6 +108,7 @@
           "tab_description": "Start with the general questions and follow-up with the facets",
           "title": "Motivational compatibility",
           "description": "The extent to which the activities and responsibilities of the position, mode of operation and values ​​of the organization and the community in which individuals live, correspond to the type of environment that provides personal satisfaction; the extent to which the work itself is personally satisfying.",
+          "motivational_facets": "Questions about Motivational Facets",
           "answer": "Answer",
           "score": "Score",
           "option_a": "Option A",
@@ -161,6 +168,21 @@
           "instructions_button": "Got it!"
 
 
+        }
+      },
+
+      "results":{
+        "title": "RESULTS",
+        "no_results": "THERE ARE NO RESULTS",
+        "see_interviews": "View interviews",
+        "search_result": "Search result",
+        "candidate": "Candidate",
+        "score": "Mark",
+        "edit": "Edit",
+        "show": "View",
+        "controller":{
+          "no_edit_title": "You cann't edit this result!",
+          "no_edit_content": "You can only edit results from interviews you have performed"
         }
       }
 

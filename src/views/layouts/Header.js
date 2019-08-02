@@ -35,7 +35,7 @@ render(){
             <NavLink to="/interviews" className="nav-link" activeClassName="active">{t('interviews.title_lower')}</NavLink>
             </li>
             <li className="nav-item">
-            <NavLink to="/results" className="nav-link" activeClassName="active">{t('results')}</NavLink>
+            <NavLink to="/results" className="nav-link" activeClassName="active">{t('results_lower')}</NavLink>
             </li>
         </ul>
     </div>

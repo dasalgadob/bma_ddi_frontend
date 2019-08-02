@@ -4,7 +4,7 @@ const axios = require('axios');
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/dimensions`;
 
-export default class DimensionHeader extends Component{
+class DimensionHeader extends Component{
 
     constructor(props){
         super(props);
@@ -42,7 +42,9 @@ export default class DimensionHeader extends Component{
 
 
     render(){
-        
+        const {t, i18n} = this.props;
+        const language = i18n.language == "es"? "spanish":"english";
+
         const {dimension, dimensionId} = this.state;
         if(!this.state.dimension){
             return <div></div>
@@ -54,8 +56,10 @@ export default class DimensionHeader extends Component{
         console.log("Dimension id DimensionHeader:" + this.props.dimensionId);
         console.log(dimension);
         return(<div className="mt-4">
-            <h4>{dimension.data.attributes.name.spanish}</h4>
-            <p>{dimension.data.attributes.description.spanish}</p>
+            <h4>{dimension.data.attributes.name[language]}</h4>
+            <p>{dimension.data.attributes.description[language]}</p>
         </div>);
     }
 }
+
+export default withTranslation()(DimensionHeader);

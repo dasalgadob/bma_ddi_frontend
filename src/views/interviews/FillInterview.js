@@ -17,7 +17,7 @@ const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/interviews`;
 const ANSWERS_URL = `${process.env.REACT_APP_BACKEND_URL}/answers`;
 const QUESTIONS_URL = `${process.env.REACT_APP_BACKEND_URL}/questions`;
 
-export default class FillInterview extends Component{
+class FillInterview extends Component{
 
     constructor(props){
         super(props);
@@ -703,6 +703,7 @@ export default class FillInterview extends Component{
 
 
     render(){
+        const {t, i18n } = this.props;
         const alertStyle = {position: "fixed",
             top: "100px", 
             left:"2%",
@@ -729,24 +730,24 @@ export default class FillInterview extends Component{
 
 
         <div style={styleMenuInterview}>
-            <h3>Rellenar entrevista</h3>
+            <h3>{t('fill.title')}</h3>
             <ul className="nav nav-tabs">
                 <li className="nav-item">
                     
                     <a className={`nav-link ${this.state.isFillDimensionsTab? "active": ''}` }
                         onClick={this.onChangeIsFillDimensionsTab} 
-                        href="#"><h3>1</h3>Rellenar las preguntas de las dimensiones</a>
+                        href="#"><h3>1</h3>{t('fill.step1.tab_title')}</a>
                 </li>
                 <li className="nav-item">
                     <a className={`nav-link ${this.state.isMotivationalCompetenceTab? "active": ''}` }
                         onClick={this.onChangeIsMotivationalCompetenceTab}  
-                        href="#"><h3>2</h3>Competencia motivacional</a>
+                        href="#"><h3>2</h3>{t('fill.step2.tab_title')}</a>
                 </li>
 
                 <li className="nav-item">
                     <a className={`nav-link ${this.state.isCompensationTab? "active": ''}` }
                         onClick={this.onChangeIsCompensationTab}  
-                        href="#"><h3>3</h3>Compensación actual y movilidad
+                        href="#"><h3>3</h3>{t('fill.step3.tab_title')}
                         </a>
                 </li>
             </ul>
@@ -756,22 +757,22 @@ export default class FillInterview extends Component{
             {this.state.visibleAlert?
                     <div className="myAlert-top alert alert-success" style={alertStyle}>
                     <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    Se ha guardado los cambios realizados.
+                    {t('fill.alert_text')}.
                     </div>:<div></div>
             }
 
-                    <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                <ModalHeader toggle={this.toggle}>Datos faltantes</ModalHeader>
-                <ModalBody>
-                    <ul>
-                    {this.state.fieldErrors.map(fe =>
-                        <li dangerouslySetInnerHTML={{__html: fe}}></li>)}
-                    </ul>
-                    
-                </ModalBody>
-                <ModalFooter>
-                    <Button color="primary" onClick={this.toggle}>Entendido</Button>{' '}
-                </ModalFooter>
+                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>{t('fill.missing_data')}</ModalHeader>
+                    <ModalBody>
+                        <ul>
+                        {this.state.fieldErrors.map(fe =>
+                            <li dangerouslySetInnerHTML={{__html: fe}}></li>)}
+                        </ul>
+                        
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={this.toggle}>{t('fill.got_it')}</Button>{' '}
+                    </ModalFooter>
                 </Modal>
 
 
@@ -801,15 +802,15 @@ export default class FillInterview extends Component{
             {this.state.visibleAlert?
                     <div className="myAlert-top alert alert-success" style={alertStyle}>
                     <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    Se ha guardado los cambios realizados.
+                    {t('fill.alert_text')}.
                     </div>:<div></div>
             }
 
             <NavigationButtons handleBeforeButton={this.onChangeIsFillDimensionsTab}
                                    handleNextButton={this.validatesMotivationalQuestions}>
             </NavigationButtons>
-            <h4 className="mt-4">Compatibilidad motivacional</h4>
-            <p>La medida en que las actividades y responsabilidades del puesto, la modalidad de operación y los valores de la organización, y la comunidad en la cual el individuo vivirá, se corresponden con el tipo de ambiente que brinda satisfacción personal; el grado en el cual el propio trabajo es personalmente satisfactorio.</p>
+            <h4 className="mt-4">{t('fill.step2.title')}</h4>
+            <p>{t('fill.step2.description')}</p>
             
             <br>
             </br>
@@ -832,17 +833,17 @@ export default class FillInterview extends Component{
             {this.state.visibleAlert?
                     <div className="myAlert-top alert alert-success" style={alertStyle}>
                     <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    Se ha guardado los cambios realizados.
+                    {t('fill.alert_text')}.
                     </div>:<div></div>
             }
             <NavigationButtons handleBeforeButton={this.onChangeIsMotivationalCompetenceTab}
                                    handleNextButton={this.validatesCompensationQuestions}>
             </NavigationButtons>
-            <h4 className="mt-4">Compensacion actual y movilidad</h4>
-            <p>Averigua cual es la situación del candidato y donde quiere llegar.</p>
+            <h4 className="mt-4">{t('fill.step3.title')}</h4>
+            <p>{t('fill.step3.description')}</p>
             <form onSubmit={this.handleSubmit}>
             <div className="form-group row">
-                <label htmlFor="exampleInputPassword1" className="align-left ">Compañía para la que entrevista</label>
+                <label htmlFor="exampleInputPassword1" className="align-left ">{t('fill.step3.company')}</label>
                 <input type="text"
                         name="company"
                         className="form-control " 
@@ -854,7 +855,7 @@ export default class FillInterview extends Component{
             </div>
 
             <div className="form-group row">
-                <label htmlFor="exampleInputPassword1" className="align-left">Puesto para el que entrevista</label>
+                <label htmlFor="exampleInputPassword1" className="align-left">{t('fill.step3.position')}</label>
                 <input type="text"
                         name="position"
                         className="form-control" 
@@ -866,7 +867,7 @@ export default class FillInterview extends Component{
             </div>
 
             <div className="form-group row">
-                <label htmlFor="exampleInputPassword1" className="align-left">Salario base</label>
+                <label htmlFor="exampleInputPassword1" className="align-left">{t('fill.step3.base_salary')}</label>
                 <input type="text"
                         name="baseSalary"
                         className="form-control" 
@@ -878,7 +879,7 @@ export default class FillInterview extends Component{
             </div>
 
             <div className="form-group row">
-                <label htmlFor="exampleInputPassword1" className="align-left">Beneficios</label>
+                <label htmlFor="exampleInputPassword1" className="align-left">{t('fill.step3.benefits')}</label>
                 <input type="text"
                         name="benefits"
                         className="form-control" 
@@ -890,7 +891,7 @@ export default class FillInterview extends Component{
             </div>
 
             <div className="form-group row">
-                <label htmlFor="exampleInputPassword1" className="align-left">Expectativas de salario</label>
+                <label htmlFor="exampleInputPassword1" className="align-left">{t('fill.step3.salary_expectations')}</label>
                 <input type="text"
                         name="salaryExpectations"
                         className="form-control" 
@@ -902,7 +903,7 @@ export default class FillInterview extends Component{
             </div>
 
             <div className="form-group row">
-                <label htmlFor="exampleInputPassword1" className="align-left">Áreas geográficas</label>
+                <label htmlFor="exampleInputPassword1" className="align-left">{t('fill.step3.geographical_areas')}</label>
                 <input type="text"
                         name="geographicalAreas"
                         className="form-control" 
@@ -920,3 +921,5 @@ export default class FillInterview extends Component{
         );
     }
 }
+
+export default withTranslation()(FillInterview);

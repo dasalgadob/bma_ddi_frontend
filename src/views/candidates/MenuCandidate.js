@@ -8,7 +8,7 @@ import { withTranslation } from 'react-i18next';
  * The second part display the proper content for each option of the menu
  * 
  */
-export default class MenuCandidate extends Component {
+class MenuCandidate extends Component {
 
     constructor(props){
         super(props);
@@ -27,19 +27,20 @@ export default class MenuCandidate extends Component {
 
     render(){
         const {isCreateCandidateTab} = this.state;
+        const {t, i18n} = this.props;
         return (
         <div className="container" style={this.props.style}>
-            <h3>Candidato</h3>
+            <h3>{t('fill.candidate_form.candidate')}</h3>
             <ul className="nav nav-tabs">
             <li className="nav-item">
                 <a className={`nav-link ${this.state.isCreateCandidateTab? "active": ''}` }
                 onClick={this.onChangeTab} 
-                href="#">Crear candidato</a>
+                href="#">{t('fill.candidate_form.create')}</a>
             </li>
             <li className="nav-item">
                 <a className={`nav-link ${!this.state.isCreateCandidateTab? "active": ''}` }
                 onClick={this.onChangeTab}  
-                href="#">Usar candidato ya existente</a>
+                href="#">{t('fill.candidate_form.use_existing')}</a>
             </li>
             
             </ul>
@@ -56,3 +57,5 @@ export default class MenuCandidate extends Component {
         );
     }
 }
+
+export default withTranslation()( MenuCandidate);

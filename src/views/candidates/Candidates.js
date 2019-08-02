@@ -5,7 +5,7 @@ import ReactPaginate from 'react-paginate';
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/candidates`;
 
-export default class Candidates extends Component{
+class Candidates extends Component{
 
     constructor(props){
         super(props);
@@ -77,12 +77,11 @@ export default class Candidates extends Component{
         if(!this.state.candidatesData){ return null;}
         let data = this.state.candidatesData;
 
-        
-
+        const {t, i18n} = this.props;
 
         let pageComponent = <ReactPaginate
-        previousLabel={'anterior'}
-        nextLabel={'siguiente'}
+        previousLabel={t('before')}
+        nextLabel={t('next')}
         breakLabel={'...'}
         breakClassName={'break-me'}
         pageCount={this.state.candidatesDataPaging["pages"]}
@@ -97,21 +96,20 @@ export default class Candidates extends Component{
         activeClassName={'active'}
         />;
 
-        
         return(<div>
             <div className="container">
 
 
             <form className="container mb-2">
                 <fieldset>
-                <legend className="text-left">Buscar candidato:</legend>
+                <legend className="text-left">{t('fill.candidate_form.search_candidate')}:</legend>
                 <div className="row align-items-center">
                     <div className="col-auto">
-                    <label htmlFor="name" className=" col-form-label col-form-label-sm mr-2">nombre: </label>
+                    <label htmlFor="name" className=" col-form-label col-form-label-sm mr-2">{t('fill.candidate_form.name')}: </label>
                     <input type="text" id="name" className="form-control-sm" onChange={this.onNameChange}></input>
                     </div>
                     <div className="col-auto">
-                    <label htmlFor="company" className=" col-form-label col-form-label-sm mr-2">Email:</label>
+                    <label htmlFor="company" className=" col-form-label col-form-label-sm mr-2">{t('fill.candidate_form.email')}:</label>
                     <input type="text" id="em" className="form-control-sm" onChange={this.onEmailChange}></input>
                     </div>
                     
@@ -119,12 +117,12 @@ export default class Candidates extends Component{
                 </fieldset>
                 <div className="row align-items-center mt-2">
                     <div className="col-auto">
-                    <label htmlFor="sort" className=" col-form-label col-form-label-sm mr-2">Ordenar por: </label>
+                    <label htmlFor="sort" className=" col-form-label col-form-label-sm mr-2">{t('sort_by')}: </label>
                     <select className="form-control-sm" id="sort" onChange={this.onSortByChange}>
-                    <option value="created_at;desc">Fecha de creación más reciente</option>
-                    <option value="created_at;asc">Fecha de creación más antiguo</option>
-                    <option value="name;asc">Nombre de entrevista A-Z</option>
-                    <option value="name;desc">Nombre de entrevista Z-A</option>
+                    <option value="created_at;desc">{t('most_recently')}</option>
+                    <option value="created_at;asc">{t('most_older')}</option>
+                    <option value="name;asc">{t('fill.candidate_form.candidate_name')} A-Z</option>
+                    <option value="name;desc">{t('fill.candidate_form.candidate_name')} Z-A</option>
                     </select>
                     </div>                        
                 </div>
@@ -135,9 +133,9 @@ export default class Candidates extends Component{
                 <thead className="thead-dark">
                     <tr>
                         <th scope="col" >id</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Fecha de creación</th>
+                        <th scope="col">{t('fill.candidate_form.name')}</th>
+                        <th scope="col">{t('fill.candidate_form.email')}</th>
+                        <th scope="col">{t('created_at')}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -149,7 +147,7 @@ export default class Candidates extends Component{
                             <td>{item.email}</td>
                             <td>{item.created_at}</td>
                             <td><button  className="btn btn-primary" id={item.id}
-                                        onClick={this.props.onChooseCandidate}>Elegir</button></td>
+                                        onClick={this.props.onChooseCandidate}>{t('fill.candidate_form.select')}</button></td>
                         </tr>)}
                 </tbody>
             </table>
@@ -160,3 +158,5 @@ export default class Candidates extends Component{
         </div>);
     }
 }
+
+export default withTranslation()(Candidates);

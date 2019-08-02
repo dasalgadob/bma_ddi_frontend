@@ -5,13 +5,16 @@ import Rating from '@prontopro/react-rating';
 import { withTranslation } from 'react-i18next';
 const axios = require('axios');
 
-export default class NavDimensions extends Component{
+class NavDimensions extends Component{
 
 
     render(){
+
         if(!this.props.dimensions){
             return <div></div>;
         }
+        const {t, i18n} = this.props;
+        const language = i18n.language == "es"? "spanish":"english";
         return <div>
             <ul className="nav nav-tabs mt-2">
 
@@ -20,7 +23,7 @@ export default class NavDimensions extends Component{
                 <li className={"nav-item "} key={item.id}>
                     <a id={item.id} className={`nav-link ${this.props.currentDimension==item.id?"active":""}` }
                         onClick={this.props.onClick} 
-                        href="#">{item.spanish}</a>
+                        href="#">{item[language]}</a>
                 </li>
                 
                 )}  
@@ -29,3 +32,5 @@ export default class NavDimensions extends Component{
         </div>
     }
 }
+
+export default withTranslation()( NavDimensions);
