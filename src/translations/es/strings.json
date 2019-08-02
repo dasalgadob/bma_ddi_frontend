@@ -235,5 +235,32 @@
         "success_update": "Resultado actualizado con éxito"
       }
 
+    },
+
+    "users":{
+      "title": "Usuarios",
+      "create": "Crear usuario",
+      "name": "Nombre",
+      "last_name": "Apellido",
+      "email": "Email",
+      "edit": "Editar",
+      "administrator": "Administrador"
+    },
+
+    "user":{
+      "name": "Nombre",
+      "last_name": "Apellido",
+      "email": "Email",
+      "password": "Contraseña",
+      "password_confirmation": "Confirmación de contraseña",
+      "save":"Guardar",
+      "edit": "Editar",
+      "name_placeholder": "Ingresar nombre",
+      "last_name_placeholder": "Ingresar apellido",
+      "email_placeholder": "Ingresar email",
+      "disable_user": "Desabilitar usuario",
+      "is_admin": "Es administrador",
+      "password_match":"Las contraseñas coinciden",
+      "password_dont_match": "Las contraseñas no coinciden"
     }
 }

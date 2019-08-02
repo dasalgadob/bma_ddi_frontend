@@ -59,21 +59,21 @@ class Users extends Component {
         <div>
                         <div className="row ml-4">
                         <Link to='users/new' className=" btn btn-primary">
-                            <FontAwesomeIcon icon={faPlus} /> {"Crear usuario"}
+                            <FontAwesomeIcon icon={faPlus} /> {t('users.create')}
                         </Link>
                         </div>
                         
-            <h1>Usuarios</h1>
+            <h1>{t('users.title')}</h1>
 
 
             <table className="table table-hover">
             <thead>
                 <tr>
-                <th>Nombre</th>
-                <th colspan>Apellido</th>
-                <th colspan>Email</th>
-                <th colspan>Editar</th>
-                <th colspan>Administrador</th>
+                <th>{t('users.name')}</th>
+                <th colspan>{t('users.last_name')}</th>
+                <th colspan>{t('users.email')}</th>
+                <th colspan>{t('users.edit')}</th>
+                <th colspan>{t('users.administrator')}</th>
                 </tr>
             </thead>
 

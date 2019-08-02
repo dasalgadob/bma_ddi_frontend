@@ -236,6 +236,33 @@
           "success_update": "The result has been edited successfully"
         }
 
+      },
+
+      "users":{
+        "title": "Users",
+        "create": "Create user",
+        "name": "Name",
+        "last_name": "Last name",
+        "email": "Email",
+        "edit": "Edit",
+        "administrator": "Administrator"
+      },
+
+      "user":{
+        "name": "Name",
+        "last_name": "Last name",
+        "email": "Email",
+        "password": "Password",
+        "password_confirmation": "Password confirmation",
+        "save":"Save",
+        "edit": "Edit",
+        "name_placeholder": "Enter name",
+        "last_name_placeholder": "Enter last name",
+        "email_placeholder": "Enter email",
+        "disable_user": "Disable user",
+        "is_admin":"Is admin",
+        "password_match":"Passwords match",
+        "password_dont_match": "Passwords don't match"
       }
 
 

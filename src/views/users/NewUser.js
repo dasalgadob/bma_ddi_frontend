@@ -232,6 +232,7 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
             display: "none"
         };
 
+        const {t, i18n} = this.props;
 
         return(
         <div>
@@ -239,41 +240,48 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
             <form onSubmit={this.handleSubmit}>
 
             <div className="form-group">
-              <label for="exampleInputName">Name</label>
-              <input name='name' type="text" className="form-control" id="exampleInputName" aria-describedby="emailHelp" placeholder="Enter name" required
+              <label for="exampleInputName">{t('user.name')}</label>
+              <input name='name' type="text" className="form-control" 
+                    id="exampleInputName" aria-describedby="emailHelp" 
+                    placeholder={t('user.name_placeholder')} required
                     onChange={this.onInputChange}
                     value={fields.name}/>
             </div>
             <div className="form-group">
-              <label for="exampleInputName">Last name</label>
-              <input name='lastName' type="text" className="form-control" id="exampleInputName" aria-describedby="emailHelp" placeholder="Enter name" 
+              <label for="exampleInputName">{t('user.last_name')}</label>
+              <input name='lastName' type="text" className="form-control" id="exampleInputName" 
+                    aria-describedby="emailHelp" placeholder={t('user.last_name_placeholder')}
                     onChange={this.onInputChange}
                     value={fields.lastName}/>
             </div>
             <div className="form-group">
-              <label for="exampleInputEmail1">Email address</label>
-              <input name='email' type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required 
+              <label for="exampleInputEmail1">{t('user.email')}</label>
+              <input name='email' type="email" className="form-control" id="exampleInputEmail1" 
+                    aria-describedby="emailHelp" placeholder={t('user.email_placeholder')} required 
                     onChange={this.onInputChange}
                     value={fields.email}
                     readOnly={this.state.idUser?true:false}/>
             </div>
             <div className="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input name='password' type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" required={this.state.idUser?false:true} minlength="6"
+              <label for="exampleInputPassword1">{t('user.password')}</label>
+              <input name='password' type="password" className="form-control" id="exampleInputPassword1" 
+                    placeholder={t('user.password')} required={this.state.idUser?false:true} minlength="6"
                     onChange={this.onInputChange}/>
             </div>
             <div className="form-group">
-              <label for="exampleInputPassword1">Confirmation Password</label>
-              <input name='confirmationPassword' type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" required={this.state.idUser?false:true} minlength="6"
+              <label for="exampleInputPassword1">{t('user.password_confirmation')}</label>
+              <input name='confirmationPassword' type="password" className="form-control" 
+                    id="exampleInputPassword1" 
+                    placeholder={t('user.password')} required={this.state.idUser?false:true} minlength="6"
                     onChange={this.onInputChange}/>
             </div>
 
-            <p style={fields.styleDisplayMatch}  className="text-success">Los passwords coinciden</p>
-            <p style={fields.styleDisplayNotMatch} className="text-danger">Los passwords no coinciden</p>
+            <p style={fields.styleDisplayMatch}  className="text-success">{t('user.password_match')}</p>
+            <p style={fields.styleDisplayNotMatch} className="text-danger">{t('user.password_dont_match')}</p>
             {this.renderIsDisabled()}            
             {this.renderIsAdmin()}
             
-            <button type="submit" className="btn btn-primary mt-4" >Save</button>
+            <button type="submit" className="btn btn-primary mt-4" >{t('user.save')}</button>
           </form>
           </div>
         );
