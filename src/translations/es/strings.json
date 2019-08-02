@@ -1,11 +1,238 @@
 {
-    "Welcome to React": "Welcome to React and react-i18next",
-    "interviews": "Entrevistas",
+  "Welcome to React": "Welcome to React and react-i18next",
+  "results_lower": "Resultados",
+  "account": "Cuenta",
+  "settings": "Configuraciones",
+  "profile": "Perfil",
+  "log_out": "Cerrar sesión",
+  "search_interview": "Buscar entrevista",
+  "interview": "Entrevista",
+  "company": "Compañia",
+  "interviewer": "Entrevistador",
+  "no_interviews": "THERE ARE NO INTERVIEWS (CREATE ONE)",
+  "own": "En propiedad",
+  "edit": "Editar",
+  "n_questions": "{{ n }} questions/s",
+
+  "interviews":{
+    "title": "ENTREVISTAS",
+    "title_lower": "Entrevistas",
+    "search_interview": "Buscar entrevista",
+    "create": "Crear entrevista",
+    "no_interviews": "THERE ARE NO INTERVIEWS (CREATE ONE)",
+    "own": "En propiedad",
+    "edit": "Editar",
+    "fill": "Llenar",
+    "n_questions": "{{ n }} questions/s"
+  },
 
     "sort_by": "Ordenar por",
     "most_recently": "Fecha de creación más reciente",
     "most_older": "Fecha de creación más antiguo",
     "interview_name": "Nombre de entrevista",
     "before": "anterior",
-      "next": "siguiente"
+      "next": "siguiente",
+
+    "owned":"En propiedad",
+    "dimensions": "Dimensiones",
+    "questions": "Preguntas",
+
+    "create":{
+      "title": "CREAR ENTREVISTA",
+      "not_own_warn": "Esta entrevista no te pertenece. En caso de guardar su edición, se creará una nueva.",
+      "step1": {
+        "title": "Dimensiones y preguntas",
+        "description": "Primero elige una dimensión, luego selecciona las preguntas que deseas añadir.",
+        "interview_name_label": "Nombre de la entrevista",
+        "interview_company_label": "Nombre de la compañia",
+        "next": "Siguiente",
+        "select_placeholder": "Selecciona una dimensión",
+        "add": "Añadir dimensión",
+        "select_questions": "Selecciona las preguntas para cada dimensión"
+
+      },
+      "step2": {
+        "title": "Competencia motivacional",
+        "description": "Elige entre las distintas facetas motivacionales",
+        "back": "Atrás",
+        "save": "Guardar entrevista",
+        "save_and_fill": "Guardar y rellenar",
+        "motivational_aspects": "Questions about motivational aspects",
+        "motivational_compatibility": "Compatibilidad motivacional",
+        "description2": "La medida en que las actividades y responsabilidades del puesto, la modalidad de operación y los valores de la organización, y la comunidad en la cual el individuo vivirá, se corresponden con el tipo de ambiente que brinda satisfacción personal; el grado en el cual el propio trabajo es personalmente satisfactorio."
+      }
+    },
+
+    "created_at": "Fecha de creación",
+
+    "fill":{
+      "title": "RELLENAR ENTREVISTA",
+      "next": "Siguiente",
+      "back": "Atras",
+      "alert_text": "Cambios hechos han sido guardados",
+        "missing_data": "Datos faltantes",
+        "got_it": "Entendido",
+      "candidate_form": {
+        "candidate": "Candidato",
+        "create": "Crear candidato",
+        "name": "Nombre",
+        "name_required": "Nombre (necesario)",
+        "name_is_required": "El nombre es necesario",
+        "email": "Email",
+        "email_required": "Email (necesario)",
+        "email_is_required": "El email es necesario",
+        "already_exist": "Ya existe un candidato con este email",
+        "save": "Guardar",
+        "use_existing": "Usar un candidato ya existente",
+        "search_candidate": "Buscar candidato",
+        "candidate_name": "Nombre de candidato",
+        "created": "Fecha de registro",
+        "select": "Elegir"
+      },
+      "step1":{
+        "tab_title": "Rellenar las preguntas de las dimensiones",
+        "tab_description": "Selecciona las dimensiones y realiza las preguntas al candidato",
+        "delete_dimension": "Eliminar dimension",
+        "key_actions": "Acciones clave",
+        "task": "Situación/Tarea",
+        "action": "Acción",
+        "result": "Resultado",
+        "resume": "Resumen",
+        "score": "Puntuación",
+        "impact": "Impacto",
+        "comunication": "Comunicación"
+      },
+      "step2":{
+        "tab_title": "Competencia motivacional",
+        "tab_description": "Empieza por las preguntas generales y continua con las facetas",
+        "title": "Compatibilidad motivacional",
+        "description": "La medida en que las actividades y responsabilidades del puesto, la modalidad de operación y los valores de la organización, y la comunidad en la cual el individuo vivirá, se corresponden con el tipo de ambiente que brinda satisfacción personal; el grado en el cual el propio trabajo es personalmente satisfactorio.",
+        "motivational_facets": "Preguntas sobre Facetas Motivacionales",
+        "answer": "Respuesta",
+        "score": "Puntuación",
+        "option_a": "Opción A",
+        "option_b": "Opción B"
+      },
+      "step3":{
+        "tab_title": "Compensación actual y movilidad",
+        "tab_description": "Apunta las circunstancias del candidato",
+        "title": "Compensacion actual y movilidad",
+        "description": "Averigua cual es la situación del candidato y donde quiere llegar",
+        "company": "Compañía para la que entrevista",
+        "position": "Puesto para el que entrevista",
+        "base_salary": "Salario base",
+        "benefits": "Beneficios",
+        "salary_expectations": "Expectativas de salario",
+        "geographical_areas": "Áreas geográficas"
+      },
+      "controller": {
+        "delete_dimension": "¿Quieres borrar esta dimensión?",
+        "delete_dimension_content": "Se borrará la dimensión del resultado. Para eliminarla de la entrevista, deberás editarla.",
+        "delete_question": "¿Quieres borrar esta pregunta?",
+        "delete_question_content": "Se borrará la pregunta del resultado. Para eliminarla de la entrevista, deberás editarla.",
+        "ok": "Confirmar",
+        "cancel": "Cancelar",
+
+        "check_situation": "Falta rellenar la situación de la pregunta {{ index }} de <b> {{ text }} </b>",
+        "check_action": "Falta rellenar la acción de la pregunta {{ index }} de <b> {{ text }} </b>",
+        "check_result": "Falta rellenar el resultado de la pregunta {{ index }} de <b> {{ text }} </b>",
+        "check_rating": "Falta puntuar el rating de la pregunta {{ index }} de <b> {{ text }} </b>",
+        "check_impact": "Falta puntuar el impacto de la pregunta {{ index }} de <b> {{ text }} </b>",
+        "check_comunication": "Falta puntuar la comunicación de la pregunta {{ index }} de <b> {{ text }} </b>",
+
+        "check_general_question_answer": "Falta responder la <b>pregunta general</b>",
+        "check_general_question_score": "Falta puntuar la <b>pregunta general</b>",
+        "check_open_question_answer": "Falta responder la <b>pregunta abierta</b>",
+        "check_open_question_score": "Falta puntuar la <b>pregunta abierta</b>",
+
+        "check_motivational_answer": "Falta responder la pregunta sobre facetas motivacionales: <b>{{ text }}</b>",
+        "check_motivational_score": "Falta puntuar la pregunta sobre facetas motivacionales: <b>{{ text }}</b>",
+
+        "check_position": "Falta rellenar el campo obligatorio: <b>puesto</b>",
+
+        "finish_title": "¿Quieres finalizar esta entrevista?",
+        "finish_content": "Se guardarán los resultados y podrás generar un informe en PDF",
+        "finish_ok": "¡Claro!",
+        "finish_cancel": "Cancelar",
+
+        "errors_title": "Se ha detectado que faltan los siguientes datos",
+        "errors_button": "Entendido",
+
+        "instructions_title": "¿Cómo debo puntuar?",
+        "instructions_1": "Mucho menos de lo esperado",
+        "instructions_2": "Menos de lo esperado",
+        "instructions_3": "Cumple las expectativas",
+        "instructions_4": "Mejora las expectativas",
+        "instructions_5": "Mejora mucho las expectativas",
+        "instructions_button": "Entendido"
+
+
+      }
+    },
+
+    "results":{
+      "title": "RESULTADOS",
+      "no_results": "NO TIENES RESULTADOS",
+      "see_interviews": "Ver entrevistas",
+      "search_result": "Buscar resultado",
+      "position": "Posición",
+      "company": "Compañia",
+      "interviewer": "Entrevistador",
+      "candidate": "Candidato",
+      "email_candidate": "Email candidato",
+      "finished": "Terminado",
+      "download": "Descargar Excel",
+      "score": "Puntuación",
+      "edit": "Editar",
+      "show": "Ver",
+      "controller":{
+        "no_edit_title": "¡No puedes editar el resultado!",
+        "no_edit_content": "Solo puedes editar los resultados de entrevistas que hayas rellenado tú."
+      }
+    },
+
+    "result":{
+      "title": "RESULTADO",
+      "export": "Exportar a PDF",
+      "update_result": "Actualizar resultado",
+      "candidate": "CANDIDATO",
+      "position": "PUESTO",
+      "interviewer": "ENTREVISTADOR",
+      "company": "COMPAÑÍA",
+
+      "final_mark": "Nota total",
+      "impact": "Impacto",
+      "comunication": "Comunicación",
+      "motivational_competence": "C. Motivacional",
+
+      "task": "Situación/Tarea",
+      "action": "Acción",
+      "result": "Resultado",
+      "score": "Puntos",
+      "edit_resume": "Editar resumen",
+
+      "motivational_compatibility": "Compatibilidad motivacional",
+      "answer": "Respuesta",
+
+      "compensation_movility": "Compensacion actual y movilidad",
+      "base_salary": "Salario base",
+      "benefits": "Beneficios",
+      "salary_expectations": "Expectativas de salario",
+      "geographical_areas": "Áreas geográficas",
+
+      "legend": {
+        "title": "RANGO DE EVALUACIÓN:",
+        "one": "Pobre",
+        "two": "Por debajo de la media",
+        "three": "Satisfactorio (Cumple los requisitos)",
+        "four": "Bueno (En partes excede los requisitos)",
+        "five": "Excelente (Normalmente excede los requisitos)"
+      },
+
+      "controller": {
+        "not_defined": "Sin definir",
+        "success_update": "Resultado actualizado con éxito"
+      }
+
+    }
 }
