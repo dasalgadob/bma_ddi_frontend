@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MotivationalAnswer from './../answers/MotivationalAnswer';
 import DimensionalAnswer from './../answers/DimensionalAnswer';
 import { Helmet } from 'react-helmet';
+import { withTranslation } from 'react-i18next';
 
 
 const axios = require('axios');

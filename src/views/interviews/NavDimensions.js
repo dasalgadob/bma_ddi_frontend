@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Candidate from '../candidates/Candidate';
 import Candidates from '../candidates/Candidates';
 import Rating from '@prontopro/react-rating';
+import { withTranslation } from 'react-i18next';
 const axios = require('axios');
 
 export default class NavDimensions extends Component{

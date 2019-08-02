@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom'; 
+import { withTranslation } from 'react-i18next';
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/auth/sign_in`;
 

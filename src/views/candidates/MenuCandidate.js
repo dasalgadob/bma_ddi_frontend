@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Candidate from './Candidate';
 import Candidates from './Candidates';
+import { withTranslation } from 'react-i18next';
 
 /**
  * This class incldues the nav for creating or selecting a candidate

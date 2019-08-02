@@ -26,7 +26,7 @@ export const Logout = withRouter(
               history.push("/login")
             }}
           >
-            {t('logOut')}
+            {t('log_out')}
           </button>
       ) 
   );

@@ -1,6 +1,7 @@
 import React,{ Component} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faAngleDown, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { withTranslation } from 'react-i18next';
 
 function showProperLabel(attributes){
     if(attributes.name){

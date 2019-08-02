@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { withTranslation } from 'react-i18next';
 
 export default class Candidate extends Component{
 

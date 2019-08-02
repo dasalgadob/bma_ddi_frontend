@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { withTranslation } from 'react-i18next';
 const axios = require('axios');
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/dimensions`;

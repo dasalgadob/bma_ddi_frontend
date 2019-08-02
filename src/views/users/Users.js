@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import { map } from 'rsvp';
+import { withTranslation } from 'react-i18next';
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/users`;
 

@@ -4,12 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Dimension from './Dimension';
 import { Redirect } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 import { nullLiteral } from '@babel/types';
 const axios = require('axios');
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/dimensions`;
 const POST_URL = `${process.env.REACT_APP_BACKEND_URL}/interviews`;
-export default class Interview extends Component{
+class Interview extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -444,3 +445,5 @@ export default class Interview extends Component{
         </div>);
     }
 }
+
+export default withTranslation()(Interview);

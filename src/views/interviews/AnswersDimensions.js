@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import DimensionHeader from './DimensionHeader';
 import Rating from '@prontopro/react-rating';
 import TextareaAutosize from 'react-autosize-textarea';
-import { statement } from '@babel/template';
+import { withTranslation } from 'react-i18next';
 const axios = require('axios');
+
 
 export default class AnswersDimensions extends Component{
 

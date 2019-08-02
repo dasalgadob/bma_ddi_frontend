@@ -1,4 +1,11 @@
 {
     "Welcome to React": "Welcome to React and react-i18next",
-    "interviews": "Entrevistas"
+    "interviews": "Entrevistas",
+
+    "sort_by": "Ordenar por",
+    "most_recently": "Fecha de creación más reciente",
+    "most_older": "Fecha de creación más antiguo",
+    "interview_name": "Nombre de entrevista",
+    "before": "anterior",
+      "next": "siguiente"
 }

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Rating from '@prontopro/react-rating';
 import TextareaAutosize from 'react-autosize-textarea';
+import { withTranslation } from 'react-i18next';
 
 export default class AnswersDimensions extends Component{
 

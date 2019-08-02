@@ -5,6 +5,7 @@ import ReactPaginate from 'react-paginate';
 import { Switch, Route, Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { withTranslation } from 'react-i18next';
 
 //const PATH_BASE = 'http://localhost:3000/interviews';
 
@@ -96,6 +97,7 @@ class  Interviews extends Component {
       };
 
     render(){
+        const { t, i18n } = this.props;
         const { result } = this.state;
 
         
@@ -103,8 +105,8 @@ class  Interviews extends Component {
         if(!result){ return null;}
 
         const reactPaginate = <ReactPaginate
-            previousLabel={'anterior'}
-            nextLabel={'siguiente'}
+            previousLabel={t('before')}
+            nextLabel={t('next')}
             breakLabel={'...'}
             breakClassName={'break-me'}
             pageCount={this.state.result[0]["pages"]}
@@ -122,10 +124,11 @@ class  Interviews extends Component {
 
         //console.log(this.state);
         return <div>
-                    <h2 className="mb-3 mt-2">Entrevistas</h2>
+                    <h2 className="mb-3 mt-2">{t('interviews')}</h2>
                     <div className="container">
                         <div className="row align-items-left">
-                        <Link to='interviews/new' className=" btn btn-primary"><FontAwesomeIcon icon={faPlus} /> Nueva Entrevista
+                        <Link to='interviews/new' className=" btn btn-primary">
+                            <FontAwesomeIcon icon={faPlus} /> {t('create.title')}
                         </Link>
                         </div>
                         
@@ -133,18 +136,18 @@ class  Interviews extends Component {
                     
                     <form className="container mb-2">
                     <fieldset>
-                    <legend className="text-left">Buscar entrevista:</legend>
+                    <legend className="text-left">{t('search_interview')}:</legend>
                     <div className="row align-items-center">
                         <div className="col-auto">
-                        <label htmlFor="name" className=" col-form-label col-form-label-sm mr-2">Entrevista: </label>
+                        <label htmlFor="name" className=" col-form-label col-form-label-sm mr-2">{t('interview')}: </label>
                         <input type="text" id="name" className="form-control-sm" onChange={this.onInterviewChange}></input>
                         </div>
                         <div className="col-auto">
-                        <label htmlFor="company" className=" col-form-label col-form-label-sm mr-2">Compañia:</label>
+                        <label htmlFor="company" className=" col-form-label col-form-label-sm mr-2">{t('company')}:</label>
                         <input type="text" id="company" className="form-control-sm" onChange={this.onCompanyChange}></input>
                         </div>
                         <div className="col-auto">
-                        <label htmlFor="interviewer" className=" col-form-label col-form-label-sm mr-2">Entrevistador</label>
+                        <label htmlFor="interviewer" className=" col-form-label col-form-label-sm mr-2">{t('interviewer')}:</label>
                         <input type="text" id="interviewer" className="form-control-sm" onChange={this.onInterviewerChange}></input>
                         </div>
                         
@@ -152,12 +155,12 @@ class  Interviews extends Component {
                     </fieldset>
                     <div className="row align-items-center mt-2">
                         <div className="col-auto">
-                        <label htmlFor="sort" className=" col-form-label col-form-label-sm mr-2">Ordenar por: </label>
+                        <label htmlFor="sort" className=" col-form-label col-form-label-sm mr-2">{t('sort_by')}: </label>
                         <select className="form-control-sm" id="sort" onChange={this.onSortByChange}>
-                        <option value="created_at;desc">Fecha de creación más reciente</option>
-                        <option value="created_at;asc">Fecha de creación más antiguo</option>
-                        <option value="name;asc">Nombre de entrevista A-Z</option>
-                        <option value="name;desc">Nombre de entrevista Z-A</option>
+                        <option value="created_at;desc">{t('most_recently')}</option>
+                        <option value="created_at;asc">{t('most_older')}</option>
+                        <option value="name;asc">{t('interview_name')} A-Z</option>
+                        <option value="name;desc">{t('interview_name')} Z-A</option>
                         </select>
                         </div>
                         
@@ -177,4 +180,4 @@ class  Interviews extends Component {
     
   }
 
- export default Interviews; 
+ export default withTranslation()(Interviews); 

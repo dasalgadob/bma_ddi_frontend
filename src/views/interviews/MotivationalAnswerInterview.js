@@ -4,6 +4,7 @@ import Rating from '@prontopro/react-rating';
 import TextareaAutosize from 'react-autosize-textarea';
 import AnswerMotivational from './AnswerMotivational';
 import { statement } from '@babel/template';
+import { withTranslation } from 'react-i18next';
 const axios = require('axios');
 
 export default class MotivationalAnswerInterview extends Component{

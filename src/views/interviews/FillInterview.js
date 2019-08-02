@@ -5,10 +5,9 @@ import AnswersDimensions from './AnswersDimensions';
 import MenuCandidate from './../candidates/MenuCandidate';
 import NavigationButtons from './NavigationButtons';
 import AnswersMotivational from './AnswersMotivational';
-import { Alert } from 'reactstrap';
-import { Toast, ToastBody, ToastHeader } from 'reactstrap';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 const axios = require('axios');
 
 

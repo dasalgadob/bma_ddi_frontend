@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import { withTranslation } from 'react-i18next';
 
 /**Contains next and before buttons */
 export default class NavigationButtons extends Component{

@@ -5,6 +5,53 @@
       "account": "Account",
       "setting": "Settings",
       "profile": "Profile",
-      "logOut": "Log out"
+      "log_out": "Log out",
+      "search_interview": "Search interview",
+      "interview": "Interview",
+      "company": "Company",
+      "interviewer": "Interviewer",
+      "no_interviews": "THERE ARE NO INTERVIEWS (CREATE ONE)",
+      "own": "Owned",
+      "edit": "Edit",
+      "fill": "Fill",
+      "n_questions": "{{ n }} questions/s",
+
+      "sort_by": "Sort by",
+      "most_recently": "Most recently created",
+      "most_older": "Least recently created",
+      "interview_name": "Interview name",
+      "before": "before",
+      "next": "next",
+
+      "owned":"Owned",
+      "dimensions": "Dimensions",
+      "questions": "Questions",
+
+      "create":{
+        "title": "CREATE INTERVIEW",
+        "not_own_warn": "You don't own this interview. If you save your changes a new interview will be created.",
+        "step1": {
+          "title": "Dimensions & questions",
+          "description": "Firs, select a dimension, then pick the questions you want to add.",
+          "interview_name_label": "Interview name",
+          "interview_company_label": "Company name",
+          "next": "Next",
+          "select_placeholder": "Pick a dimension",
+          "add": "Add dimension",
+          "select_questions": "Select the questions for each dimension"
+
+        },
+        "step2": {
+          "title": "Motivational competency",
+          "description": "Choose between the different motivational facets",
+          "back": "Back",
+          "save": "Save interview",
+          "save_and_fill": "Save and fill",
+          "motivational_compatibility": "Motivational Compatibility",
+          "description2": "The extent to which the activities and responsibilities of the position, mode of operation and values ​​of the organization and the community in which individuals live, correspond to the type of environment that provides personal satisfaction; the extent to which the work itself is personally satisfying."
+        }
+      }
+
+
 
     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ResultsTable from './ResultsTable';
-
+import { withTranslation } from 'react-i18next';
 import ReactPaginate from 'react-paginate';
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/results`;
