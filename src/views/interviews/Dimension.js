@@ -66,14 +66,14 @@ class Dimension extends Component{
     }
 
     render(){
-        const style = {fontSize: '15px'};
+        const style = {fontSize: '14px'};
         const {displayQuestions} = this.state;
         const { t, i18n } = this.props;
         const language = i18n.language == "es"? "spanish":"english";
         console.log('this.props.DImension');
         console.log(i18n);
         return (
-            <div className="mt-4">
+            <div className="">
                 <div className="row">
                     <div className="col-sm-10">
                     <h3 className="text-left ml-5">{this.props.name[language]}</h3>
@@ -85,7 +85,7 @@ class Dimension extends Component{
                     
                 </div>
                 <div style={{display: displayQuestions?"block":"none"}}>
-                    <div className="card text-left mx-4" style={style}>
+                    <div className="card" style={style}>
                         <table className="table table-striped">
                             <tbody className="">
                     {this.props.questions.map(
