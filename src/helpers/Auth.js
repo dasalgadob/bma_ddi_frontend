@@ -6,6 +6,7 @@ import {
   Redirect,
   withRouter
 } from "react-router-dom";
+import { withTranslation } from 'react-i18next';
 
 
     function logout(){
@@ -16,7 +17,7 @@ import {
 
 export const Logout = withRouter(
     
-    ({ history }) =>
+    ({ history, t }) =>
        (
       
           <button className="dropdown-item"
@@ -25,8 +26,10 @@ export const Logout = withRouter(
               history.push("/login")
             }}
           >
-            Log out
+            {t('logOut')}
           </button>
       ) 
   );
+
+  export default withTranslation()(Logout);
   
