@@ -3,6 +3,8 @@ import MotivationalAnswer from './../answers/MotivationalAnswer';
 import DimensionalAnswer from './../answers/DimensionalAnswer';
 import { Helmet } from 'react-helmet';
 import { withTranslation } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
 
 const axios = require('axios');
@@ -237,6 +239,11 @@ class Result extends Component{
          <Helmet>
           <title>{ data.attributes.candidate.name}</title>
         </Helmet>
+
+        <button onClick={() => window.print()}
+        className=" btn btn-primary ml-4">
+            <FontAwesomeIcon icon={faFilePdf} /> 
+        </button>
         <div className="row d-flex justify-content-around">
         <table className="table col-sm-5 table-bordered mt-4">
           <tbody>
