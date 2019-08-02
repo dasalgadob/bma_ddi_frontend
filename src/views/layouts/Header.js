@@ -25,7 +25,7 @@ render(){
     };
 
     const dropdownStyle = {
-        left: "0px"
+        left: "-50px"
     }
 
     return <nav className="navbar navbar-expand-md navbar-dark" style={navStyle}>
@@ -37,17 +37,7 @@ render(){
             <li className="nav-item">
             <NavLink to="/results" className="nav-link" activeClassName="active">{t('results_lower')}</NavLink>
             </li>
-        </ul>
-    </div>
-    <div className="mx-auto">
-        <a className="navbar-brand mx-auto" href="#">BMAGroup</a>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-            <span className="navbar-toggler-icon"></span>
-        </button>
-    </div>
-    <div className="navbar-collapse collapse  dual-collapse2">
-        <ul className="navbar-nav  ml-auto">
-        <li className="nav-item dropdown mr-2">
+            <li className="nav-item dropdown">
             <a className="nav-link dropdown-toggle" 
             href="#" id="navbarDropdownMenuLink" 
             role="button" 
@@ -62,13 +52,24 @@ render(){
             onClick={() => this.changeLanguage()}>{this.state.isSpanish?"English":"Español"}</a>
             </div>
         </li>
+        </ul>
+    </div>
+    <div className="mx-auto">
+        <a className="navbar-brand mx-auto" href="#">BMAGroup</a>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span className="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div className="navbar-collapse collapse  dual-collapse2">
+        <ul className="navbar-nav  ml-auto">
+        
         <li className="nav-item dropdown" style={dropdownStyle}>
             <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {t('account')}
             </a>
             <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a className="dropdown-item" href="#">{t('profile')}</a>
-            <a className="dropdown-item" href="#">{t('settings')}</a>
+            <NavLink to="/interviews" className="dropdown-item">{t('profile')}</NavLink>
+            <NavLink to="/users"  className="dropdown-item">{t('settings')}</NavLink>
             <div className="dropdown-divider"></div>
             <Logout />
             </div>

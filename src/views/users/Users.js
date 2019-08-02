@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { map } from 'rsvp';
 import { withTranslation } from 'react-i18next';
 
+const axios = require('axios');
+
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/users`;
 
 export default class Users extends Component {
@@ -20,10 +22,28 @@ export default class Users extends Component {
     }
 
     componentDidMount(){
-        fetch(`${PATH_BASE}`)
-        .then(response => response.json())
-        .then(result => this.setUsers(result))
-        .catch(error => error);
+        console.log("componentDidMount");
+        console.log("Do notgnb");
+        const headers = JSON.parse(localStorage.getItem('user'));
+        let self = this;
+        axios({
+            method: 'get',
+            url: `${PATH_BASE}`,
+            headers: headers
+            })
+        .then(function (response) {
+            // handle success
+            console.log("then");
+            console.log(response.data);
+            self.setState({ result: response.data});
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
     }
 
     render(){
