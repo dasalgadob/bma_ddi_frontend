@@ -49,7 +49,7 @@ class Table extends Component {
             <div className="card-body">
             <p><span className="font-weight-bold"> {t('company')}: &nbsp;</span>{item.company}</p>
             <p ><span className="font-weight-bold"> {t('interviewer')}: &nbsp;</span> 
-             <span>{item.user.name +' '+ item.user.last_name}</span> &nbsp; <span>{item.user.email}</span></p>
+             <span>{`${item.user.name} ${ item.user.last_name?item.user.last_name:""}`}</span> &nbsp; <span>{item.user.email}</span></p>
             
             <div>
               
