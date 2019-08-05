@@ -158,20 +158,25 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
         //console.log("idInt:" + idInterview);
         let method = 'patch';
         let self = this;
+
+        let params = {
+            name: fields.name,
+            last_name: fields.lastName,
+            email: fields.email,
+            admin: fields.isAdmin,
+            is_disabled: fields.isDisabled
+        };
+        if(fields.password !='' && fields.confirmationPassword !=''){
+            params.password = fields.password;
+            params.password_confirmation =fields.confirmationPassword;
+        }
         
         axios({
             method: method,
             url: `${USERS_URL}/${this.state.idUser}`,
             data: 
-             {user: { name: fields.name,
-            last_name: fields.lastName,
-            email: fields.email,
-            password: fields.password,
-            password_confirmation: fields.confirmationPassword,
-            admin: fields.isAdmin,
-            is_disabled: fields.isDisabled
-            
-            }},
+             {user: params
+            },
             headers: headers
             })
         .then(function (response) {
