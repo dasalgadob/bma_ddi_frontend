@@ -10,12 +10,14 @@ import { Link } from "react-router-dom";
 const axios = require('axios');
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/users`;
+const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
 
 class Users extends Component {
     constructor(props){
         super(props);
         this.state = {
             result: null,
+            currentUserAdmin: false
             };
 
         this.setUsers = this.setUsers.bind(this);    
@@ -39,7 +41,7 @@ class Users extends Component {
             // handle success
             console.log("then");
             console.log(response.data);
-            self.setState({ result: response.data});
+            self.setState({ result: response.data}, self.loadCurrentUserFromServer);
         })
         .catch(function (error) {
             // handle error
@@ -50,6 +52,50 @@ class Users extends Component {
         });
     }
 
+
+    loadCurrentUserFromServer = () => {
+        
+        
+        const headers = JSON.parse(localStorage.getItem('user'));
+        //console.log("idInt:" + idInterview);
+        let method = 'get';
+        let self = this;
+        
+        axios({
+            method: method,
+            url: `${USERS_URL}/${headers.id}`,
+            headers: headers
+            })
+        .then(function (response) {
+            // handle success
+            console.log("loadCurrentUserFromServer");
+            console.log(response.data);
+
+            self.setState({currentUserAdmin: response.data.admin});
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
+    } 
+
+    renderCreateUser = () => {
+    const {t, i18n} = this.props;
+        if(this.state.currentUserAdmin){
+            return(
+                <div className="row ml-4">
+                <Link to='users/new' className=" btn btn-primary">
+                    <FontAwesomeIcon icon={faPlus} /> {t('users.create')}
+                </Link>
+                </div>
+            );
+        }
+    }
+
+
     render(){
         const { result } = this.state;
         if(!result){ return null;}
@@ -57,11 +103,7 @@ class Users extends Component {
 
         return (
         <div>
-                        <div className="row ml-4">
-                        <Link to='users/new' className=" btn btn-primary">
-                            <FontAwesomeIcon icon={faPlus} /> {t('users.create')}
-                        </Link>
-                        </div>
+            {this.renderCreateUser()}
                         
             <h1>{t('users.title')}</h1>
 
@@ -90,7 +132,7 @@ class Users extends Component {
                             <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
                         </Link>
                         </td>
-                        <td>{user.admin}</td>
+                        <td>{user.admin?"v":"f"}</td>
                     </tr>
                 )}
                

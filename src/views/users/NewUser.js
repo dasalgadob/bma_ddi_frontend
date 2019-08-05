@@ -31,7 +31,8 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
                     display: "none"
                 },
                 redirect: false
-            }
+            },
+            currentUserAdmin: false
         };
     }
 
@@ -41,6 +42,8 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
         console.log(this.props.match.params.id);
         if(this.state.idUser){
             this.setState({idUser: this.props.match.params.id}, this.loadUserFromServer);
+        }else{
+            this.loadCurrentUserFromServer();
         }
     }
 
@@ -68,7 +71,36 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
             fields.isAdmin= response.data.admin;
             fields.isDisabled= response.data.is_disabled;
 
-            self.setState({userData: userDataNew, fields});
+            self.setState({userData: userDataNew, fields}, self.loadCurrentUserFromServer);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
+    }
+
+    loadCurrentUserFromServer = () => {
+        const {fields, userData} = this.state;
+        
+        const headers = JSON.parse(localStorage.getItem('user'));
+        //console.log("idInt:" + idInterview);
+        let method = 'get';
+        let self = this;
+        
+        axios({
+            method: method,
+            url: `${USERS_URL}/${headers.id}`,
+            headers: headers
+            })
+        .then(function (response) {
+            // handle success
+            console.log("loadCurrentUserFromServer");
+            console.log(response.data);
+
+            self.setState({currentUserAdmin: response.data.admin});
         })
         .catch(function (error) {
             // handle error
@@ -207,7 +239,7 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
         } 
 
     renderIsDisabled = () =>{    
-        if(this.state.idUser != "" && this.state.fields.isAdmin){
+        if( this.state.currentUserAdmin){
         return (<div className="form-check">
             <input name='isDisabled' type="checkbox" className="form-check-input" id="exampleCheck2" 
                 onChange={this.onInputChange} checked={this.state.fields.isDisabled}/>
@@ -217,7 +249,7 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
       }
 
       renderIsAdmin = () => {
-        if(this.state.fields.isAdmin){
+        if(this.state.currentUserAdmin){
             return (<div className="form-check">
             <input name='isAdmin' type="checkbox" className="form-check-input" id="exampleCheck1" 
                   onChange={this.onInputChange} checked={this.state.fields.isAdmin}/>
@@ -230,8 +262,8 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
         const {fields} = this.state; 
         const styleDisplay = {
             display: "none"
-        };
 
+        };
         const {t, i18n} = this.props;
 
         return(

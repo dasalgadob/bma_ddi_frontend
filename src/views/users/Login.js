@@ -47,7 +47,8 @@ export default class Login extends Component{
                 'client': response.headers['client'],
                 'uid': response.headers['uid'],
                 'expiry': response.headers['expiry'],
-                'token-type': response.headers['token-type']
+                'token-type': response.headers['token-type'],
+                'id': response.data.data.id
             }));
             
             this.setRedirectToInterviews();
