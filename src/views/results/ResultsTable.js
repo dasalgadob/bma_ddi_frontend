@@ -33,6 +33,8 @@ class ResultsTable extends Component {
                         <th scope="col">{t('results.finished')}</th>
                         <th scope="col">{t('results.edit')}</th>
                         <th scope="col">{t('results.show')}</th>
+                        <th scope="col">Fecha creación</th>
+                        <th scope="col">Fecha ultima modificación</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,6 +53,9 @@ class ResultsTable extends Component {
                                 </Link>:""}
                             </td>
                             <td><Link to={"/results/"+item.id}><FontAwesomeIcon icon={faEye} /></Link></td>
+                            <td>{item.created_at.substring(0,10)}</td>
+                             <td>{item.updated_at.substring(0,10)}</td>
+
                         </tr>)}
                 </tbody>
             </table>
