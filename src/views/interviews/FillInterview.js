@@ -53,6 +53,7 @@ class FillInterview extends Component{
             styleCompensation: {display: 'none'},
             currentDimension: null,
             visibleAlert: false,
+            errorAlert: false,
             modal: false,
             redirect: false
         };
@@ -273,6 +274,12 @@ class FillInterview extends Component{
         })
         .catch(function (error) {
             // handle error
+            self.setState({
+                errorAlert:true},()=>{
+                    window.setTimeout(()=>{
+                      self.setState({errorAlert:false})
+                    },2000)
+                  });
             console.log(error);
         })
         .finally(function () {
@@ -724,7 +731,8 @@ class FillInterview extends Component{
             <MenuCandidate onInputChange={this.onInputChange} 
                            onSaveCandidate={this.onSaveCandidate}
                            onChooseCandidate={this.onChooseCandidate}
-                           style={styleMenuCandidates}>
+                           style={styleMenuCandidates}
+                           errorAlert={this.state.errorAlert}>
             </MenuCandidate>
             
 

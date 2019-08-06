@@ -28,8 +28,20 @@ class MenuCandidate extends Component {
     render(){
         const {isCreateCandidateTab} = this.state;
         const {t, i18n} = this.props;
+        const alertStyle = {position: "fixed",
+            top: "100px", 
+            left:"2%",
+            width: "30%",
+            zIndex: 100};
         return (
         <div className="container" style={this.props.style}>
+            {this.props.errorAlert?
+            
+                    <div className="myAlert-top alert alert-danger" style={alertStyle}>
+                    <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    El candidato ya existe.
+                    </div>:<div></div>
+            }
             <h3>{t('fill.candidate_form.candidate')}</h3>
             <ul className="nav nav-tabs">
             <li className="nav-item">
