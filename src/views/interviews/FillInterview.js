@@ -113,6 +113,8 @@ class FillInterview extends Component{
                 fields.baseSalary = response.data.data.attributes.base_salary;
                 fields.benefits = response.data.data.attributes.benefits;
                 fields.salaryExpectations = response.data.data.attributes.salary_expectations;
+                fields.countryOfResidence = response.data.data.attributes.country_of_residence;
+                fields.phoneNumber = response.data.data.attributes.phone_number;
                 fields.geographicalAreas = response.data.data.attributes.geographical_areas;
                 //const mandQuestions = response.data.data;
                 
