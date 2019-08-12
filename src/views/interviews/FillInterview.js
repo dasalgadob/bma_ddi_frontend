@@ -31,6 +31,7 @@ class FillInterview extends Component{
                 idResult: props.location.state? props.location.state.idResult: null,
                 position: '',
                 company: '',
+                phoneNumber: '',
                 baseSalary: "",
                 benefits: "",
                 salaryExpectations: '',
@@ -456,7 +457,8 @@ class FillInterview extends Component{
                         base_salary: fields.baseSalary, benefits: fields.benefits, 
                         salary_expectations: fields.salaryExpectations, 
                         geographical_areas: fields.geographicalAreas, 
-                        is_not_finished: fields.isNotFinished, interview_id: self.state.idInterview, country_of_residence: fields.countryOfResidence
+                        is_not_finished: fields.isNotFinished, interview_id: self.state.idInterview, country_of_residence: fields.countryOfResidence,
+                        phone_number: fields.phoneNumber
                      }
             },
             headers: headers
@@ -872,6 +874,18 @@ class FillInterview extends Component{
                         required="required"
                         value={this.state.fields.position}
                         onChange={this.onInputChange}
+                        onBlur={this.updateResult}/>
+            </div>
+
+            <div className="form-group row">
+                <label htmlFor="phoneNumber" className="align-left">{t('fill.step3.phone_number')}</label>
+                <input type="tel"
+                        name="phoneNumber"
+                        className="form-control" 
+                        id="phoneNumber" 
+                        required="required"
+                        onChange={this.onInputChange}
+                        value={this.state.fields.phoneNumber}
                         onBlur={this.updateResult}/>
             </div>
 

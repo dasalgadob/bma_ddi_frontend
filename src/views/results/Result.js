@@ -336,6 +336,7 @@ class Result extends Component{
         <p><span className="font-weight-bold">{t('result.benefits')}: &nbsp;</span>{data.attributes.benefits}</p>
 
         <p><span className="font-weight-bold">{t('result.salary_expectations')}: &nbsp;</span>{data.attributes.salary_expectations}</p>
+        <p><span className="font-weight-bold">{t('result.phone_number')}: &nbsp;</span>{data.attributes.phone_number}</p>
         <p><span className="font-weight-bold">{t('result.country_of_residence')}: &nbsp;</span>{data.attributes.country_of_residence}</p>
         <p><span className="font-weight-bold">{t('result.geographical_areas')}: &nbsp;</span>{data.attributes.geographical_areas}</p>
       </div>

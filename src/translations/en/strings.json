@@ -121,6 +121,7 @@
           "description": "Find out the candidates situation and his ambitions",
           "company": "Application company",
           "position": "Application position",
+          "phone_number": "Phone number",
           "base_salary": "Base salary",
           "benefits": "Benefits",
           "salary_expectations": "Salary expectancy",
@@ -221,6 +222,7 @@
         "base_salary": "Base salary",
         "benefits": "Beneficts",
         "salary_expectations": "Salary expectancy",
+        "phone_number": "Phone number",
         "country_of_residence": "Country of Residence",
         "geographical_areas": "Geographical areas",
 

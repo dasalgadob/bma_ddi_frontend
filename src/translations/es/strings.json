@@ -120,6 +120,7 @@
         "description": "Averigua cual es la situación del candidato y donde quiere llegar",
         "company": "Compañía para la que entrevista",
         "position": "Puesto para el que entrevista",
+        "phone_number": "Número de teléfono",
         "base_salary": "Salario base",
         "benefits": "Beneficios",
         "salary_expectations": "Expectativas de salario",
@@ -220,6 +221,7 @@
       "base_salary": "Salario base",
       "benefits": "Beneficios",
       "salary_expectations": "Expectativas de salario",
+      "phone_number": "Número de teléfono",
       "country_of_residence": "País donde reside",
       "geographical_areas": "Áreas geográficas",
 
