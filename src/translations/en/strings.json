@@ -124,6 +124,7 @@
           "base_salary": "Base salary",
           "benefits": "Benefits",
           "salary_expectations": "Salary expectancy",
+          "country_of_residence": "Country of Residence",
           "geographical_areas": "Geographical areas"
         },
         "controller": {
@@ -220,6 +221,7 @@
         "base_salary": "Base salary",
         "benefits": "Beneficts",
         "salary_expectations": "Salary expectancy",
+        "country_of_residence": "Country of Residence",
         "geographical_areas": "Geographical areas",
 
         "legend": {

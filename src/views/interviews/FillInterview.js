@@ -34,6 +34,7 @@ class FillInterview extends Component{
                 baseSalary: "",
                 benefits: "",
                 salaryExpectations: '',
+                countryOfResidence: "",
                 geographicalAreas: "",
                 answersDimensions: new Map(),
                 isNotFinished: true
@@ -455,7 +456,7 @@ class FillInterview extends Component{
                         base_salary: fields.baseSalary, benefits: fields.benefits, 
                         salary_expectations: fields.salaryExpectations, 
                         geographical_areas: fields.geographicalAreas, 
-                        is_not_finished: fields.isNotFinished, interview_id: self.state.idInterview
+                        is_not_finished: fields.isNotFinished, interview_id: self.state.idInterview, country_of_residence: fields.countryOfResidence
                      }
             },
             headers: headers
@@ -907,6 +908,17 @@ class FillInterview extends Component{
                         required="required"
                         onChange={this.onInputChange}
                         value={this.state.fields.salaryExpectations}
+                        onBlur={this.updateResult}/>
+            </div>
+
+            <div className="form-group row">
+                <label htmlFor="countryOrigin" className="align-left">{t('fill.step3.country_of_residence')}</label>
+                <input type="text"
+                        name="countryOfResidence"
+                        className="form-control" 
+                        id="countryOrigin" 
+                        onChange={this.onInputChange}
+                        value={this.state.fields.countryOfResidence}
                         onBlur={this.updateResult}/>
             </div>
 
