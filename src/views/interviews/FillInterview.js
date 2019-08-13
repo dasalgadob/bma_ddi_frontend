@@ -73,11 +73,6 @@ class FillInterview extends Component{
         const {fields} = this.state; 
         const {answersDimensions} = this.state.fields;
         console.log("loadResultFromServer");
-        
-
-        
-
-        
         if(fields.idResult){
             console.log("Result is going to be loaded");
             let self = this;
@@ -93,10 +88,10 @@ class FillInterview extends Component{
                 //loadMotivational answers
                 response.data.included.forEach((ans) => {
                     if (ans.type =="answer"){
-                        console.log("ans");
-                        console.log(ans);
+                        //console.log("ans");
+                        //console.log(ans);
                         let ansToLoad = answersDimensions.get(""+ans.attributes.question.id+ "");
-                        console.log(ansToLoad);
+                        //console.log(ansToLoad);
                         ansToLoad.action = ans.attributes.action;
                         ansToLoad.answer_id =  ans.id;
                         ansToLoad.communication = ans.attributes.communication;
@@ -708,10 +703,21 @@ class FillInterview extends Component{
       }
 
     renderRedirect = () => {
-    if (this.state.redirect ) {
-        return <Redirect to={'/results/'+this.state.fields.idResult} />
+        if (this.state.redirect ) {
+            return <Redirect to={'/results/'+this.state.fields.idResult} />
+        }
     }
-    }  
+
+
+    onDelete = (idQuestion) => {
+        console.log("onDelete: " + idQuestion);
+        //Delete from answersDimensions
+
+        //Delete from db
+
+        //
+
+    }
 
 
     render(){
@@ -806,6 +812,7 @@ class FillInterview extends Component{
                                    onInputChangeAnswerRating={this.onInputChangeAnswerRating}
                                    onBlurAutoSave = { this.onBlurAutoSave }     
                                    dimensionId={currentDimension}
+                                   onDelete={this.onDelete}
                                    dimension={2}>
                 </AnswersDimensions>
             </div>

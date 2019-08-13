@@ -3,6 +3,8 @@ import DimensionHeader from './DimensionHeader';
 import Rating from '@prontopro/react-rating';
 import TextareaAutosize from 'react-autosize-textarea';
 import { withTranslation } from 'react-i18next';
+import { faTrash} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const axios = require('axios');
 
 
@@ -46,7 +48,13 @@ class AnswersDimensions extends Component{
                 {
                     this.questionsForCurrentDimension().map(q => 
                         <div key={q.id}>
-                            <p className="font-weight-bold">{q.attributes.translation[language]}</p>
+                            <div className="row">
+                                <p className="font-weight-bold col-sm-11">{q.attributes.translation[language]}</p>
+                                <a   role="button" href="#"  id={this.props.id} className="col-sm-1 btn btn-link"  
+                                        onClick={() => this.props.onDelete(q.id)} className="">
+                                    <FontAwesomeIcon icon={faTrash}/>
+                                </a>
+                            </div>
                             <div className="row">
                             <div className="form-group col-sm-4">
                                 <label htmlFor="exampleFormControlTextarea1">

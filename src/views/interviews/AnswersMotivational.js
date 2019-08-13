@@ -21,8 +21,8 @@ class AnswersMotivational extends Component{
             
             //console.log("current dimension:" + this.props.dimensionId);
             if(q.attributes.dimension_id == 43){
-                console.log("Answer dimension q: ");
-            console.log(q);
+                //console.log("Answer dimension q: ");
+                //console.log(q);
                 return true;
             }
         });
