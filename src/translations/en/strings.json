@@ -73,6 +73,10 @@
         "alert_text": "Changes made have been saved",
         "missing_data": "Missing data",
         "got_it": "Got it",
+        "modal_delete_header":"Do you want to erase this question?",
+        "modal_delete_body": "This question will be removed from the result. To remove it from the interview, you have to edit it",
+        "cancel":"CANCEL",
+        "accept":"ACCEPT",
         "candidate_form": {
           "candidate": "Candidate",
           "create": "Create candidate",

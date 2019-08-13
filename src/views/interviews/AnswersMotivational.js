@@ -40,7 +40,7 @@ class AnswersMotivational extends Component{
         const language = i18n.language == "es"? "spanish":"english";
         //console.log("Questions: ");
         //console.log( this.questionsForCurrentDimension());
-        console.log("Dimension id:" + this.props.dimensionId);
+        //console.log("Dimension id:" + this.props.dimensionId);
         return (
 
 

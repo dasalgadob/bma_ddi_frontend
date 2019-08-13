@@ -50,11 +50,11 @@ class DimensionHeader extends Component{
             return <div></div>
         }
         if(this.props.dimensionId != dimension.data.id){
-            console.log("diff");
+            //console.log("diff");
             this.loadDimensionFromServer();
         }
-        console.log("Dimension id DimensionHeader:" + this.props.dimensionId);
-        console.log(dimension);
+        //console.log("Dimension id DimensionHeader:" + this.props.dimensionId);
+        //console.log(dimension);
         return(<div className="mt-4">
             <h4>{dimension.data.attributes.name[language]}</h4>
             <p>{dimension.data.attributes.description[language]}</p>

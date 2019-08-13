@@ -8,6 +8,7 @@ import AnswersMotivational from './AnswersMotivational';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
+import ModalGeneric from './../utilities/ModalGeneric';
 const axios = require('axios');
 
 
@@ -57,7 +58,9 @@ class FillInterview extends Component{
             visibleAlert: false,
             errorAlert: false,
             modal: false,
-            redirect: false
+            modalDelete: false, //this modal is going to be used when a questions is going to be deleted to show a confirmation message
+            redirect: false,
+            questionToDelete: null // id of question that was selected to be deleted
         };
 
         this.loadResultFromServer = this.loadResultFromServer.bind(this);
@@ -292,8 +295,8 @@ class FillInterview extends Component{
         fields['idCandidate'] = parseInt(e.target.id);
         this.setState({fields}, ()  => {this.chooseIfcreateOrUpdateResult()});
         this.changeMenu();
-        console.log('e.target.value');
-        console.log(e.target.id);
+        //console.log('e.target.value');
+        //console.log(e.target.id);
     }
 
     onInputChange = (e) => {
@@ -396,10 +399,10 @@ class FillInterview extends Component{
 
     chooseIfcreateOrUpdateResult = () => {
         if(!this.state.fields.idResult){
-            console.log("createResult");
+            //console.log("createResult");
             this.createResult();
         }else{
-            console.log("updateResult");
+            //console.log("updateResult");
             this.updateResult();
         }
     }
@@ -408,7 +411,7 @@ class FillInterview extends Component{
      * Make a post request with the info of id_user based on the one selected or just created
      */
     createResult = () => {
-        console.log("createResult");
+        //console.log("createResult");
         const {idCandidate} = this.state.fields;
         const fields = this.state.fields;
         const headers = JSON.parse(localStorage.getItem('user'));
@@ -416,7 +419,7 @@ class FillInterview extends Component{
         const resultJSON = {
             result: {candidate_id: idCandidate}
         };
-        console.log(resultJSON);
+        //console.log(resultJSON);
         axios({
             method: 'post',
             url: `${POST_URL_RESULT}`,
@@ -427,7 +430,7 @@ class FillInterview extends Component{
         .then(function (response) {
             // handle success
             console.log("success createResult");
-            console.log(response.data);
+            //console.log(response.data);
             fields['idResult'] = response.data.id;
             self.setState({fields}, self.saveAllAnswersBeforeStart);
         })
@@ -632,7 +635,7 @@ class FillInterview extends Component{
      const ansToSave = answersDimensions.get(idQ);
 
      const headers = JSON.parse(localStorage.getItem('user'));
-     console.log("SaveAnswer");
+     //console.log("SaveAnswer");
         //console.log("idInt:" + idInterview);
      let method = ansToSave.answer_id?'patch':'post';
      let self = this;
@@ -657,8 +660,8 @@ class FillInterview extends Component{
             })
         .then(function (response) {
             // handle success
-            console.log("saveAnswer");
-            console.log(response.data);
+            //console.log("saveAnswer");
+            //console.log(response.data);
             //self.setState({id: response.data.id});
             //self.setRedirect();
             /**If it worked show that was autosaved */
@@ -700,7 +703,13 @@ class FillInterview extends Component{
         this.setState(prevState => ({
           modal: !prevState.modal
         }));
-      }
+    }
+
+    toggleDelete = () => {
+        this.setState(prevState => ({
+          modalDelete: !prevState.modalDelete
+        }));
+    }
 
     renderRedirect = () => {
         if (this.state.redirect ) {
@@ -711,12 +720,73 @@ class FillInterview extends Component{
 
     onDelete = (idQuestion) => {
         console.log("onDelete: " + idQuestion);
+        //lanzar modal
+        this.toggleDelete();
+        //Change the question selected to be deleted
+        this.setState({
+            questionToDelete: idQuestion
+        });
+        
+
+    }
+
+
+    onDeleteConfirm = () => {
+        this.toggleDelete();
+        let {questionToDelete, interviewData, fields} = this.state;
+        console.log("onDeleteConfirm: "+ questionToDelete );
+
+        
+        //Delete from interviewData.included
+        let qToDeleteIndex = -1;
+        for(let i=0; i<interviewData.included.length; i++){
+            if(interviewData.included[i]['type']== 'question' && interviewData.included[i]['id'] == questionToDelete){
+                qToDeleteIndex = i;
+            }
+        }
+        if(qToDeleteIndex != -1){
+            interviewData.included.splice(qToDeleteIndex,1);
+        }
+
         //Delete from answersDimensions
-
+        let answerToDelete =  fields.answersDimensions.get(questionToDelete).answer_id
+        fields.answersDimensions.delete(questionToDelete);
         //Delete from db
-
+        if(answerToDelete != null){
+            this.deleteAnswerFromDB(answerToDelete);
+        }
+        
         //
 
+        this.setState({
+            interviewData,
+            fields
+        });
+    }
+
+    deleteAnswerFromDB = (answerId) => {
+        console.log("deleteAnswerFromDB: "+ answerId );
+        const fields = this.state.fields;
+
+        const headers = JSON.parse(localStorage.getItem('user'));
+        let self = this;
+        axios({
+            method: 'delete',
+            url: `${ANSWERS_URL}/${answerId}`,
+            headers: headers
+            })
+        .then(function (response) {
+            // handle success
+            console.log("success deleteAnswerFromDB");
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
     }
 
 
@@ -730,7 +800,7 @@ class FillInterview extends Component{
 
         let motivacionalAnswers = [];
 
-        console.log(this.state);
+        //console.log(this.state);
         const {styleMenuCandidates, styleMenuInterview, interviewData, currentDimension} = this.state;
 
         if(!interviewData){
@@ -773,13 +843,16 @@ class FillInterview extends Component{
 
             {/** Content for fill dimensions */}
             <div className="mt-2"  style={this.state.styleFillDimensions}>
-            {this.state.visibleAlert?
-                    <div className="myAlert-top alert alert-success" style={alertStyle}>
-                    <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    {t('fill.alert_text')}.
-                    </div>:<div></div>
-            }
 
+                {/*Section that shows if changes were made to the input fields */}
+                {this.state.visibleAlert?
+                        <div className="myAlert-top alert alert-success" style={alertStyle}>
+                        <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {t('fill.alert_text')}.
+                        </div>:<div></div>
+                }
+
+                {/*Modal that shows the error that are in the dimensions section that need to be filled before going to the next stage */}
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>{t('fill.missing_data')}</ModalHeader>
                     <ModalBody>
@@ -794,57 +867,81 @@ class FillInterview extends Component{
                     </ModalFooter>
                 </Modal>
 
-
+                {/*Next and back buttons to navigate the filling interview */}
                 <NavigationButtons handleBeforeButton={this.changeMenuToCandidates}
-                                   handleNextButton={this.validatesDimensionQuestions}>
+                                handleNextButton={this.validatesDimensionQuestions}>
 
                 </NavigationButtons>
                 
+                {/* Nav to change of possible dimensions in the interview */}
                 <NavDimensions dimensions={this.state.interviewData.data.attributes['dimensions']} 
                 onClick={this.onChangeNavDimensionsTab}
                 currentDimension={this.state.currentDimension}>
 
                 </NavDimensions>
 
+                {/*Modal for confirmation when a question is going to be deleted */}
+                <ModalGeneric isOpen={this.state.modalDelete}
+                    toggle={this.toggleDelete}
+                    className={""}
+                    modalTitle={t("fill.modal_delete_header")}
+                    modalBody= {t('fill.modal_delete_body')}
+                    modalButton={t('fill.accept')}
+                    modalColor ="danger"
+                    onClick={this.onDeleteConfirm}
+                 >
+
+                 </ModalGeneric>
+
+
+                {/*Section that shows the questions and the fields of answers and ratings for the dimension selected in NavDimensions */}
                 <AnswersDimensions questions={this.state.interviewData.included}
-                                   answers={this.state.fields.answersDimensions}
-                                   onInputChangeAnswerDimension={this.onInputChangeAnswerDimension}
-                                   onInputChangeAnswerRating={this.onInputChangeAnswerRating}
-                                   onBlurAutoSave = { this.onBlurAutoSave }     
-                                   dimensionId={currentDimension}
-                                   onDelete={this.onDelete}
-                                   dimension={2}>
+                                answers={this.state.fields.answersDimensions}
+                                onInputChangeAnswerDimension={this.onInputChangeAnswerDimension}
+                                onInputChangeAnswerRating={this.onInputChangeAnswerRating}
+                                onBlurAutoSave = { this.onBlurAutoSave }     
+                                dimensionId={currentDimension}
+                                onDelete={this.onDelete}
+                                dimension={2}>
                 </AnswersDimensions>
             </div>
 
             {/** Content for motivational questions */}
             <div className="container mx-3" style={this.state.styleMotivationalCompetence}>
-            {this.state.visibleAlert?
-                    <div className="myAlert-top alert alert-success" style={alertStyle}>
-                    <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    {t('fill.alert_text')}.
-                    </div>:<div></div>
-            }
 
-            <NavigationButtons handleBeforeButton={this.onChangeIsFillDimensionsTab}
-                                   handleNextButton={this.validatesMotivationalQuestions}>
-            </NavigationButtons>
-            <h4 className="mt-4">{t('fill.step2.title')}</h4>
-            <p>{t('fill.step2.description')}</p>
-            
-            <br>
-            </br>
+
+                {/*Section to show alert that the changes were saved */}
+                {this.state.visibleAlert?
+                        <div className="myAlert-top alert alert-success" style={alertStyle}>
+                        <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {t('fill.alert_text')}.
+                        </div>:<div></div>
+                }
+
+                {/*Next and before buttons to move through the interview filling pages */}
+                <NavigationButtons handleBeforeButton={this.onChangeIsFillDimensionsTab}
+                                    handleNextButton={this.validatesMotivationalQuestions}>
+                </NavigationButtons>
+
+
+                {/*Section of title of dimension and description for motivational question  */}
+                <h4 className="mt-4">{t('fill.step2.title')}</h4>
+                <p>{t('fill.step2.description')}</p>
                 
-             <AnswersMotivational
-                questions={this.state.interviewData.included}
-                answers={this.state.fields.answersDimensions}
-                dimensionId={43}
-                onInputChangeAnswerDimension={this.onInputChangeAnswerDimension}
-                onInputChangeAnswerRating={this.onInputChangeAnswerRating}
-                onBlurAutoSave = { this.onBlurAutoSave }     
-                dimensionId={currentDimension}
-                >
-            </AnswersMotivational>     
+                <br>
+                </br>
+                    
+                <AnswersMotivational
+                    questions={this.state.interviewData.included}
+                    answers={this.state.fields.answersDimensions}
+                    dimensionId={43}
+                    onInputChangeAnswerDimension={this.onInputChangeAnswerDimension}
+                    onInputChangeAnswerRating={this.onInputChangeAnswerRating}
+                    onBlurAutoSave = { this.onBlurAutoSave }     
+                    dimensionId={currentDimension}
+                    >
+                </AnswersMotivational>     
+                
             </div>
 
             {/** Content for compensation and mobility */}

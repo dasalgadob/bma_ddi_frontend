@@ -19,7 +19,6 @@ class Candidates extends Component{
             sortByField: '',
             sortOrder: '',
         };
-        console.log("contructor");
         this.setCandidates = this.setCandidates.bind(this);
         this.onNameChange = this.onNameChange.bind(this);
         this.onEmailChange = this.onEmailChange.bind(this);
@@ -34,7 +33,7 @@ class Candidates extends Component{
         `&by_name=${this.state.nameTerm}&by_email=${this.state.emailTerm}`+
         `&sort=${this.state.sortByField}`+
         `&direction=${this.state.sortOrder}`;
-        console.log("Query URL:" + queryURL);
+        //console.log("Query URL:" + queryURL);
         fetch(queryURL)
         .then(response => response.json())
         .then(result => this.setCandidates(result))
@@ -64,7 +63,7 @@ class Candidates extends Component{
 
     handlePageClick = data => {
         let selected = data.selected + 1;
-        console.log("selected:" + selected);
+        //console.log("selected:" + selected);
     
         this.setState({ currentPage: selected }, () => {
           this.loadCandidatesFromServer();

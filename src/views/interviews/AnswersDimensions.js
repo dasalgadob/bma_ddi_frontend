@@ -40,7 +40,7 @@ class AnswersDimensions extends Component{
 
         const {t, i18n} = this.props;
         const language = i18n.language == "es"? "spanish":"english";
-        console.log("Dimension id:" + this.props.dimensionId);
+        //console.log("Dimension id:" + this.props.dimensionId);
         return (
             <div className="mt-8">
                 <DimensionHeader dimensionId={this.props.dimensionId}></DimensionHeader>
