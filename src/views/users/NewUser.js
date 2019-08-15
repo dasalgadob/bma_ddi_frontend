@@ -114,6 +114,7 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
     onInputChange = (e) => {
         const {fields} = this.state;
         fields[e.target.name] = e.target.value;
+        console.log("target.value:" + e.target.value);
         console.log("onInputChange");
         console.log(fields.password);
         console.log(fields.confirmationPassword);
@@ -138,6 +139,13 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
             //Else display not match
         }
         
+        this.setState({fields});
+    }
+
+    onCheckBoxChange = (e) => {
+        const {fields} = this.state;
+        fields[e.target.name] = !fields[e.target.name];
+
         this.setState({fields});
     }
 
@@ -247,7 +255,7 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
         if( this.state.currentUserAdmin){
         return (<div className="form-check">
             <input name='isDisabled' type="checkbox" className="form-check-input" id="exampleCheck2" 
-                onChange={this.onInputChange} checked={this.state.fields.isDisabled}/>
+                onChange={this.onCheckBoxChange} checked={this.state.fields.isDisabled}/>
             <label className="form-check-label" for="exampleCheck2">Desabilitar usuario</label>
         </div> );   
       }
@@ -257,7 +265,7 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
         if(this.state.currentUserAdmin){
             return (<div className="form-check">
             <input name='isAdmin' type="checkbox" className="form-check-input" id="exampleCheck1" 
-                  onChange={this.onInputChange} checked={this.state.fields.isAdmin}/>
+                  onChange={this.onCheckBoxChange} checked={this.state.fields.isAdmin}/>
             <label className="form-check-label" for="exampleCheck1">Es Administrador</label>
           </div>);   
           }
