@@ -32,7 +32,8 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
                 },
                 redirect: false
             },
-            currentUserAdmin: false
+            currentUserAdmin: false,
+            errorAlert: false
         };
     }
 
@@ -232,6 +233,7 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
         })
         .catch(function (error) {
             // handle error
+            self.setState({errorAlert: true});
             console.log(error);
         })
         .finally(function () {
@@ -279,9 +281,23 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
         };
         const {t, i18n} = this.props;
 
+        const alertStyle = {position: "fixed",
+            top: "100px", 
+            left:"2%",
+            width: "30%",
+            zIndex: 100};
+
         return(
         <div>
             {this.renderRedirect()}
+
+            {this.state.errorAlert?
+            
+            <div className="myAlert-top alert alert-danger" style={alertStyle}>
+            <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+            El usuario ya existe.
+            </div>:<div></div>
+            }
             <form onSubmit={this.handleSubmit}>
 
             <div className="form-group">
