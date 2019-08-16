@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-class ModalGeneric extends Component {
+class ModalGenericDelete extends Component {
 
     constructor(props){
         super(props);
@@ -51,8 +51,8 @@ class ModalGeneric extends Component {
         //this.checkInputMatch(this.state.inputText);
         console.log("this.props.modalBodyBold:" + this.props.modalBodyBold);
         return(
-        <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} className={this.props.className}>
-            <ModalHeader toggle={this.props.toggle}>{this.props.modalTitle}</ModalHeader>
+        <Modal isOpen={this.props.isOpen} toggle={() => {this.setState({inputText: "", disableOnClick: true},this.props.toggle() ); }} className={this.props.className}>
+            <ModalHeader toggle={() => {this.setState({inputText: "", disableOnClick: true},this.props.toggle() ); }}>{this.props.modalTitle}</ModalHeader>
             <ModalBody>
                 {this.props.modalBody}
                 <p className="text-danger">
@@ -61,11 +61,15 @@ class ModalGeneric extends Component {
                 {this.renderInputField()}
             </ModalBody>
             <ModalFooter>
-                <Button color={this.props.modalColor} onClick={this.props.onClick}>{this.props.modalButton}</Button>{' '}
+                <Button color={this.props.modalColor} 
+                    onClick={() => {this.setState({inputText: "", disableOnClick: true},this.props.onClick() ); }} 
+                    disabled={this.state.inputText.trim()==this.props.nameToMatch.trim()? "":"disabled"}>
+                    {this.props.modalButton}
+                    </Button>
             </ModalFooter>
         </Modal>
         );
     }
 }
 
-export default ModalGeneric;
+export default ModalGenericDelete;

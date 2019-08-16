@@ -23,7 +23,10 @@
     "own": "En propiedad",
     "edit": "Editar",
     "fill": "Llenar",
-    "n_questions": "{{ n }} questions/s"
+    "n_questions": "{{ n }} questions/s",
+    "delete_interview": "Borrar entrevista",
+    "delete_interview_body": "Para borrar la entrevista ingrese el nombre del cargo en el campo de abajo:",
+    "delete": "Borrar"
   },
 
     "sort_by": "Ordenar por",

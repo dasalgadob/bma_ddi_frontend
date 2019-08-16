@@ -6,6 +6,8 @@ import { Switch, Route, Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { withTranslation } from 'react-i18next';
+import ModalGenericDelete from './../utilities/ModalGenericDelete';
+const axios = require('axios');
 
 //const PATH_BASE = 'http://localhost:3000/interviews';
 
@@ -22,6 +24,9 @@ class  Interviews extends Component {
             interviewerTerm: "",
             sortByField: "",
             sortOrder: "",
+            modalDelete: false,
+            idInterviewDelete: null, //Id of interview to be deleted when the link is selected
+            nameInterviewDelete: "", //Name of the interview to be deleted. Used to check if the interview selected is correct.
             };
 
         this.setInterviews = this.setInterviews.bind(this);    
@@ -96,6 +101,62 @@ class  Interviews extends Component {
         });
       };
 
+    /*
+      Function is called when the icon is selected it allows to change the value in the component of idInterview and nameInterview
+      the delete operation is made by onDeleteInterview because the operation must be confirmed
+    */
+    onBeforeDeleteInterview = (idInterview, nameInterview) => {
+        console.log("onBeforeDeleteInterview:"+  idInterview + " " + nameInterview);
+        this.setState({
+            modalDelete: true,
+            idInterviewDelete: idInterview,
+            nameInterviewDelete: nameInterview
+        });
+    }
+
+
+    onDeleteInterview = () => {
+        console.log("onDeleteInterview");
+        this.toggle();
+        this.deleteInterviewFromDatabase();
+    }
+
+    toggle = () => {
+        this.setState(prevState => ({
+          modalDelete: !prevState.modalDelete
+        }));
+    }
+
+    deleteInterviewFromDatabase = () => {
+        let {idInterviewDelete} = this.state;
+        console.log("deleteInterviewFromDatabase: "+ idInterviewDelete );
+
+        const headers = JSON.parse(localStorage.getItem('user'));
+        let self = this;
+        axios({
+            method: 'delete',
+            url: `${PATH_BASE}/${idInterviewDelete}`,
+            headers: headers
+            })
+        .then(function (response) {
+            // handle success
+            console.log("success deleteInterviewFromDatabase");
+            console.log(response.data);
+            self.setState({
+                idInterviewDelete: null,
+                nameInterviewDelete: ""
+            }, self.loadInterviewsFromServer());
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
+        
+    }
+
     render(){
         const { t, i18n } = this.props;
         const { result } = this.state;
@@ -103,7 +164,8 @@ class  Interviews extends Component {
         
 
         if(!result){ return null;}
-
+        console.log("modalDelete");
+        console.log(this.state.modalDelete);
         const reactPaginate = <ReactPaginate
             previousLabel={t('before')}
             nextLabel={t('next')}
@@ -133,6 +195,23 @@ class  Interviews extends Component {
                         </div>
                         
                     </div>
+
+                    {/*Modal when delete option is selected */}
+                    <ModalGenericDelete
+                    isOpen={this.state.modalDelete}
+                    toggle={this.toggle}
+                    modalTitle={t('interviews.delete_interview')}
+                    modalColor={"danger"}
+                    onClick={this.onDeleteInterview}
+                    modalBody= {t('interviews.delete_interview_body') }
+                    modalBodyBold={this.state.nameInterviewDelete}
+                    modalButton={t('interviews.delete')}
+                    onChange={this.onInputChange}
+                    nameToMatch={this.state.nameInterviewDelete}
+                    disableOnClick={true}    
+                    inputText=""
+                    >
+                    </ModalGenericDelete>
                     
                     <form className="container mb-2">
                     <fieldset>
@@ -171,6 +250,7 @@ class  Interviews extends Component {
                     <div className="page">
                     <Table
                     list={result[1]}
+                    onDelete={this.onBeforeDeleteInterview}
                     />
                     {reactPaginate}
                     </div>

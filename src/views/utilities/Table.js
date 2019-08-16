@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {  Link } from "react-router-dom";
 import { withTranslation } from 'react-i18next';
+import { faTrash} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function isSearched(searchTerm){
   return function(item){
@@ -42,8 +44,17 @@ class Table extends Component {
       {list.map( item => 
         <div key={item.id} className="card col-sm-5">
             <div className="card-header">
-            <h6 className="card-title font-weight-bold">{item.name}
-            </h6>
+                <p>
+                <span className="card-title font-weight-bold "  style={{float: "left"}}>{item.name} </span>
+                <span  className="text-right" style={{float: "right"}}>
+                <a   role="button" href="#"  id={item.id} className="col-sm-1 btn btn-link"  
+                                        onClick={() => this.props.onDelete(item.id, item.name)} className="">
+                  <FontAwesomeIcon icon={faTrash}/>
+                </a>
+                </span>
+                </p>
+                <br/>
+           
             <p className="badge badge-secondary ">{item.user.email== user.uid?t('owned'): ""}</p>
             </div>
             <div className="card-body">

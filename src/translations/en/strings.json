@@ -23,7 +23,10 @@
         "own": "Owned",
         "edit": "Edit",
         "fill": "Fill",
-        "n_questions": "{{ n }} questions/s"
+        "n_questions": "{{ n }} questions/s",
+        "delete_interview": "Delete interview",
+        "delete_interview_body": "To delete the interview write its name in the field below:",
+        "delete": "Delete"
       },
 
       "sort_by": "Sort by",
