@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { Link, NavLink } from "react-router-dom";
 import { withTranslation } from 'react-i18next';
-
+import { faTrash} from '@fortawesome/free-solid-svg-icons';
 class ResultsTable extends Component {
 
     getAvgRating = (answers) => {
@@ -35,6 +35,7 @@ class ResultsTable extends Component {
                         <th scope="col">{t('results.show')}</th>
                         <th scope="col">Fecha creación</th>
                         <th scope="col">Fecha ultima modificación</th>
+                        {this.props.currentUserAdmin? <th scope="col">Eliminar</th>:""}
                     </tr>
                 </thead>
                 <tbody>
@@ -55,7 +56,12 @@ class ResultsTable extends Component {
                             <td><Link to={"/results/"+item.id}><FontAwesomeIcon icon={faEye} /></Link></td>
                             <td>{item.created_at.substring(0,10)}</td>
                              <td>{item.updated_at.substring(0,10)}</td>
-
+                             {this.props.currentUserAdmin? <td >
+                                <a   role="button" href="#"  id={item.id} className="col-sm-1 btn btn-link"  
+                                        onClick={() => this.props.onDelete(item.id, item.position? item.position: "")} className="">
+                                    <FontAwesomeIcon icon={faTrash}/>
+                                </a>
+                             </td>:""}
                         </tr>)}
                 </tbody>
             </table>

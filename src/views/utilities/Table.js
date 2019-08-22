@@ -46,12 +46,14 @@ class Table extends Component {
             <div className="card-header">
                 <p>
                 <span className="card-title font-weight-bold "  style={{float: "left"}}>{item.name} </span>
+                {this.props.currentUserAdmin?
                 <span  className="text-right" style={{float: "right"}}>
                 <a   role="button" href="#"  id={item.id} className="col-sm-1 btn btn-link"  
                                         onClick={() => this.props.onDelete(item.id, item.name)} className="">
                   <FontAwesomeIcon icon={faTrash}/>
                 </a>
                 </span>
+                :""}
                 </p>
                 <br/>
            

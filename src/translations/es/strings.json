@@ -198,7 +198,10 @@
       "controller":{
         "no_edit_title": "¡No puedes editar el resultado!",
         "no_edit_content": "Solo puedes editar los resultados de entrevistas que hayas rellenado tú."
-      }
+      },
+      "delete_result": "Borrar resultado",
+      "delete_result_body": "Para borrar el resultado ingrese el nombre de la posición en el campo de abajo:",
+      "delete": "Borrar"
     },
 
     "result":{

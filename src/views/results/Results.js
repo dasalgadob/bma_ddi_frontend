@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import ResultsTable from './ResultsTable';
 import { withTranslation } from 'react-i18next';
 import ReactPaginate from 'react-paginate';
+import axios from 'axios';
+import ModalGenericDelete from './../utilities/ModalGenericDelete';
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/results`;
-
+const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
 
 class Results extends Component {
     constructor(props){
@@ -21,6 +23,10 @@ class Results extends Component {
             searchTerm: '',
             sortByField: '',
             sortOrder: '',
+            currentUserAdmin: false,
+            modalDelete: false,
+            idResultDelete: null,
+            positionResultDelete: ""
         };
         console.log("contructor");
         this.setResults = this.setResults.bind(this);
@@ -32,6 +38,7 @@ class Results extends Component {
 
     componentDidMount(){
         this.loadResultsFromServer();
+        this.loadCurrentUserFromServer();
     }
 
     loadResultsFromServer(){
@@ -114,6 +121,86 @@ class Results extends Component {
     }
 
 
+    loadCurrentUserFromServer = () => {
+        const headers = JSON.parse(localStorage.getItem('user'));
+        //console.log("idInt:" + idInterview);
+        let method = 'get';
+        let self = this;
+        
+        axios({
+            method: method,
+            url: `${USERS_URL}/${headers.id}`,
+            headers: headers
+            })
+        .then(function (response) {
+            // handle success
+            console.log("loadCurrentUserFromServer");
+            console.log(response.data);
+
+            self.setState({currentUserAdmin: response.data.admin});
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
+    } 
+
+    onBeforeDeleteResult = (idResult, positionResult) => {
+        console.log("onBeforeDeleteResult:" + idResult + " "  + positionResult);
+        //Set id of result to be deleted
+        //set name of posicion to be deleted
+        this.setState({
+            modalDelete: true,
+            idResultDelete: idResult,
+            positionResultDelete: positionResult
+        });
+        // prompt user to confirm delete action
+    }
+
+    onDeleteResult = () => {
+        console.log("onDeleteResult");
+        this.toggle();
+        this.deleteResultFromDatabase();
+    }
+
+    deleteResultFromDatabase = () => {
+        let {idResultDelete} = this.state;
+        console.log("deleteResultFromDatabase: "+ idResultDelete );
+
+        const headers = JSON.parse(localStorage.getItem('user'));
+        let self = this;
+        axios({
+            method: 'delete',
+            url: `${PATH_BASE}/${idResultDelete}`,
+            headers: headers
+            })
+        .then(function (response) {
+            // handle success
+            console.log("success deleteInterviewFromDatabase");
+            console.log(response.data);
+            self.setState({
+                idResultDelete: null,
+                positionResultDelete: ""
+            }, self.loadResultsFromServer());
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
+    }
+
+    toggle = () => {
+        this.setState(prevState => ({
+          modalDelete: !prevState.modalDelete
+        }));
+    }
+
     render(){
 
         if(!this.state.resultsData){ return null;}
@@ -140,6 +227,21 @@ class Results extends Component {
 
         //const { resultsDataAll } = this.state;
         return <div>
+                <ModalGenericDelete
+                    isOpen={this.state.modalDelete}
+                    toggle={this.toggle}
+                    modalTitle={t('results.delete_result')}
+                    modalColor={"danger"}
+                    onClick={this.onDeleteResult}
+                    modalBody= {t('results.delete_result_body') }
+                    modalBodyBold={this.state.positionResultDelete}
+                    modalButton={t('results.delete')}
+                    onChange={this.onInputChange}
+                    nameToMatch={this.state.positionResultDelete}
+                    disableOnClick={true}    
+                    inputText=""
+                    >
+                    </ModalGenericDelete>
             <h2>{t('results.title')}</h2>
             <form className="container mb-2">
                     <fieldset>
@@ -192,7 +294,10 @@ class Results extends Component {
 
 
             {pageComponent}
-            <ResultsTable data={this.state.resultsData}></ResultsTable>
+            <ResultsTable data={this.state.resultsData}
+                currentUserAdmin={this.state.currentUserAdmin}
+                onDelete = {this.onBeforeDeleteResult}
+            ></ResultsTable>
 
             {pageComponent}
         </div>;

@@ -12,6 +12,7 @@ const axios = require('axios');
 //const PATH_BASE = 'http://localhost:3000/interviews';
 
 const PATH_BASE = `${process.env.REACT_APP_BACKEND_URL}/interviews`;
+const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
 console.log(PATH_BASE);
 class  Interviews extends Component {
     constructor(props){
@@ -27,6 +28,7 @@ class  Interviews extends Component {
             modalDelete: false,
             idInterviewDelete: null, //Id of interview to be deleted when the link is selected
             nameInterviewDelete: "", //Name of the interview to be deleted. Used to check if the interview selected is correct.
+            currentUserAdmin: false,
             };
 
         this.setInterviews = this.setInterviews.bind(this);    
@@ -90,7 +92,35 @@ class  Interviews extends Component {
 
     componentDidMount(){
         this.loadInterviewsFromServer();
+        this.loadCurrentUserFromServer();
     }
+
+    loadCurrentUserFromServer = () => {
+        const headers = JSON.parse(localStorage.getItem('user'));
+        //console.log("idInt:" + idInterview);
+        let method = 'get';
+        let self = this;
+        
+        axios({
+            method: method,
+            url: `${USERS_URL}/${headers.id}`,
+            headers: headers
+            })
+        .then(function (response) {
+            // handle success
+            console.log("loadCurrentUserFromServer");
+            console.log(response.data);
+
+            self.setState({currentUserAdmin: response.data.admin});
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
+    } 
 
     handlePageClick = data => {
         let selected = data.selected + 1;
@@ -251,6 +281,7 @@ class  Interviews extends Component {
                     <Table
                     list={result[1]}
                     onDelete={this.onBeforeDeleteInterview}
+                    currentUserAdmin={this.state.currentUserAdmin}
                     />
                     {reactPaginate}
                     </div>

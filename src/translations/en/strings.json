@@ -199,7 +199,10 @@
         "controller":{
           "no_edit_title": "You cann't edit this result!",
           "no_edit_content": "You can only edit results from interviews you have performed"
-        }
+        },
+        "delete_result": "Delete result",
+        "delete_result_body": "To delete the result write its position name in the field below:",
+        "delete": "Delete"
       },
 
       "result":{

@@ -50,6 +50,8 @@ class ModalGenericDelete extends Component {
 
         //this.checkInputMatch(this.state.inputText);
         console.log("this.props.modalBodyBold:" + this.props.modalBodyBold);
+        console.log("this.state.inputText:" + this.state.inputText);
+        console.log("this.props.nameToMatch:" + this.props.nameToMatch);
         return(
         <Modal isOpen={this.props.isOpen} toggle={() => {this.setState({inputText: "", disableOnClick: true},this.props.toggle() ); }} className={this.props.className}>
             <ModalHeader toggle={() => {this.setState({inputText: "", disableOnClick: true},this.props.toggle() ); }}>{this.props.modalTitle}</ModalHeader>
