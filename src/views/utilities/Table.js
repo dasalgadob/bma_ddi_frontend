@@ -49,7 +49,7 @@ class Table extends Component {
                 {this.props.currentUserAdmin?
                 <span  className="text-right" style={{float: "right"}}>
                 <a   role="button" href="#"  id={item.id} className="col-sm-1 btn btn-link"  
-                                        onClick={() => this.props.onDelete(item.id, item.name)} className="">
+                                        onClick={() => this.props.onDelete(item.id, item.name? item.name:"")} className="">
                   <FontAwesomeIcon icon={faTrash}/>
                 </a>
                 </span>
