@@ -29,7 +29,7 @@ class ResultsTable extends Component {
                         <th scope="col">{t('results.candidate')}</th>
                         <th scope="col">{t('results.email_candidate')}</th>
                         <th scope="col">{t('results.interviewer')}</th>
-                       {/**  <th scope="col">Puntuación</th>*/}
+                        <th scope="col">{t('results.score')}</th>
                         <th scope="col">{t('results.finished')}</th>
                         <th scope="col">{t('results.edit')}</th>
                         <th scope="col">{t('results.show')}</th>
@@ -47,7 +47,7 @@ class ResultsTable extends Component {
                             <td>{item.candidate ? item.candidate.name : ''}</td>
                             <td>{item.candidate ?  item.candidate.email: ''}</td>
                             <td>{item.user.name + ' ' + (item.user.last_name? item.user.last_name: '') }</td>
-                            {/** <td>{0}</td>*/ }
+                            <td>{item.score[0].avg? (Math.round(item.score[0].avg*100)/100).toFixed(2):""}</td>
                             <td>{item.is_not_finished?"no":"si"}</td>
                             <td>{item.is_not_finished?<Link to={{pathname: "/interviews/"+item.interview_id+ '/fill', state: {idResult: item.id}}}>
                                 <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
