@@ -9,17 +9,12 @@ const axios = require('axios');
 
 class AnswersMotivational extends Component{
 
-    constructor(props){
-        super(props);
-
-    }
-
 
     questionsForCurrentDimension = () => {
         const questions = this.props.questions.filter((q) => {
             //if(q['dimension_id']=)
             
-            //console.log("current dimension:" + this.props.dimensionId);
+            //console.log("current dimension:" + q.attributes.dimension_id);
             if(q.attributes.dimension_id == 43){
                 //console.log("Answer dimension q: ");
                 //console.log(q);
@@ -33,11 +28,21 @@ class AnswersMotivational extends Component{
 
     render(){
         
-        if(!this.props.questions || !this.props.dimensionId){
+        /*
+        Not render anything if there aren't any questions available
+        */
+        if(!this.props.questions ){
+            //console.log("this.props.questions:" );
+            //console.log(this.props.questions);
+            //console.log("this.props.dimensionId:" );
+            //console.log(this.props.dimensionId);
             return <div></div>;
         }
+        //console.log("AnswersMotivational");
         const {t, i18n} = this.props;
         const language = i18n.language == "es"? "spanish":"english";
+        //console.log('questionsForCurrentDimension');
+        //console.log(this.props.questions);
         //console.log("Questions: ");
         //console.log( this.questionsForCurrentDimension());
         //console.log("Dimension id:" + this.props.dimensionId);
