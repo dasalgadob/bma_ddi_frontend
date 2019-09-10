@@ -3,6 +3,7 @@ import {  Link } from "react-router-dom";
 import { withTranslation } from 'react-i18next';
 import { faTrash} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {Redirect, Route} from 'react-router-dom'; 
 
 function isSearched(searchTerm){
   return function(item){
@@ -29,6 +30,10 @@ function contarPreguntas(object){
 }
 
 class Table extends Component {
+
+  constructor(props){
+    super(props);
+  }
   render(){
     const { t, i18n } = this.props;
     const language = i18n.language == "es"? "spanish":"english";
@@ -38,6 +43,15 @@ class Table extends Component {
     console.log("user");
     console.log(user);
     console.log(list);
+
+    if(!user){
+      return(<Redirect
+        to={{
+          pathname: "/login"
+        }}
+      />);
+    }
+
     return (
         <div className="container-fluid m-5">
         <div className="row">

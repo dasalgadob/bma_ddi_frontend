@@ -17,7 +17,14 @@ import EditUser from './views/users/EditUser';
 import NewUser from './views/users/NewUser';
 
 
-function App() {
+class App extends Component {
+  constructor(props){
+    super(props);
+  }
+
+  
+
+  render(){
   return (
     <Suspense fallback="loading">
     <div className="App">
@@ -40,7 +47,8 @@ function App() {
       </div>
     </div>
     </Suspense>
-  );
+  );}
+
 }
 
 export default App;
