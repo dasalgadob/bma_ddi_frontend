@@ -40,7 +40,8 @@ class Dimension extends Component{
         console.log("onDelete");
         let ids=[];
         this.props.questions.forEach(q =>{
-            console.log("q: " + this.props.questionsSelected[q.id]);
+            //console.log("q.id:" + q.id);
+            //console.log("q: " + this.props.questionsSelected[q.id]);
             if(this.props.questionsSelected[q.id]){
                 ids.push(q.id);
             }

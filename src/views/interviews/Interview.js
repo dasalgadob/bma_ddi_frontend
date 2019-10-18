@@ -140,7 +140,10 @@ class Interview extends Component{
     updateQuestionsSelected = (questionsSelectedServer) => {
         const {questionsSelected } = this.state;
         questionsSelectedServer.forEach(element => {
-            questionsSelected[element.id] = true;
+            //Correcting Issue #56
+            if(element.type == "question"){
+                questionsSelected[element.id] = true;
+            }
         });
         this.setState({questionsSelected})
     }
@@ -211,6 +214,9 @@ class Interview extends Component{
         });
     }
 
+    /** 
+     * Update the values for the questions with its ids in the ids param, with the value in the checked argument
+     */
     updateArrayQuestionsSelected = (ids, checked) => {
         console.log("updateQuestionSelected");
         //console.log("id: " + id);
