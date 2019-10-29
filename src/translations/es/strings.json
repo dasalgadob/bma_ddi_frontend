@@ -282,5 +282,11 @@
       "title": "Renovaciones",
       "title_new": "Nueva Renovación",
       "create":"Crear lista de Renovaciones"
+    },
+
+    "business_units":{
+      "title":"Unidades de Negocio",
+      "title_new":"Nueva Unidad de Negocio",
+      "create": "Crear Unidad de Negocio"
     }
 }

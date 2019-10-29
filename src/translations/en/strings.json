@@ -283,6 +283,12 @@
         "title": "Renewals",
         "title_new": "New Renewal",
         "create":"Create Renewals list"
+      },
+
+      "business_units":{
+        "title":"Business Units",
+        "title_new":"New Business Unit",
+        "create": "Create Business Unit"
       }
 
     }

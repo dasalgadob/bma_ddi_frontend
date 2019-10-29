@@ -17,6 +17,8 @@ import EditUser from './views/users/EditUser';
 import NewUser from './views/users/NewUser';
 import RenewalsList from './views/renewals';
 import  RenewalList from './views/renewals/RenewalList';
+import BusinessUnits from './views/business_units';
+import  BusinessUnit from './views/business_units/BusinessUnit';
 
 class App extends Component {
   constructor(props){
@@ -37,6 +39,8 @@ class App extends Component {
           <PrivateRoute path="/results" component={Results} />
           <PrivateRoute path="/renewalsList/new" component={RenewalList} />
           <PrivateRoute path="/renewalsList" component={RenewalsList} />
+          <PrivateRoute path="/businessUnits/new" component={BusinessUnit} />
+          <PrivateRoute path="/businessUnits" component={BusinessUnits} />
           <PrivateRoute path="/interviews/:id/fill" component={FillInterview} />
           <PrivateRoute path="/interviews/:id" component={Interview} />
           <PrivateRoute path="/interviews/new" component={NewInterview} />
