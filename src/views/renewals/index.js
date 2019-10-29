@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-class  Renewals extends Component {
+class  RenewalsList extends Component {
 
     render(){
         const { t, i18n } = this.props;
@@ -26,4 +26,4 @@ class  Renewals extends Component {
 }
 
 
-export default withTranslation()(Renewals); 
+export default withTranslation()(RenewalsList); 

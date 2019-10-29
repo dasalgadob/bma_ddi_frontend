@@ -38,7 +38,7 @@ render(){
             <NavLink to="/results" className="nav-link" activeClassName="active">{t('results_lower')}</NavLink>
             </li>
             <li className="nav-item">
-            <NavLink to="/renewals" className="nav-link" activeClassName="active">{t('renewals')}</NavLink>
+            <NavLink to="/renewalsList" className="nav-link" activeClassName="active">{t('renewals.title')}</NavLink>
             </li>
             <li className="nav-item dropdown">
             <a className="nav-link dropdown-toggle" 
