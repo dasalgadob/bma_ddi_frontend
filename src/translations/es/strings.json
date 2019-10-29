@@ -280,6 +280,7 @@
 
     "renewals":{
       "title": "Renovaciones",
+      "title_new": "Nueva Renovación",
       "create":"Crear lista de Renovaciones"
     }
 }

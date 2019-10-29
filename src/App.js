@@ -16,7 +16,7 @@ import Interview from './views/interviews/Interview';
 import EditUser from './views/users/EditUser';
 import NewUser from './views/users/NewUser';
 import RenewalsList from './views/renewals';
-
+import  RenewalList from './views/renewals/RenewalList';
 
 class App extends Component {
   constructor(props){
@@ -35,6 +35,7 @@ class App extends Component {
         <Switch>
           <PrivateRoute path="/results/:id" component={Result} />
           <PrivateRoute path="/results" component={Results} />
+          <PrivateRoute path="/renewalsList/new" component={RenewalList} />
           <PrivateRoute path="/renewalsList" component={RenewalsList} />
           <PrivateRoute path="/interviews/:id/fill" component={FillInterview} />
           <PrivateRoute path="/interviews/:id" component={Interview} />

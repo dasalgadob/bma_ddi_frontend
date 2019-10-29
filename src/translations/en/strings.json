@@ -281,6 +281,7 @@
 
       "renewals":{
         "title": "Renewals",
+        "title_new": "New Renewal",
         "create":"Create Renewals list"
       }
 
