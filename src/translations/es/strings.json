@@ -7,7 +7,6 @@
   "log_out": "Cerrar sesión",
   "search_interview": "Buscar entrevista",
   "interview": "Entrevista",
-  "renewals": "Renovaciones",
   "company": "Compañia",
   "interviewer": "Entrevistador",
   "no_interviews": "THERE ARE NO INTERVIEWS (CREATE ONE)",
@@ -277,5 +276,10 @@
       "is_admin": "Es administrador",
       "password_match":"Las contraseñas coinciden",
       "password_dont_match": "Las contraseñas no coinciden"
+    },
+
+    "renewals":{
+      "title": "Renovaciones",
+      "create":"Crear lista de Renovaciones"
     }
 }

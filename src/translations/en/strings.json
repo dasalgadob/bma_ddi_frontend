@@ -7,7 +7,6 @@
       "log_out": "Log out",
       "search_interview": "Search interview",
       "interview": "Interview",
-      "renewals": "Renewals",
       "company": "Company",
       "interviewer": "Interviewer",
       "no_interviews": "THERE ARE NO INTERVIEWS (CREATE ONE)",
@@ -278,8 +277,11 @@
         "is_admin":"Is admin",
         "password_match":"Passwords match",
         "password_dont_match": "Passwords don't match"
+      },
+
+      "renewals":{
+        "title": "Renewals",
+        "create":"Create Renewals list"
       }
-
-
 
     }
