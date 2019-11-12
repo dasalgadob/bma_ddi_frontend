@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { withTranslation } from 'react-i18next';
 import { faTrash} from '@fortawesome/free-solid-svg-icons';
 class ResultsTable extends Component {

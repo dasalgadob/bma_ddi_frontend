@@ -287,7 +287,13 @@
       "business_units":{
         "title":"Business Units",
         "title_new":"New Business Unit",
-        "create": "Create Business Unit"
+        "create": "Create Business Unit",
+        "code": "Code",
+        "name": "Name",
+        "created_at": "Created at",
+        "updated_at": "Updated at",
+        "edit": "Edit",
+        "delete": "Delete"
       },
 
       "settings":{

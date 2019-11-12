@@ -286,7 +286,13 @@
     "business_units":{
       "title":"Unidades de Negocio",
       "title_new":"Nueva Unidad de Negocio",
-      "create": "Crear Unidad de Negocio"
+      "create": "Crear Unidad de Negocio",
+      "code": "Código",
+        "name": "Nombre",
+        "created_at": "Fecha de creación",
+        "updated_at": "Fecha de última actualización",
+        "edit": "Editar",
+        "delete": "Borrar"
     },
 
     "settings":{
