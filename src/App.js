@@ -20,6 +20,7 @@ import  RenewalList from './views/renewals/RenewalList';
 import BusinessUnits from './views/business_units';
 import  BusinessUnit from './views/business_units/BusinessUnit';
 import MenuList from './views/menu';
+import MenuSettingList from './views/menu/MenuSettingList';
 
 class App extends Component {
   constructor(props){
@@ -50,6 +51,7 @@ class App extends Component {
           <PrivateRoute path="/users/:id/edit" component={NewUser} />
           <PrivateRoute path="/users/new" component={NewUser} />
           <PrivateRoute path="/users" component={Users} />
+          <PrivateRoute path="/settings" component={MenuSettingList} />
           <PrivateRoute path="/" component={MenuList} />
         </Switch>
       </div>
