@@ -58,7 +58,7 @@ render(){
         </ul>
     </div>
     <div className="mx-auto">
-        <a className="navbar-brand mx-auto" href="#">BMAGroup</a>
+        <NavLink className="navbar-brand mx-auto" to="/">BMAGroup</NavLink>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
             <span className="navbar-toggler-icon"></span>
         </button>
