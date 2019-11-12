@@ -2,7 +2,6 @@
       "Welcome to React": "Welcome to React and react-i18next",
       "results_lower": "Results",
       "account": "Account",
-      "settings": "Settings",
       "profile": "Profile",
       "log_out": "Log out",
       "search_interview": "Search interview",
@@ -289,6 +288,10 @@
         "title":"Business Units",
         "title_new":"New Business Unit",
         "create": "Create Business Unit"
+      },
+
+      "settings":{
+        "title":"Settings"
       }
 
     }
