@@ -6,9 +6,9 @@ import { faEye, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { faTrash} from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 
-function BusinessUnitTable(){
+function BusinessUnitTable({data}){
     const { t, i18n } = useTranslation();
-    const data = [];
+    const [results, setResults] = useState(data);
 
     return (<div className="container">
     <table className="table table-bordered table-hover table-sm">
@@ -24,25 +24,21 @@ function BusinessUnitTable(){
             </tr>
         </thead>
         <tbody>
-            {data.map( item => 
-                <tr key={item.id}>
-                    <th scope="row">{item.id}</th>
-                    <td>{item.code}</td>
-                    <td>{item.name}</td>
-                    <td>{item.updated_at.substring(0,10)}</td>
-                    <td>{item.created_at.substring(0,10)}</td>
+            {results.map( item => 
+                <tr key={item.attributes.id}>
+                    <th scope="row">{item.attributes.id}</th>
+                    <td>{item.attributes.code}</td>
+                    <td>{item.attributes.name}</td>
+                    <td>{item.attributes.updated_at.substring(0,10)}</td>
+                    <td>{item.attributes.created_at.substring(0,10)}</td>
                      
-                    <td>{item.is_not_finished?<Link to={{pathname: "/interviews/"+item.interview_id+ '/fill', state: {idResult: item.id}}}>
-                        <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
-                        </Link>:""}
+                    <td>
+                        Editar
                     </td>
                    
-                     {this.props.currentUserAdmin? <td >
-                        <a   role="button" href="#"  id={item.id} className="col-sm-1 btn btn-link"  
-                                onClick={() => this.props.onDelete(item.id, item.position? item.position: "")} className="">
-                            <FontAwesomeIcon icon={faTrash}/>
-                        </a>
-                     </td>:""}
+                     <td >
+                        Borrar
+                     </td>
                 </tr>)}
         </tbody>
     </table>

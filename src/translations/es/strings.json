@@ -288,11 +288,14 @@
       "title_new":"Nueva Unidad de Negocio",
       "create": "Crear Unidad de Negocio",
       "code": "Código",
-        "name": "Nombre",
-        "created_at": "Fecha de creación",
-        "updated_at": "Fecha de última actualización",
-        "edit": "Editar",
-        "delete": "Borrar"
+      "code_placeholder": "Ingresar código",
+      "name": "Nombre",
+      "name_placeholder": "Ingresar nombre",
+      "created_at": "Fecha de creación",
+      "updated_at": "Fecha de última actualización",
+      "edit": "Editar",
+      "delete": "Borrar",
+      "save": "Guardar"
     },
 
     "settings":{
