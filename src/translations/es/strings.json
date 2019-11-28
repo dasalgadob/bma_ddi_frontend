@@ -280,7 +280,15 @@
     "renewals":{
       "title": "Renovaciones",
       "title_new": "Nueva Renovación",
-      "create":"Crear lista de Renovaciones"
+      "create":"Crear lista de Renovaciones",
+      "name": "Nombre",
+      "description": "Descripción",
+      "user": "Usuario",
+      "created_at": "Fecha de creación",
+      "updated_at": "Fecha de última actualización",
+      "edit": "Editar",
+      "delete": "Borrar",
+      "show": "Mostrar"
     },
 
     "business_units":{

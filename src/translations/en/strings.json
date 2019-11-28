@@ -281,7 +281,15 @@
       "renewals":{
         "title": "Renewals",
         "title_new": "New Renewal",
-        "create":"Create Renewals list"
+        "create":"Create Renewals list",
+        "name": "Name",
+        "description": "Description",
+        "user": "User",
+        "created_at": "Created at",
+        "updated_at": "Updated at",
+        "edit": "Edit",
+        "delete": "Delete",
+        "show": "Show"
       },
 
       "business_units":{
