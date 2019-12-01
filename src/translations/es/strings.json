@@ -288,7 +288,9 @@
       "updated_at": "Fecha de última actualización",
       "edit": "Editar",
       "delete": "Borrar",
-      "show": "Mostrar"
+      "show": "Mostrar",
+      "name_placeholder": "Ingresar nombre",
+      "description_placeholder": "Ingresar descripción"
     },
 
     "business_units":{

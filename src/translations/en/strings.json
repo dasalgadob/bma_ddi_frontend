@@ -289,7 +289,9 @@
         "updated_at": "Updated at",
         "edit": "Edit",
         "delete": "Delete",
-        "show": "Show"
+        "show": "Show",
+        "name_placeholder": "Enter name",
+        "description_placeholder": "Enter description"
       },
 
       "business_units":{
