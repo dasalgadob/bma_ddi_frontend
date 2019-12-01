@@ -239,7 +239,7 @@ const USERS_URL = `${process.env.REACT_APP_BACKEND_URL}/users`;
         .finally(function () {
             // always executed
         });
-    }
+    } //End createUser
 
     setRedirect = () => {
         this.setState({
